@@ -13,9 +13,21 @@ class ScoutingForm extends StatefulWidget {
 
 class _ScoutingForm extends State<ScoutingForm> {
   final List<String> entries = <String>[
-    'Question #1',
-    'Quesetion #2',
-    'Question #3',
+    'What Team:',
+    'Scoring Cones Auto (top, middle, bottom)',
+    'Scoring Cubes Auto (top, middle, bottom)',
+    'Auto Objectives: mobility and parking status',
+    // break
+    'Scoring Cones Teleop (top, middle, bottom)',
+    'Scoring Cubes Teleop (top, middle, bottom)',
+    'droped game pieces (cones,cubes)',
+    //break
+    'Driving Skill: effective || Average || bad || N/A',
+    'Drive Speed: Very fast, Average, Slow',
+    'Tippyness: not || slight || severe',
+    'Did they Tip over',
+    'Were they immobilised',
+    'Team Rating of 1-4: 1=best Robots || 2=good ally || 3=meh/average || 4=bad',
   ];
   
   final _creds = r'''
