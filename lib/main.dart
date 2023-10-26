@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frc1148_2023_scouting_app/Log_In.dart';
 import 'package:frc1148_2023_scouting_app/scouting_form.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Scouting Home Page'),
+      home: const log_in(title: 'Scouting Home Page'),
     );
   }
 }
@@ -55,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
         context,
         MaterialPageRoute
         (
+          
           builder: (context) => ScoutingForm(title: "test")
         )
       );
