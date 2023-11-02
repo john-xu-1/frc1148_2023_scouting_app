@@ -15,12 +15,12 @@ class FormController {
   // Success Status Message
   static const STATUS_SUCCESS = "SUCCESS";
 
-// submitFormm(FeedbackForm feedbackForm, Function(String) callback) async {
+// submitForm(FeedbackForm feedbackForm, Function(String) callback) async {
 //   try {
 //     print(url);
 //     final response = await http.post(url, body: feedbackForm.toJson());
-//     // qmNumber: extractQmNumber(entries),
-//     // namee: extractName(entries),
+//     // qmNumber: extractQmNumber(entries[1]),
+//     // name: extractName(entries[0]),
 //     if (response.statusCode == 200) {
 //       final jsonResponse = convert.jsonDecode(response.body);
 //       final status = jsonResponse['status'];
@@ -43,51 +43,51 @@ class FormController {
 //   }
 // }
 
-// // Implement your logic to extract name and qmNumber from entries
-// String extractName(List<String> entries) {
-//   // Assuming the name entry is the first item in the list
-//   if (entries.isNotEmpty) {
-//     return entries[0]; // You can add additional validation if needed
-//   }
-//   return "";
-// }
+// Implement your logic to extract name and qmNumber from entries
+String extractName(List<String> entries) {
+  // Assuming the name entry is the first item in the list
+  if (entries.isNotEmpty) {
+    return entries[0]; // You can add additional validation if needed
+  }
+  return "";
+}
 
-// int extractQmNumber(List<String> entries) {
-//   // Assuming the qm number entry is the second item in the list
-//   if (entries.length > 1) {
-//     final qmEntry = entries[1];
-//     // Extract the qm number (assuming it's a number, you may need additional validation)
-//     final qmNumber = int.tryParse(qmEntry.replaceAll('Enter "qm", Ex:', ''));
-//     if (qmNumber != null) {
-//       return qmNumber;
-//     }
-//   }
-//   return 0; // Return a default value if not found or invalid
-// }
-
-
-
-  // Async function which saves feedback, parses [feedbackForm] parameters
-  // and sends HTTP GET request on [URL]. On successful response, [callback] is called.
-   void submitForm(
-      FeedbackForm feedbackForm, void Function(String) callback) async {
-    try {
-      print (url);
-      //https://script.google.com/macros/s/AKfycbxbwoJQQVD58HSwihoVPaT8tXVMYmJZeYjWaI4VOGsRBHqVFj6B8crzucnQ8F3dS0Yq/exec
-      await http.post(url, body: feedbackForm.toJson()).then((response) async {
-        if (response.statusCode == 302) {
-          var urll = response.headers['location'];
-          
-          await http.get(url).then((response) {
-            callback(convert.jsonDecode(response.body)['status']);
-          });
-        } else {
-          callback(convert.jsonDecode(response.body)['status']);
-        }
-      });
-    } catch (e) {
-      print ("tester test");
-      print(e);
+int extractQmNumber(List<String> entries) {
+  // Assuming the qm number entry is the second item in the list
+  if (entries.length > 1) {
+    final qmEntry = entries[1];
+    // Extract the qm number (assuming it's a number, you may need additional validation)
+    final qmNumber = int.tryParse(qmEntry.replaceAll('Enter "qm", Ex:', ''));
+    if (qmNumber != null) {
+      return qmNumber;
     }
   }
+  return 0; // Return a default value if not found or invalid
+}
+
+
+
+  // // Async function which saves feedback, parses [feedbackForm] parameters
+  // // and sends HTTP GET request on [URL]. On successful response, [callback] is called.
+  //  void submitForm(
+  //     FeedbackForm feedbackForm, void Function(String) callback) async {
+  //   try {
+  //     print (url);
+  //     //https://script.google.com/macros/s/AKfycbxbwoJQQVD58HSwihoVPaT8tXVMYmJZeYjWaI4VOGsRBHqVFj6B8crzucnQ8F3dS0Yq/exec
+  //     await http.post(url, body: feedbackForm.toJson()).then((response) async {
+  //       if (response.statusCode == 302) {
+  //         var urll = response.headers['location'];
+          
+  //         await http.get(url).then((response) {
+  //           callback(convert.jsonDecode(response.body)['status']);
+  //         });
+  //       } else {
+  //         callback(convert.jsonDecode(response.body)['status']);
+  //       }
+  //     });
+  //   } catch (e) {
+  //     print ("tester test");
+  //     print(e);
+  //   }
+  // }
 }
