@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class return_team {
     //the string lists will be the blue and red teams in order of matches
+  
   List<String> b1;
   List<String> b2;
   List<String> b3;
@@ -9,10 +10,32 @@ class return_team {
   List<String> r2;
   List<String> r3;
 
-  return_team(this.b1, this.b2, this.b3, this.r1, this.r2, this.r3);
+
+  String parser(){
+
+    
+
+    return "";
+  }
+
+
+
+  return_team(this.b1, this.b2, this.b3, this.r1, this.r2, this.r3){
+
+
+  }
 
   String identifier = "";
   int index = 0;
+
+  void setLists (b1, b2, b3, r1, r2, r3){
+    this.b1 = b1;
+    this.b2 = b2;
+    this.b3 = b3;
+    this.r1 = r1;
+    this.r2 = r2;
+    this.r3 = r3;
+  }
 
   void setIdentifier (String identifier){
     this.identifier = identifier;
@@ -29,6 +52,8 @@ class return_team {
     if (index < 1) {
       return ""; // Invalid index
     }
+
+    
 
     if (identifier == 'A') {
       if (index <= b1.length) {
@@ -55,6 +80,7 @@ class return_team {
         result = r3[index - 1];
       }
     }
+    //print (result);
     return result;
   }
 }
