@@ -131,7 +131,7 @@ class _log_in extends State<log_in> {
                   children: <Widget>[
                     Text(entries[0]),
                     TextField(
-                      onChanged: (String value) async {
+                      onChanged: (String value) {
                         id = value;
                         print ("setted");
                       },
@@ -149,7 +149,7 @@ class _log_in extends State<log_in> {
                     Text(entries[1]),
                     TextField(
                       //int.parse(value)
-                      onChanged: (String value) async {
+                      onChanged: (String value) {
                         setState(() {
                           mnum = value;
                         });
@@ -161,7 +161,7 @@ class _log_in extends State<log_in> {
             ),
             Text("${results}"),
             ElevatedButton(
-              onPressed: (){
+              onPressed: () {
                 print (id);
                 print (mnum);
                 test.setIdentifier(id);
