@@ -55,27 +55,27 @@ class return_team {
 
     
 
-    if (identifier == 'A') {
+    if ((identifier == 'A')||(identifier == 'a')) {
       if (index <= b1.length) {
         result = b1[index - 1];
       }
-    } else if (identifier == 'B') {
+    } else if ((identifier == 'B')||(identifier == 'b')) {
       if (index <= b2.length) {
         result = b2[index - 1];
       }
-    } else if (identifier == 'C') {
+    } else if ((identifier == 'C')||(identifier == 'c')) {
       if (index <= b3.length) {
         result = b3[index - 1];
       }
-    } else if (identifier == 'D') {
+    } else if ((identifier == 'D')||(identifier == 'd')) {
       if (index <= r1.length) {
         result = r1[index - 1];
       }
-    } else if (identifier == 'E') {
+    } else if ((identifier == 'E')||(identifier == 'e')) {
       if (index <= r2.length) {
         result = r2[index - 1];
       }
-    } else if (identifier == 'F') {
+    } else if ((identifier == 'F')||(identifier == 'f')) {
       if (index <= r3.length) {
         result = r3[index - 1];
       }
