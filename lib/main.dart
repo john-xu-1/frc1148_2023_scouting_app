@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/log_in.dart';
-import 'package:frc1148_2023_scouting_app/scout_window.dart';
 import 'package:frc1148_2023_scouting_app/scouting_form.dart';
 
 void main() {
