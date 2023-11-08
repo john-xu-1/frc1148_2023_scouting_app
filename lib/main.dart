@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frc1148_2023_scouting_app/scout_window.dart';
 import 'package:frc1148_2023_scouting_app/scouting_form.dart';
 
 void main() {
@@ -13,8 +14,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Scouting Home Page',
+      initialRoute: '/home', // Set the initial route to '/home'
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Scouting Home Page'),
@@ -35,6 +37,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   final List<String> entries = <String>[];
+
+  final List<Widget> entryObjects = <ScoutingForm>[];
   
   
 
@@ -43,19 +47,39 @@ class _MyHomePageState extends State<MyHomePage> {
       
       entries.add("entry");
 
+      entryObjects.add( const ScoutingForm(title: "test"));
+
 
       _counter++;
     });
   }
 
-  void createForm (){
+   List<Widget> pages = [ScoutingForm(title: "test",)];
+  int currentPageIndex = 0;
+
+  void navigateToPage(Widget page) {
+    setState(() {
+      pages.add(page);
+      currentPageIndex = pages.length - 1;
+    });
+  }
+
+  void returnToPreviousPage() {
+    if (currentPageIndex > 0) {
+      setState(() {
+        currentPageIndex--;
+      });
+    }
+  }
+
+  void createForm (int ind){
     setState(() {
       
       Navigator.push(
         context,
         MaterialPageRoute
         (
-          builder: (context) => ScoutingForm(title: "test")
+          builder: (context) => entryObjects[ind]
         )
       );
 
@@ -66,8 +90,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Home"),
+      ),
       body: Center(
         child: ListView.separated(
           padding: const EdgeInsets.all(8),
@@ -76,11 +102,13 @@ class _MyHomePageState extends State<MyHomePage> {
           {
             return Container(
               height: 50,
-              color: Colors.deepPurple.shade50,
+              color: Colors.amber[300],
               child: Center(
                 child: ElevatedButton(
                   child: Text(entries[index]),
-                  onPressed: createForm,
+                  onPressed: (){
+                    createForm(index);
+                  }
                 )
               )
             );

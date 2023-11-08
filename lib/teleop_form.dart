@@ -1,32 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:frc1148_2023_scouting_app/teleop_form.dart';
 import 'FeedbackForm.dart';
 import 'form_controller.dart';
 import 'package:gsheets/gsheets.dart';
+import 'scouting_form.dart' as sf;
 
 
-int topScoreCone = 0;
-int midScoreCone = 0;
-int lowScoreCone = 0;
+  int topScoreCone = 0;
+  int midScoreCone = 0;
+  int lowScoreCone = 0;
 
-int topScoreCube = 0;
-int midScoreCube = 0;
-int lowScoreCube = 0;
+  int topScoreCube = 0;
+  int midScoreCube = 0;
+  int lowScoreCube = 0;
 
-bool tryParkAuto = false;
+  bool tryParkAuto = false;
 
-int missedCone = 0;
-int missedCube = 0;
+  int missedCone = 0;
+  int missedCube = 0;
 
 
-class ScoutingForm extends StatefulWidget {
-  const ScoutingForm({super.key, required this.title});
+
+class TeleopForm extends StatefulWidget {
+  const TeleopForm({super.key, required this.title});
   final String title;
   @override
-  _ScoutingForm createState() => _ScoutingForm();
+  _TeleopForm createState() => _TeleopForm();
 }
 
-class _ScoutingForm extends State<ScoutingForm> {    
+class _TeleopForm extends State<TeleopForm> {
+  final List<String> entries = <String>[
+    'Question #1',
+    'Quesetion #2',
+    'Question #3',
+  ];
+
+  
 
   void _addCone (score){
     if (score == "top"){
@@ -129,20 +137,14 @@ class _ScoutingForm extends State<ScoutingForm> {
   
 
 
-  Future<void> _submitSection() async {
+  Future<void> _submitForm() async {
     try {
       final gsheets = GSheets(_creds);
       final ss = await gsheets.spreadsheet('1C4_kygqZTOo3uue3eBxrMV9b_3UJVuDiOVZqAeGHvzE');
-      final sheet = ss.worksheetByTitle('JohnTest');     
+      final sheet = ss.worksheetByTitle('AppTesting'); // Replace with your sheet name    
 
       // Writing data
-      final firstRow = [topScoreCone, midScoreCone, lowScoreCone, topScoreCube, midScoreCube, lowScoreCube, tryParkAuto, missedCube];
-      await sheet!.values.insertRow(1, firstRow, fromColumn: 2);
-      // prints [index, letter, number, label]
-      print(await sheet.values.row(1));
-
-
-
+      await sheet?.values.insertValue('New Data', column: 1, row: 2);
     } catch (e) {
       print('Error: $e');
     }
@@ -162,7 +164,7 @@ class _ScoutingForm extends State<ScoutingForm> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Auto"),
+        title: Text("Driving"),
       ),
       body: Center(
         child: ListView(
@@ -458,148 +460,13 @@ class _ScoutingForm extends State<ScoutingForm> {
                     )
                   );
                 });
-                _submitSection();
-
               },
               child: Text("Next"),
             )
-
-            
             
           ]
       )   
     )
-        // child: ListView.separated(
-        //   padding: const EdgeInsets.all(8),
-        //   itemCount: a.length,
-        //   itemBuilder: (BuildContext context, int index) 
-        //   {
-        //     return Container(
-        //       height: 150,
-        //       color: Colors.deepPurple.shade50,
-        //       child: Center(
-        //         child: a[index]
-        //         // child: Column(
-        //         //   children: <Widget>[
-        //         //     Text(entries[index]),
-        //         //     TextField(
-        //         //       controller: TextEditingController(),
-        //         //       onSubmitted: (String value) async {
-        //                 // await showDialog<void>(
-        //                 //   context: context,
-        //                 //   builder: (BuildContext context) {
-        //                 //     return AlertDialog(
-        //                 //       title: const Text('Thanks!'),
-        //                 //       content: Text(
-        //                 //           'You typed "$value", which has length ${value.characters.length}.'),
-        //                 //       actions: <Widget>[
-        //                 //         TextButton(
-        //                 //           onPressed: () {
-        //                 //             Navigator.pop(context);
-        //                 //           },
-        //                 //           child: const Text('OK'),
-        //                 //         ),
-        //                 //       ],
-        //                 //     );
-        //                 //   },
-        //                 // );
-
-        //         //       },
-        //         //     ),
-        //         //     ElevatedButton(
-        //         //       onPressed: _submitForm,
-        //         //       child: Text("test"))
-        //         //   ],
-        //         // )
-        //       )
-        //     );
-        //   },
-        //   separatorBuilder: (BuildContext context, int index) => const Divider(),
-          
-        // )
-
-
     );
-
-    // return Scaffold(
-    //   key: _scaffoldKey,  
-      
-    //   appBar: AppBar(
-    //     title: Text(widget.title),
-    //   ),
-    //   body: Center(
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.start,
-    //         children: <Widget>[
-    //           Form(
-    //             key: _formKey,
-    //             child:
-    //               Padding(padding: EdgeInsets.all(16),
-    //               child: Column(
-    //                 crossAxisAlignment: CrossAxisAlignment.start,
-    //                 children: <Widget>[
-    //                   TextFormField(
-    //                     controller: TextEditingController(),
-    //                     validator: (value) {
-    //                       if (value!.isEmpty) {
-    //                         return 'Enter Valid Name';
-    //                       }
-    //                       return null;
-    //                     },
-    //                     decoration: InputDecoration(
-    //                       labelText: 'Name'
-    //                     ),
-    //                   ),
-    //                   TextFormField(
-    //                     controller: TextEditingController(),
-    //                     validator: (value) {
-    //                       if (!value!.contains("@")) {
-    //                         return 'Enter Valid Email';
-    //                       }
-    //                       return null;
-    //                     },
-    //                     keyboardType: TextInputType.emailAddress,
-    //                     decoration: InputDecoration(
-    //                       labelText: 'Email'
-    //                     ),
-    //                   ),
-    //                   TextFormField(
-    //                     controller: TextEditingController(),
-    //                     validator: (value) {
-    //                       if (value!.trim().length != 10) {
-    //                         return 'Enter 10 Digit Mobile Number';
-    //                       }
-    //                       return null;
-    //                     },
-    //                     keyboardType: TextInputType.number,
-    //                     decoration: InputDecoration(
-    //                       labelText: 'Mobile Number',
-    //                     ),
-    //                   ),
-    //                   TextFormField(
-    //                     controller: TextEditingController(),
-    //                     validator: (value) {
-    //                       if (value!.isEmpty) {
-    //                         return 'Enter Valid Feedback';
-    //                       }
-    //                       return null;
-    //                     },
-    //                     keyboardType: TextInputType.multiline,
-    //                     decoration: InputDecoration(
-    //                       labelText: 'Feedback'
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //             ) 
-    //           ),
-    //           ElevatedButton(
-    //             onPressed:_submitForm,
-    //             child: Text('Submit Feedback'),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    // );
   }
 }
