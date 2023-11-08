@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frc1148_2023_scouting_app/subjective_form.dart';
 import 'FeedbackForm.dart';
 import 'form_controller.dart';
 import 'package:gsheets/gsheets.dart';
@@ -13,7 +14,8 @@ import 'scouting_form.dart' as sf;
   int midScoreCube = 0;
   int lowScoreCube = 0;
 
-  bool tryParkAuto = false;
+  bool tryParkTele = false;
+  bool messUpParkTele = false;
 
   int missedCone = 0;
   int missedCube = 0;
@@ -21,18 +23,13 @@ import 'scouting_form.dart' as sf;
 
 
 class TeleopForm extends StatefulWidget {
-  const TeleopForm({super.key, required this.title});
-  final String title;
+  const TeleopForm({super.key, required this.teamName});
+  final String teamName;
   @override
   _TeleopForm createState() => _TeleopForm();
 }
 
 class _TeleopForm extends State<TeleopForm> {
-  final List<String> entries = <String>[
-    'Question #1',
-    'Quesetion #2',
-    'Question #3',
-  ];
 
   
 
@@ -137,14 +134,20 @@ class _TeleopForm extends State<TeleopForm> {
   
 
 
-  Future<void> _submitForm() async {
+  Future<void> _submitSection() async {
     try {
       final gsheets = GSheets(_creds);
       final ss = await gsheets.spreadsheet('1C4_kygqZTOo3uue3eBxrMV9b_3UJVuDiOVZqAeGHvzE');
-      final sheet = ss.worksheetByTitle('AppTesting'); // Replace with your sheet name    
+      final sheet = ss.worksheetByTitle('JohnTest');     
 
       // Writing data
-      await sheet?.values.insertValue('New Data', column: 1, row: 2);
+      final firstRow = [topScoreCone, midScoreCone, lowScoreCone, topScoreCube, midScoreCube, lowScoreCube, tryParkTele, messUpParkTele, missedCube];
+      await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 10);
+      // prints [index, letter, number, label]
+      print(await sheet.values.row(1));
+
+
+
     } catch (e) {
       print('Error: $e');
     }
@@ -397,11 +400,34 @@ class _TeleopForm extends State<TeleopForm> {
                 children: [
                   const Text("Try Parking?",textScaleFactor: 1.5,),
                   Checkbox(
-                    value: tryParkAuto,
+                    value: tryParkTele,
                     activeColor: Colors.amber[700],
                     onChanged: (newValue) {
                       setState(() {
-                        tryParkAuto = newValue!;
+                        tryParkTele = newValue!;
+                      });
+                    },
+                  ),
+                ]
+              ),
+            ),
+            const Divider(),
+            Container(
+              width: width,
+              height: height/5,
+              color: Colors.amber[300],
+              alignment: AlignmentDirectional.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text("Mess Up Parking?",textScaleFactor: 1.5,),
+                  Checkbox(
+                    value: messUpParkTele,
+                    activeColor: Colors.amber[700],
+                    onChanged: (newValue) {
+                      setState(() {
+                        messUpParkTele = newValue!;
                       });
                     },
                   ),
@@ -456,10 +482,11 @@ class _TeleopForm extends State<TeleopForm> {
                     context,
                     MaterialPageRoute
                     (
-                      builder: (context) => TeleopForm(title: "test")
+                      builder: (context) => SubjectiveForm(teamName: widget.teamName)
                     )
                   );
                 });
+                _submitSection();
               },
               child: Text("Next"),
             )

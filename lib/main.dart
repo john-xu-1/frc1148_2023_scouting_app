@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frc1148_2023_scouting_app/log_in.dart';
 import 'package:frc1148_2023_scouting_app/scout_window.dart';
 import 'package:frc1148_2023_scouting_app/scouting_form.dart';
 
@@ -14,20 +15,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Scouting Home Page',
-      initialRoute: '/home', // Set the initial route to '/home'
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Scouting Home Page'),
+      home: const log_in(title: 'Scouting Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.teamName});
 
-  final String title;
+  final String teamName;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -47,30 +47,28 @@ class _MyHomePageState extends State<MyHomePage> {
       
       entries.add("entry");
 
-      entryObjects.add( const ScoutingForm(title: "test"));
+      entryObjects.add( ScoutingForm(teamName: widget.teamName));
 
 
       _counter++;
     });
   }
-
-   List<Widget> pages = [ScoutingForm(title: "test",)];
   int currentPageIndex = 0;
 
-  void navigateToPage(Widget page) {
-    setState(() {
-      pages.add(page);
-      currentPageIndex = pages.length - 1;
-    });
-  }
+  // void navigateToPage(Widget page) {
+  //   setState(() {
+  //     pages.add(page);
+  //     currentPageIndex = pages.length - 1;
+  //   });
+  // }
 
-  void returnToPreviousPage() {
-    if (currentPageIndex > 0) {
-      setState(() {
-        currentPageIndex--;
-      });
-    }
-  }
+  // void returnToPreviousPage() {
+  //   if (currentPageIndex > 0) {
+  //     setState(() {
+  //       currentPageIndex--;
+  //     });
+  //   }
+  // }
 
   void createForm (int ind){
     setState(() {

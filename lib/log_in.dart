@@ -2,6 +2,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:frc1148_2023_scouting_app/main.dart';
+import 'package:frc1148_2023_scouting_app/scouting_form.dart';
 import 'FeedbackForm.dart';
 import 'form_controller.dart';
 import 'package:gsheets/gsheets.dart';
@@ -118,22 +120,27 @@ class _log_in extends State<log_in> {
    @override
   Widget build(BuildContext context) {
     var test =  rt.return_team(AList,BList,CList,DList,EList,FList);
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        title: Text("log in", textScaleFactor: 1.5,)
+      ),
       body: Center(
         child: Column(
           children: [
-
             Container(
-              height: 150,
-              color: Colors.deepPurple.shade50,
+              height: height / 3.5,
+              color: Colors.amber[300],
               child: Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(entries[0]),
+                    Text(entries[0],textScaleFactor: 1.5,),
                     TextField(
                       onChanged: (String value) {
                         id = value;
-                        print ("setted");
+                        print ("$value");
                       },
                     ),
                   ],
@@ -141,12 +148,13 @@ class _log_in extends State<log_in> {
               ),
             ),
             Container(
-              height: 150,
-              color: Colors.deepPurple.shade50,
+              height: height/3.5,
+              color: Colors.amber[400],
               child: Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(entries[1]),
+                    Text(entries[1],textScaleFactor: 1.5,),
                     TextField(
                       //int.parse(value)
                       onChanged: (String value) {
@@ -159,46 +167,51 @@ class _log_in extends State<log_in> {
                 ),
               ),
             ),
-            Text("${results}"),
+            Container (
+              height: height / 10,
+              width: width,
+              color: Colors.amber[500],
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Your team is: "),
+                  Text("$results"),
+                  IconButton(
+                    onPressed: (){
+                      // print (id);
+                      // print (mnum);
+                      test.setIdentifier(id);
+                      test.setIndex(int.parse(mnum));
+                      // print( test.identifier);
+                      // print( test.index);
+                      setter();
+                      test.setLists(AList,BList,CList,DList,EList,FList);
+                      results = test.setStringValue();
+                      print (results);
+                      updateResults(results);
+                    }, 
+                    icon: const Icon (Icons.refresh)
+                  )
+                ],
+              )
+            ),
+            
+            
             ElevatedButton(
               onPressed: () {
-                print (id);
-                print (mnum);
-                test.setIdentifier(id);
-                test.setIndex(int.parse(mnum));
-                print( test.identifier);
-                print( test.index);
-
-                setter();
-                test.setLists(AList,BList,CList,DList,EList,FList);
-                results = test.setStringValue();
-                print (results);
-                updateResults(results);
-                // showDialog<void>(
-                //   context: context,
-                //   builder: (BuildContext context) {
-                //     return AlertDialog(
-                //       title: const Text('Thanks!'),
-                //       content: Text(
-                //           'Your team is: ' + test.setStringValue()),
-                //       actions: <Widget>[
-                //         TextButton(
-                //           onPressed: () {
-                //             Navigator.pop(context);
-                //           },
-                //           child: const Text('OK'),
-                //         ),
-                //       ],
-                //     );
-                //   },
-                // );
-                
-
-                
+                final String out = "q$mnum $results";
+                print (out);
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute
+                  (
+                    builder: (context) => ScoutingForm(teamName: out)
+                  )
+                );
               },
               child: const Icon(Icons.send),
             )
-
           ],
         )
       ),

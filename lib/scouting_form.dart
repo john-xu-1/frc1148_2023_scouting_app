@@ -20,8 +20,8 @@ int missedCube = 0;
 
 
 class ScoutingForm extends StatefulWidget {
-  const ScoutingForm({super.key, required this.title});
-  final String title;
+  const ScoutingForm({super.key, required this.teamName});
+  final String teamName;
   @override
   _ScoutingForm createState() => _ScoutingForm();
 }
@@ -137,7 +137,7 @@ class _ScoutingForm extends State<ScoutingForm> {
 
       // Writing data
       final firstRow = [topScoreCone, midScoreCone, lowScoreCone, topScoreCube, midScoreCube, lowScoreCube, tryParkAuto, missedCube];
-      await sheet!.values.insertRow(1, firstRow, fromColumn: 2);
+      await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
       // prints [index, letter, number, label]
       print(await sheet.values.row(1));
 
@@ -454,12 +454,11 @@ class _ScoutingForm extends State<ScoutingForm> {
                     context,
                     MaterialPageRoute
                     (
-                      builder: (context) => TeleopForm(title: "test")
+                      builder: (context) => TeleopForm(teamName: widget.teamName)
                     )
                   );
                 });
                 _submitSection();
-
               },
               child: Text("Next"),
             )
