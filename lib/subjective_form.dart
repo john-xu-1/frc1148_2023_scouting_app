@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/log_in.dart';
-import 'package:frc1148_2023_scouting_app/main.dart';
-import 'FeedbackForm.dart';
-import 'form_controller.dart';
 import 'package:gsheets/gsheets.dart';
 import 'scouting_form.dart' as sf;
+import 'teleop_form.dart' as tp;
 
 
 
@@ -320,6 +318,36 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                     )
                   );
                 });
+                sf.topScoreCone = 0;
+                sf.midScoreCone = 0;
+                sf.lowScoreCone = 0;
+                sf.topScoreCube = 0;
+                sf.midScoreCube = 0;
+                sf.lowScoreCube = 0;
+                sf.tryParkAuto = false;
+                sf.missedCone = 0;
+                sf.missedCube = 0;
+
+                tp.topScoreCone = 0;
+                tp.midScoreCone = 0;
+                tp.lowScoreCone = 0;
+                tp.topScoreCube = 0;
+                tp.midScoreCube = 0;
+                tp.lowScoreCube = 0;
+                tp.tryParkTele = false;
+                tp.messUpParkTele = false;
+                tp.missedCone = 0;
+                tp.missedCube = 0;
+
+                speed = 0;
+                tippiness = 0;
+                roborating = 0;
+
+                tip = false;
+                defensive = false;
+                ally = false;
+
+
                 _submitSection();
               },
               child: Text("Next"),
