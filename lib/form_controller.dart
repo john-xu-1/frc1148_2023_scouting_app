@@ -1,7 +1,6 @@
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'FeedbackForm.dart';
-import 'return_team.dart';
 
 
 
@@ -32,7 +31,7 @@ class FormController {
       //https://script.google.com/macros/s/AKfycbxbwoJQQVD58HSwihoVPaT8tXVMYmJZeYjWaI4VOGsRBHqVFj6B8crzucnQ8F3dS0Yq/exec
       await http.post(url, body: feedbackForm.toJson()).then((response) async {
         if (response.statusCode == 302) {
-          var urll = response.headers['location'];
+          //var urll = response.headers['location'];
           
           await http.get(url).then((response) {
             callback(convert.jsonDecode(response.body)['status']);

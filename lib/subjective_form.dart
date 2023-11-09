@@ -113,7 +113,12 @@ class _SubjectiveForm extends State<SubjectiveForm> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Subjective Opinions"),
+        title: Column(
+          children: [
+          const Text ("Subjective Rating",),
+          Text(widget.teamName),
+          ],
+        ),
       ),
       body: Center(
         child: ListView(
@@ -121,7 +126,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
             Container(
               width: width,
               height: height/5,
-              color: Colors.amber[300],
+              //color Colors.amber[300],
               alignment: AlignmentDirectional.center,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +135,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                   const Text("Were they defensive?",textScaleFactor: 1.5,),
                   Checkbox(
                     value: defensive,
-                    activeColor: Colors.amber[700],
+                    //color Colors.amber[700],
                     onChanged: (newValue) {
                       setState(() {
                         defensive = newValue!;
@@ -146,13 +151,13 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                 Container( 
                   height: height/20,
                   alignment: AlignmentDirectional.center,
-                  color: Colors.amber[400],
+                  //color Colors.amber[400],
                   child: const Text("How fast were they? (0-5)", textScaleFactor: 1.5,),
                 ),
                 Container(
                   height: height/5,
                   width: width,
-                  color: Colors.amber[400],
+                  //color Colors.amber[400],
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -186,13 +191,13 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                 Container( 
                   height: height/20,
                   alignment: AlignmentDirectional.center,
-                  color: Colors.amber[400],
+                  //color Colors.amber[400],
                   child: const Text("How tippy are they? (0-5)", textScaleFactor: 1.5,),
                 ),
                 Container(
                   height: height/5,
                   width: width,
-                  color: Colors.amber[400],
+                  //color Colors.amber[400],
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -225,7 +230,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
             Container(
               width: width,
               height: height/5,
-              color: Colors.amber[300],
+              //color Colors.amber[300],
               alignment: AlignmentDirectional.center,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -234,7 +239,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                   const Text("Did they tip?",textScaleFactor: 1.5,),
                   Checkbox(
                     value: tip,
-                    activeColor: Colors.amber[700],
+                    //color Colors.amber[700],
                     onChanged: (newValue) {
                       setState(() {
                         tip = newValue!;
@@ -250,13 +255,13 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                 Container( 
                   height: height/20,
                   alignment: AlignmentDirectional.center,
-                  color: Colors.amber[400],
+                  //color Colors.amber[400],
                   child: const Text("What rating would you give this robot (0-5)", textScaleFactor: 1.2, textAlign: TextAlign.center,),
                 ),
                 Container(
                   height: height/5,
                   width: width,
-                  color: Colors.amber[400],
+                  //color Colors.amber[400],
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -288,7 +293,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
             Container(
               width: width,
               height: height/5,
-              color: Colors.amber[300],
+              //color Colors.amber[300],
               alignment: AlignmentDirectional.center,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -297,7 +302,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                   const Text("Should we ally /w them?",textScaleFactor: 1.5,),
                   Checkbox(
                     value: ally,
-                    activeColor: Colors.amber[700],
+                    //color Colors.amber[700],
                     onChanged: (newValue) {
                       setState(() {
                         ally = newValue!;
@@ -318,6 +323,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                     )
                   );
                 });
+                _submitSection();
                 sf.topScoreCone = 0;
                 sf.midScoreCone = 0;
                 sf.lowScoreCone = 0;
@@ -348,7 +354,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                 ally = false;
 
 
-                _submitSection();
+                
               },
               child: Text("Next"),
             )

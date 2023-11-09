@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class return_team {
     //the string lists will be the blue and red teams in order of matches

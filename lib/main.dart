@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Scouting Home Page',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
       home: const log_in(title: 'Scouting Home Page'),
@@ -34,7 +34,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   final List<String> entries = <String>[];
 
   final List<Widget> entryObjects = <ScoutingForm>[];
@@ -45,11 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       
       entries.add("entry");
-
       entryObjects.add( ScoutingForm(teamName: widget.teamName));
 
-
-      _counter++;
     });
   }
   int currentPageIndex = 0;
@@ -89,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: const Text("Home"),
       ),
       body: Center(
         child: ListView.separated(

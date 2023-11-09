@@ -1,11 +1,5 @@
-
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:frc1148_2023_scouting_app/main.dart';
 import 'package:frc1148_2023_scouting_app/scouting_form.dart';
-import 'FeedbackForm.dart';
-import 'form_controller.dart';
 import 'package:gsheets/gsheets.dart';
 import 'return_team.dart' as rt;
 
@@ -22,6 +16,12 @@ class _log_in extends State<log_in> {
     'Enter Letter',
     'Enter "qm", Ex:5',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    fetcher();
+  }
 
 
 
@@ -80,23 +80,42 @@ class _log_in extends State<log_in> {
   List<String> EList = List.empty();
   List<String> FList = List.empty();
 
+  void fetcher () async {
+    A = (await _fetchForm(2,1));
+    B = (await _fetchForm(2,2));
+    C = (await _fetchForm(2,3));
+    D = (await _fetchForm(2,5));
+    E = (await _fetchForm(2,6));
+    F = (await _fetchForm(2,7));
+  }
   
 
-  void setter() async {
-    String response1 = ""; 
-    String response2 = ""; 
-    A = (await _fetchForm(2,1));
-    AList = A.split(', ').map((AList) => AList.trim()).toList();
-    B = (await _fetchForm(2,2));
-    BList = B.split(', ').map((BList) => BList.trim()).toList();
-    C = (await _fetchForm(2,3));
-    CList = C.split(', ').map((CList) => CList.trim()).toList();
-    D = (await _fetchForm(2,5));
-    DList = D.split(', ').map((DList) => DList.trim()).toList();
-    E = (await _fetchForm(2,6));
-    EList = E.split(', ').map((EList) => EList.trim()).toList();
-    F = (await _fetchForm(2,7));
-    FList = F.split(', ').map((FList) => FList.trim()).toList();
+  void setter( identifier ) { 
+    
+    if ((identifier == 'A')||(identifier == 'a')) {
+      AList = A.split(', ').map((AList) => AList.trim()).toList();
+    }
+    if ((identifier == 'B')||(identifier == 'b')) {
+      
+      BList = B.split(', ').map((BList) => BList.trim()).toList();
+    }
+    if ((identifier == 'C')||(identifier == 'c')) {
+      
+      CList = C.split(', ').map((CList) => CList.trim()).toList();
+    }
+    if ((identifier == 'D')||(identifier == 'd')) {
+      
+      DList = D.split(', ').map((DList) => DList.trim()).toList();
+    }
+    if ((identifier == 'E')||(identifier == 'e')) {
+      
+      EList = E.split(', ').map((EList) => EList.trim()).toList();
+    }
+    if ((identifier == 'F')||(identifier == 'f')) {
+      
+      FList = F.split(', ').map((FList) => FList.trim()).toList();
+    }
+   
     // A=['frc294', 'frc294', 'frc294', 'frc4999', 'frc2710', 'frc4501', 'frc4201', 'frc8898', 'frc3473', 'frc9172', 'frc4501', 'frc7611', 'frc4470', 'frc687', 'frc846', 'frc9172', 'frc4123', 'frc8600', 'frc6833', 'frc3408', 'frc597', 'frc687', 'frc1452', 'frc7185', 'frc2710', 'frc6833', 'frc1759', 'frc5199', 'frc1159', 'frc687', 'frc7611', 'frc4123', 'frc8020', 'frc1148', 'frc5669', 'frc6904', 'frc5124', 'frc5857', 'frc7185', 'frc1197', 'frc980', 'frc3952', 'frc9172', 'frc8600', 'frc5500', 'frc2584', 'frc8020', 'frc606', 'frc7185', 'frc7230', 'frc1661', 'frc3408', 'frc597', 'frc7611', 'frc980', 'frc846', 'frc3473', 'frc4470', 'frc6658', 'frc1515', 'frc606', 'frc8898', 'frc4201', 'frc5089', 'frc5669'];
     // B=['frc4123', 'frc4123', ' frc4123', ' frc3952', ' frc4470', ' frc5669', ' frc1197', ' frc1148', ' frc980', ' frc6000', ' frc5089', ' frc3863', ' frc2584', ' frc1452', ' frc702', ' frc1197', ' frc1148', ' frc1759', ' frc846', ' frc5857', ' frc2584', ' frc6904', ' frc3952', ' frc5500', ' frc8600', ' frc1148', ' frc5669', ' frc1661', ' frc6658', ' frc5089', ' frc2584', ' frc597', ' frc7185', ' frc2710', ' frc9172', ' frc4201', ' frc207', ' frc4964', ' frc3473', ' frc5500', ' frc1452', ' frc606', ' frc4964', ' frc702', ' frc5124', ' frc4501', ' frc207', ' frc687', ' frc980', ' frc1197', ' frc4123', ' frc5500', ' frc1452', ' frc5199', ' frc8898', ' frc4964', ' frc4201', ' frc294', ' frc5199', ' frc8020', ' frc6904', ' frc7230', ' frc2710', ' frc980', ' frc6000'];
     // C=[' frc1452', ' frc1452', ' frc1452', ' frc1759', ' frc687', ' frc5124', ' frc6658', ' frc1159', ' frc3408', ' frc6904', ' frc2710', ' frc606', ' frc8898', ' frc3408', ' frc5857', ' frc294', ' frc4964', ' frc1159', ' frc5124', ' frc4999', ' frc1197', ' frc1515', ' frc1159', ' frc606', ' frc7230', ' frc5500', ' frc5857', ' frc6833', ' frc702', ' frc4201', ' frc7230', ' frc4501', ' frc3863', ' frc5124', ' frc846', ' frc294', ' frc6000', ' frc597', ' frc7611', ' frc207', ' frc5199', ' frc8020', ' frc4999', ' frc5669', ' frc4123', ' frc1515', ' frc5199', ' frc2584', ' frc1759', ' frc4470', ' frc8600', ' frc6658', ' frc207', ' frc1515', ' frc3952', ' frc7230', ' frc1661', ' frc6658', ' frc4501', ' frc3408', ' frc702', ' frc7185', ' frc5500', ' frc4999', ' frc4964'];
@@ -109,6 +128,20 @@ class _log_in extends State<log_in> {
     setState(() {
       results = result;
     });
+  }
+
+  void teamAsker (rt.return_team test){
+    // print (id);
+    // print (mnum);
+    test.setIdentifier(id);
+    test.setIndex(int.parse(mnum));
+    // print( test.identifier);
+    // print( test.index);
+    setter(id);
+    test.setLists(AList,BList,CList,DList,EList,FList);
+    results = test.setStringValue();
+    print (results);
+    updateResults(results);
   }
 
   String results = "";
@@ -124,14 +157,16 @@ class _log_in extends State<log_in> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("log in", textScaleFactor: 1.5,)
+        title: Text("log in", textScaleFactor: 1.5,),
+        elevation: 21,
       ),
       body: Center(
         child: Column(
           children: [
             Container(
               height: height / 3.5,
-              color: Colors.amber[300],
+              width: width/3,
+              //color: Colors.red[300],
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -142,6 +177,17 @@ class _log_in extends State<log_in> {
                         id = value;
                         print ("$value");
                       },
+                      // decoration: const InputDecoration(
+                      //   enabledBorder: UnderlineInputBorder(
+                      //     borderSide: BorderSide(color: Colors.red)
+                      //   ),
+                      //   disabledBorder: UnderlineInputBorder(
+                      //     borderSide: BorderSide(color: Colors.red)
+                      //   ),
+                      //   focusedBorder: UnderlineInputBorder(
+                      //     borderSide: BorderSide( )
+                      //   ),
+                      // ),
                     ),
                   ],
                 ),
@@ -149,7 +195,8 @@ class _log_in extends State<log_in> {
             ),
             Container(
               height: height/3.5,
-              color: Colors.amber[400],
+              width: width/3,
+              //color: Colors.red[400],
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -167,39 +214,30 @@ class _log_in extends State<log_in> {
                 ),
               ),
             ),
-            Container (
-              height: height / 10,
-              width: width,
-              color: Colors.amber[500],
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Your team is: "),
-                  Text("$results"),
-                  IconButton(
-                    onPressed: (){
-                      // print (id);
-                      // print (mnum);
-                      test.setIdentifier(id);
-                      test.setIndex(int.parse(mnum));
-                      // print( test.identifier);
-                      // print( test.index);
-                      setter();
-                      test.setLists(AList,BList,CList,DList,EList,FList);
-                      results = test.setStringValue();
-                      print (results);
-                      updateResults(results);
-                    }, 
-                    icon: const Icon (Icons.refresh)
-                  )
-                ],
-              )
-            ),
+            // Container (
+            //   height: height / 10,
+            //   width: width,
+            //   //color: Colors.red ,
+            //   alignment: Alignment.center,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       const Text("Your team is: "),
+            //       Text("$results"),
+            //       IconButton(
+            //         onPressed: (){
+            //           teamAsker(test);
+            //         }, 
+            //         icon: const Icon (Icons.refresh)
+            //       )
+            //     ],
+            //   )
+            // ),
             
             
             ElevatedButton(
               onPressed: () {
+                teamAsker(test);
                 final String out = "q$mnum $results";
                 print (out);
                 Navigator.push(
@@ -209,6 +247,7 @@ class _log_in extends State<log_in> {
                     builder: (context) => ScoutingForm(teamName: out)
                   )
                 );
+
               },
               child: const Icon(Icons.send),
             )

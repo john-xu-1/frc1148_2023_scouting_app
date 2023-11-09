@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/teleop_form.dart';
-import 'FeedbackForm.dart';
-import 'form_controller.dart';
 import 'package:gsheets/gsheets.dart';
 
 
@@ -30,79 +28,79 @@ class _ScoutingForm extends State<ScoutingForm> {
 
   void _addCone (score){
     if (score == "top"){
-      setState(() => topScoreCone += 1);
+      if (topScoreCone >= 0) setState(() => topScoreCone += 1);
       print (topScoreCone);
 
     }
     else if (score == "mid"){
-      setState(() => midScoreCone += 1);
+      if (midScoreCone >= 0) setState(() => midScoreCone += 1);
       print (midScoreCone);
     }
     else if (score == "low"){
-       setState(() => lowScoreCone += 1);
+      if (lowScoreCone >= 0) setState(() => lowScoreCone += 1);
       print (lowScoreCone);
     }
     else if (score == "missed"){
-      setState(() => missedCone += 1);
+      if (missedCone >= 0) setState(() => missedCone += 1);
     }
     
   }
 
   void _minusCone (score){
     if (score == "top"){
-      setState(() => topScoreCone -= 1);
+      if (topScoreCone > 0) setState(() => topScoreCone -= 1);
       print (topScoreCone);
 
     }
     else if (score == "mid"){
-      setState(() => midScoreCone -= 1);
+      if (midScoreCone > 0) setState(() => midScoreCone -= 1);
       print (midScoreCone);
     }
     else if (score == "low"){
-      setState(() => lowScoreCone -= 1);
+      if (lowScoreCone > 0) setState(() => lowScoreCone -= 1);
       print (lowScoreCone);
     }
     else if (score == "missed"){
-      setState(() => missedCone -= 1);
+      if (missedCone > 0) setState(() => missedCone -= 1);
     }
   }
 
   void _addCube (score){
     if (score == "top"){
-      setState(() => topScoreCube += 1);
+      if (topScoreCube >= 0) setState(() => topScoreCube += 1);
       print (topScoreCube);
 
     }
     else if (score == "mid"){
-      setState(() => midScoreCube += 1);
+      if (midScoreCube >= 0) setState(() => midScoreCube += 1);
       print (midScoreCube);
     }
     else if (score == "low"){
-       setState(() => lowScoreCube += 1);
+      if (lowScoreCube >= 0) setState(() => lowScoreCube += 1);
       print (lowScoreCube);
     }
     else if (score == "missed"){
-      setState(() => missedCube += 1);
+      if (missedCube >= 0) setState(() => missedCube += 1);
     }
     
   }
 
   void _minusCube (score){
     if (score == "top"){
-      setState(() => topScoreCube -= 1);
+      if (topScoreCube > 0) setState(() => topScoreCube -= 1);
       print (topScoreCube);
 
     }
     else if (score == "mid"){
-      setState(() => midScoreCube -= 1);
+      if (midScoreCube > 0) setState(() => midScoreCube -= 1);
       print (midScoreCube);
     }
     else if (score == "low"){
-      setState(() => lowScoreCube -= 1);
+      if (lowScoreCube > 0) setState(() => lowScoreCube -= 1);
       print (lowScoreCube);
     }
     else if (score == "missed"){
-      setState(() => missedCube -= 1);
+      if (missedCube > 0) setState(() => missedCube -= 1);
     }
   }
   
@@ -162,7 +160,12 @@ class _ScoutingForm extends State<ScoutingForm> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Auto"),
+        title: Column(
+          children: [
+          const Text ("Auto Phase",),
+          Text(widget.teamName),
+          ],
+        ),
       ),
       body: Center(
         child: ListView(
@@ -175,14 +178,19 @@ class _ScoutingForm extends State<ScoutingForm> {
                     Container( 
                       height: height/10,
                       alignment: AlignmentDirectional.center,
-                      width: width * 0.49,
-                      color: Colors.amber[100],
+                      width: width * 0.5,
+                      //color: Colors.red[100],
                       child: Text("Cone", textScaleFactor: 2.5,),
                     ),
                     Container(
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      child: const Divider(),
+                    ),
+                    Container(
                       height: height/3,
-                      width: width * 0.49,
-                      color: Colors.amber[600],
+                      width: width * 0.5,
+                      //color: Colors.red[600],
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -211,9 +219,14 @@ class _ScoutingForm extends State<ScoutingForm> {
                       )
                     ),
                     Container(
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      child: const Divider(),
+                    ),
+                    Container(
                       height: height/3,
-                      width: width * 0.49,
-                      color: Colors.amber[400],
+                      width: width * 0.5,
+                      //color: Colors.red[400],
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -240,9 +253,14 @@ class _ScoutingForm extends State<ScoutingForm> {
                       )
                     ),
                     Container(
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      child: const Divider(),
+                    ),
+                    Container(
                       height: height/3,
-                      width: width * 0.49,
-                      color: Colors.amber[300],
+                      width: width * 0.5,
+                      //color: Colors.red[300],
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -269,27 +287,30 @@ class _ScoutingForm extends State<ScoutingForm> {
                             icon: const Icon(Icons.arrow_downward),
                           )
                           ),
-                          
                         ]
                       )
                     ),
                   ]
                 ),
-                VerticalDivider(width: width*0.02, color: Colors.amberAccent,),
                 Column (
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [ 
                     Container( 
                       height: height/10,
                       alignment: AlignmentDirectional.center,
-                      width: width * 0.49,
-                      color: Colors.amber[100],
+                      width: width * 0.5,
+                      //color: Colors.red[100],
                       child: Text("Cube", textScaleFactor: 2.5,),
                     ),
                     Container(
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      child: const Divider(),
+                    ),
+                    Container(
                       height: height/3,
-                      width: width * 0.49,
-                      color: Colors.amber[600],
+                      width: width * 0.5,
+                      //color: Colors.red[600],
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -318,9 +339,14 @@ class _ScoutingForm extends State<ScoutingForm> {
                       )
                     ),
                     Container(
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      child: const Divider(),
+                    ),
+                    Container(
                       height: height/3,
-                      width: width * 0.49,
-                      color: Colors.amber[400],
+                      width: width * 0.5,
+                      //color: Colors.red[400],
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -347,9 +373,14 @@ class _ScoutingForm extends State<ScoutingForm> {
                       )
                     ),
                     Container(
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      child: const Divider(),
+                    ),
+                    Container(
                       height: height/3,
-                      width: width * 0.49,
-                      color: Colors.amber[300],
+                      width: width * 0.5,
+                      //color: Colors.red[300],
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -387,7 +418,7 @@ class _ScoutingForm extends State<ScoutingForm> {
             Container(
               width: width,
               height: height/5,
-              color: Colors.amber[300],
+              //color: Colors.red[300],
               alignment: AlignmentDirectional.center,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -396,7 +427,7 @@ class _ScoutingForm extends State<ScoutingForm> {
                   const Text("Try Parking?",textScaleFactor: 1.5,),
                   Checkbox(
                     value: tryParkAuto,
-                    activeColor: Colors.amber[700],
+                    //color: Colors.red[700],
                     onChanged: (newValue) {
                       setState(() {
                         tryParkAuto = newValue!;
@@ -412,13 +443,13 @@ class _ScoutingForm extends State<ScoutingForm> {
                 Container( 
                   height: height/20,
                   alignment: AlignmentDirectional.center,
-                  color: Colors.amber[400],
+                  //color: Colors.red[400],
                   child: const Text("Missed", textScaleFactor: 1.5,),
                 ),
                 Container(
                   height: height/5,
                   width: width,
-                  color: Colors.amber[400],
+                  //color: Colors.red[400],
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
