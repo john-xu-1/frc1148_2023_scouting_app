@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/scouting_form.dart';
 import 'package:gsheets/gsheets.dart';
 import 'return_team.dart' as rt;
-import 'subjective_form.dart' as subf;
 
 class log_in extends StatefulWidget {
   const log_in({Key? key, required this.title}) : super(key: key);
@@ -14,8 +13,8 @@ class log_in extends StatefulWidget {
 
 class _log_in extends State<log_in> {
   final List<String> entries = <String>[
-    'Enter Letter',
-    'Enter "qm", Ex:5',
+    'Enter assigned Letter',
+    'Enter match # (ex: 5)',
   ];
 
   @override
@@ -167,50 +166,55 @@ class _log_in extends State<log_in> {
           children: [
             Container(
               height: height / 3.5,
-              width: width/3,
               //color: Colors.red[300],
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(entries[0],textScaleFactor: 1.5,),
-                    TextField(
-                      onChanged: (String value) {
-                        id = value;
-                        print ("$value");
-                      },
-                      // decoration: const InputDecoration(
-                      //   enabledBorder: UnderlineInputBorder(
-                      //     borderSide: BorderSide(color: Colors.red)
-                      //   ),
-                      //   disabledBorder: UnderlineInputBorder(
-                      //     borderSide: BorderSide(color: Colors.red)
-                      //   ),
-                      //   focusedBorder: UnderlineInputBorder(
-                      //     borderSide: BorderSide( )
-                      //   ),
-                      // ),
+                    Container(
+                      width: width /3,
+                      child: TextField(
+                        onChanged: (String value) {
+                          id = value;
+                          print ("$value");
+                        },
+                        // decoration: const InputDecoration(
+                        //   enabledBorder: UnderlineInputBorder(
+                        //     borderSide: BorderSide(color: Colors.red)
+                        //   ),
+                        //   disabledBorder: UnderlineInputBorder(
+                        //     borderSide: BorderSide(color: Colors.red)
+                        //   ),
+                        //   focusedBorder: UnderlineInputBorder(
+                        //     borderSide: BorderSide( )
+                        //   ),
+                        // ),
+                      ),
                     ),
+                    
                   ],
                 ),
               ),
             ),
             Container(
               height: height/3.5,
-              width: width/3,
               //color: Colors.red[400],
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(entries[1],textScaleFactor: 1.5,),
-                    TextField(
-                      //int.parse(value)
-                      onChanged: (String value) {
-                        setState(() {
-                          mnum = value;
-                        });
-                      },
+                    Container(
+                      width: width /3,
+                      child: TextField(
+                        //int.parse(value)
+                        onChanged: (String value) {
+                          setState(() {
+                            mnum = value;
+                          });
+                        },
+                      ),
                     ),
                   ],
                 ),
