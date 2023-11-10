@@ -87,10 +87,11 @@ class _SubjectiveForm extends State<SubjectiveForm> {
       final sheet = ss.worksheetByTitle('JohnTest');     
 
       // Writing data
+      
       final firstRow = [defensive, speed, tippiness, tip, roborating, ally];
       await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 19);
       // prints [index, letter, number, label]
-      print(await sheet.values.row(1));
+      print(firstRow);
 
 
 
@@ -314,6 +315,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
             ),
             ElevatedButton(
               onPressed: (){
+                _submitSection();
                 setState(() {
                   Navigator.push(
                     context,
@@ -323,7 +325,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                     )
                   );
                 });
-                _submitSection();
+                
                 sf.topScoreCone = 0;
                 sf.midScoreCone = 0;
                 sf.lowScoreCone = 0;
@@ -345,13 +347,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                 tp.missedCone = 0;
                 tp.missedCube = 0;
 
-                speed = 0;
-                tippiness = 0;
-                roborating = 0;
-
-                tip = false;
-                defensive = false;
-                ally = false;
+                
 
 
                 

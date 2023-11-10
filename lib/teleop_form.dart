@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/subjective_form.dart';
 import 'package:gsheets/gsheets.dart';
+import 'subjective_form.dart' as subf;
 
 
   int topScoreCone = 0;
@@ -507,6 +508,13 @@ void _addCone (score){
             ),
             ElevatedButton(
               onPressed: (){
+                subf.speed = 0;
+                subf.tippiness = 0;
+                subf.roborating = 0;
+
+                subf.tip = false;
+                subf.defensive = false;
+                subf.ally = false;
                 setState(() {
                   Navigator.push(
                     context,
