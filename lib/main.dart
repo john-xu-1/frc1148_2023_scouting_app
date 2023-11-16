@@ -18,7 +18,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const log_in(title: 'Scouting Home Page'),
+      //home: const log_in(title: 'Scouting Home Page'),
+      home: pit_scouting(teamName: 'YourTeamNameHere'), // Pass your team name
+
     );
   }
 }
