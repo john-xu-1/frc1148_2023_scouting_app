@@ -3,7 +3,7 @@ import 'package:frc1148_2023_scouting_app/log_in.dart';
 import 'package:frc1148_2023_scouting_app/scouting_form.dart';
 import 'package:frc1148_2023_scouting_app/pit_scouting.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 

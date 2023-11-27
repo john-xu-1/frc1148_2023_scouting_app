@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/scouting_form.dart';
 import 'package:gsheets/gsheets.dart';
 import 'return_team.dart' as rt;
+import 'take_picture.dart' as tp;
+import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
+
 
 String robotWeight="";
 bool one = false;
@@ -42,7 +46,7 @@ class _pit_scouting extends State<pit_scouting> {
     "universe_domain": "googleapis.com"
   }
   ''';
-
+  
   Future<void> _submitForm(column, row) async {
     try {
       final gsheets = GSheets(_creds);
@@ -60,7 +64,17 @@ class _pit_scouting extends State<pit_scouting> {
   }
 
 
-  
+  void _takePicture() async {
+    final cameras = await availableCameras();
+    final firstCamera = cameras.first;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => tp.take_picture(camera: firstCamera),
+      ),
+    );
+  }
   
    @override
   Widget build(BuildContext context) {
@@ -214,6 +228,14 @@ class _pit_scouting extends State<pit_scouting> {
             //   )
             // ),
             
+
+            
+            ElevatedButton(
+              onPressed: _takePicture,
+              child: const Icon(Icons.camera_alt),
+            ),
+            
+            Divider(color:Colors.white10), // Divider widget to create a line
             
             ElevatedButton(
               onPressed: () {
