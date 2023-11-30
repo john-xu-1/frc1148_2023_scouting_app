@@ -6,13 +6,11 @@ import 'teleop_form.dart' as tp;
 
 
 
-  int speed = 0;
   int tippiness = 0;
-  int roborating = 0;
 
   bool tip = false;
+  bool robotBreak = false;
   bool defensive = false;
-  bool ally = false;
 
 
 
@@ -26,34 +24,17 @@ class SubjectiveForm extends StatefulWidget {
 class _SubjectiveForm extends State<SubjectiveForm> {
 
   void _add (score){
-    if (score == "speed"){
-      if (speed >= 0 && speed < 5) setState(() => speed += 1);
-      print (speed);
-
-    }
-    else if (score == "tip"){
+   if (score == "tip"){
       if (tippiness >= 0 && tippiness < 5) setState(() => tippiness += 1);
       print (tippiness);
     }
-    else if (score == "rating"){
-      if (roborating >= 0 && roborating < 5) setState(() => roborating += 1);
-      print (roborating);
-    }
+    
   }
 
   void _minus (score){
-    if (score == "speed"){
-      if (speed > 0 && speed <= 5) setState(() => speed -= 1);
-      print (speed);
-
-    }
-    else if (score == "tip"){
+    if (score == "tip"){
       if (tippiness > 0 && tippiness <= 5) setState(() => tippiness -= 1);
       print (tippiness);
-    }
-    else if (score == "rating"){
-      if (roborating > 0 && roborating <= 5) setState(() => roborating -= 1);
-      print (roborating);
     }
   }
   
@@ -88,7 +69,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
 
       // Writing data
       
-      final firstRow = [defensive, speed, tippiness, tip, roborating, ally];
+      final firstRow = [defensive, tippiness, robotBreak, tip];
       await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 19);
       // prints [index, letter, number, label]
       print(firstRow);
@@ -147,46 +128,45 @@ class _SubjectiveForm extends State<SubjectiveForm> {
               ),
             ),
             const Divider(),
-            Column(
-              children: [
-                Container( 
-                  height: height/20,
-                  alignment: AlignmentDirectional.center,
-                  //color Colors.amber[400],
-                  child: const Text("How fast were they? (0-5)", textScaleFactor: 1.5,),
-                ),
-                Container(
-                  height: height/5,
-                  width: width,
-                  //color Colors.amber[400],
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton (
-                          onPressed: () {
-                            _add("speed"); 
-                          },
-                          style: IconButton.styleFrom(
-                            minimumSize: Size(width, height/15),
-                          ),
-                          icon: const Icon(Icons.arrow_upward),
-                      ),
-                      Container(width: width/14, height: height/15, child: FittedBox(child: Text("$speed",textScaleFactor: 3.5,),),), 
-                      IconButton (
-                          onPressed: () {
-                            _minus("speed"); 
-                          },
-                          style: IconButton.styleFrom(
-                            minimumSize: Size(width, height/15),
-                          ),
-                          icon: const Icon(Icons.arrow_downward),
-                      )
-                    ]
-                  )
-                ),
-              ],
-            ),
-            const Divider(),
+            // Column(
+            //   children: [
+            //     Container( 
+            //       height: height/20,
+            //       alignment: AlignmentDirectional.center,
+            //       //color Colors.amber[400],
+            //       child: const Text("How fast were they? (0-5)", textScaleFactor: 1.5,),
+            //     ),
+            //     Container(
+            //       height: height/5,
+            //       width: width,
+            //       //color Colors.amber[400],
+            //       child: Column(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           IconButton (
+            //               onPressed: () {
+            //                 _add("speed"); 
+            //               },
+            //               style: IconButton.styleFrom(
+            //                 minimumSize: Size(width, height/15),
+            //               ),
+            //               icon: const Icon(Icons.arrow_upward),
+            //           ),
+            //           Container(width: width/14, height: height/15, child: FittedBox(child: Text("$speed",textScaleFactor: 3.5,),),), 
+            //           IconButton (
+            //               onPressed: () {
+            //                 _minus("speed"); 
+            //               },
+            //               style: IconButton.styleFrom(
+            //                 minimumSize: Size(width, height/15),
+            //               ),
+            //               icon: const Icon(Icons.arrow_downward),
+            //           )
+            //         ]
+            //       )
+            //     ),
+            //   ],
+            // ),
             Column(
               children: [
                 Container( 
@@ -251,46 +231,6 @@ class _SubjectiveForm extends State<SubjectiveForm> {
               ),
             ),
             const Divider(),
-            Column(
-              children: [
-                Container( 
-                  height: height/20,
-                  alignment: AlignmentDirectional.center,
-                  //color Colors.amber[400],
-                  child: const Text("What rating would you give this robot (0-5)", textScaleFactor: 1.2, textAlign: TextAlign.center,),
-                ),
-                Container(
-                  height: height/5,
-                  width: width,
-                  //color Colors.amber[400],
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton (
-                          onPressed: () {
-                            _add("rating"); 
-                          },
-                          style: IconButton.styleFrom(
-                            minimumSize: Size(width, height/15),
-                          ),
-                          icon: const Icon(Icons.arrow_upward),
-                      ),
-                      Container(width: width/14, height: height/15, child: FittedBox(child: Text("$roborating",textScaleFactor: 3.5,),),), 
-                      IconButton (
-                          onPressed: () {
-                            _minus("rating"); 
-                          },
-                          style: IconButton.styleFrom(
-                            minimumSize: Size(width, height/15),
-                          ),
-                          icon: const Icon(Icons.arrow_downward),
-                      )
-                    ]
-                  )
-                ),
-              ],
-            ),
-            const Divider(),
             Container(
               width: width,
               height: height/5,
@@ -300,19 +240,83 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text("Should we ally /w them?",textScaleFactor: 1.5,),
+                  const Text("Did they break?",textScaleFactor: 1.5,),
                   Checkbox(
-                    value: ally,
+                    value: robotBreak,
                     //color Colors.amber[700],
                     onChanged: (newValue) {
                       setState(() {
-                        ally = newValue!;
+                        robotBreak = newValue!;
                       });
                     },
                   ),
                 ]
               ),
             ),
+            const Divider(),
+            
+            // Column(
+            //   children: [
+            //     Container( 
+            //       height: height/20,
+            //       alignment: AlignmentDirectional.center,
+            //       //color Colors.amber[400],
+            //       child: const Text("What rating would you give this robot (0-5)", textScaleFactor: 1.2, textAlign: TextAlign.center,),
+            //     ),
+            //     Container(
+            //       height: height/5,
+            //       width: width,
+            //       //color Colors.amber[400],
+            //       child: Column(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           IconButton (
+            //               onPressed: () {
+            //                 _add("rating"); 
+            //               },
+            //               style: IconButton.styleFrom(
+            //                 minimumSize: Size(width, height/15),
+            //               ),
+            //               icon: const Icon(Icons.arrow_upward),
+            //           ),
+            //           Container(width: width/14, height: height/15, child: FittedBox(child: Text("$roborating",textScaleFactor: 3.5,),),), 
+            //           IconButton (
+            //               onPressed: () {
+            //                 _minus("rating"); 
+            //               },
+            //               style: IconButton.styleFrom(
+            //                 minimumSize: Size(width, height/15),
+            //               ),
+            //               icon: const Icon(Icons.arrow_downward),
+            //           )
+            //         ]
+            //       )
+            //     ),
+            //   ],
+            // ),
+            // const Divider(),
+            // Container(
+            //   width: width,
+            //   height: height/5,
+            //   //color Colors.amber[300],
+            //   alignment: AlignmentDirectional.center,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     crossAxisAlignment: CrossAxisAlignment.center,
+            //     children: [
+            //       const Text("Should we ally /w them?",textScaleFactor: 1.5,),
+            //       Checkbox(
+            //         value: ally,
+            //         //color Colors.amber[700],
+            //         onChanged: (newValue) {
+            //           setState(() {
+            //             ally = newValue!;
+            //           });
+            //         },
+            //       ),
+            //     ]
+            //   ),
+            // ),
             ElevatedButton(
               onPressed: (){
                 _submitSection();
