@@ -64,17 +64,17 @@ class _pit_scouting extends State<pit_scouting> {
   }
 
 
-  void _takePicture() async {
-    final cameras = await availableCameras();
-    final firstCamera = cameras.first;
+  // void _takePicture() async {
+  //   final cameras = await availableCameras();
+  //   final firstCamera = cameras.first;
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => tp.take_picture(camera: firstCamera),
-      ),
-    );
-  }
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => tp.take_picture(camera: firstCamera),
+  //     ),
+  //   );
+  // }
   
    @override
   Widget build(BuildContext context) {
@@ -230,12 +230,12 @@ class _pit_scouting extends State<pit_scouting> {
             
 
             
-            ElevatedButton(
-              onPressed: _takePicture,
-              child: const Icon(Icons.camera_alt),
-            ),
+            // ElevatedButton(
+            //   onPressed: _takePicture,
+            //   child: const Icon(Icons.camera_alt),
+            // ),
             
-            Divider(color:Colors.white10), // Divider widget to create a line
+            //Divider(color:Colors.white10), // Divider widget to create a line
             
             ElevatedButton(
               onPressed: () {
