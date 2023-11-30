@@ -3,11 +3,10 @@ import 'package:frc1148_2023_scouting_app/scouting_form.dart';
 import 'package:gsheets/gsheets.dart';
 import 'return_team.dart' as rt;
 import 'take_picture.dart' as tp;
-import 'package:camera/camera.dart';
+// import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart'; // For TapGestureRecognizer
-import 'package:url_launcher/url_launcher.dart'; // For launch function
-
+import 'package:url_launcher/url_launcher.dart';
 
 
 String robotWeight="";
