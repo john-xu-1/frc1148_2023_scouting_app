@@ -5,6 +5,9 @@ import 'return_team.dart' as rt;
 import 'take_picture.dart' as tp;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart'; // For TapGestureRecognizer
+import 'package:url_launcher/url_launcher.dart'; // For launch function
+
 
 
 String robotWeight="";
@@ -88,6 +91,32 @@ class _pit_scouting extends State<pit_scouting> {
       body: Center(
         child: ListView(
           children: <Widget>[
+            Container(width: 0, height: 60, color: Colors.white10,),
+
+            Center(
+              child: RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    const TextSpan(
+                      text: 'link to ',
+                      style: TextStyle(color: Colors.black87),
+                    ),
+                    TextSpan(
+                      text: 'Robot Pictures Folder',
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          launch('https://drive.google.com/drive/folders/17r61d7tOUQLiKA4cnEW15pXioTIKt-yK?usp=drive_link');
+                        },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
             Container(
               height: height / 3.5,
               //color: Colors.red[300],
@@ -235,8 +264,8 @@ class _pit_scouting extends State<pit_scouting> {
             //   child: const Icon(Icons.camera_alt),
             // ),
             
-            //Divider(color:Colors.white10), // Divider widget to create a line
-            
+           
+
             ElevatedButton(
               onPressed: () {
                 _submitForm(0,0);
