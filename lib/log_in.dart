@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/scouting_form.dart';
+import 'package:frc1148_2023_scouting_app/team_display_choice.dart';
 import 'package:gsheets/gsheets.dart';
 import 'return_team.dart' as rt;
 
@@ -243,16 +244,28 @@ class _log_in extends State<log_in> {
             
             ElevatedButton(
               onPressed: () {
-                teamAsker(test);
-                final String out = "q$mnum $results";
-                print (out);
-                Navigator.push(
-                  context, 
-                  MaterialPageRoute
-                  (
-                    builder: (context) => ScoutingForm(teamName: out)
-                  )
-                );
+                if (id == "Strategy" || id == "strategy"){
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute
+                    (
+                      builder: (context) => const team_display_choice()
+                    )
+                  );
+                }
+                else {
+                  teamAsker(test);
+                  final String out = "q$mnum $results";
+                  print (out);
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute
+                    (
+                      builder: (context) => ScoutingForm(teamName: out)
+                    )
+                  );
+                }
+                
 
               },
               child: const Icon(Icons.send),
