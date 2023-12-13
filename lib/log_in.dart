@@ -3,6 +3,7 @@ import 'package:frc1148_2023_scouting_app/scouting_form.dart';
 import 'package:frc1148_2023_scouting_app/team_display_choice.dart';
 import 'package:gsheets/gsheets.dart';
 import 'return_team.dart' as rt;
+import 'pit_scouting.dart';
 
 class log_in extends StatefulWidget {
   const log_in({Key? key, required this.title}) : super(key: key);
@@ -244,7 +245,8 @@ class _log_in extends State<log_in> {
             
             ElevatedButton(
               onPressed: () {
-                if (id == "Strategy" || id == "strategy"){
+                
+                if (id == "view" || id == "View"){
                   Navigator.push(
                     context, 
                     MaterialPageRoute
@@ -253,9 +255,18 @@ class _log_in extends State<log_in> {
                     )
                   );
                 }
+                else if (id == "pit" || id == "Pit"){
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute
+                    (
+                      builder: (context) => pit_scouting(teamName: "1148",),
+                    )
+                  );
+                }
                 else {
                   teamAsker(test);
-                  final String out = "q$mnum $results";
+                final String out = "q$mnum $results";
                   print (out);
                   Navigator.push(
                     context, 
