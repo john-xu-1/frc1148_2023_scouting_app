@@ -80,6 +80,16 @@ class return_team {
         result = r3[index - 1];
       }
     }
+    else if (identifier =='X'){
+    if (index <= b1.length) {
+        result = b1[index - 1] +", " + b2[index - 1] +", "+ b3[index - 1];
+      }
+    }
+    else if (identifier =='Y'){
+    if (index <= r1.length) {
+        result = r1[index - 1] +", " + r2[index - 1] +", "+ r3[index - 1];
+      }
+    }
     //print (result);
     return result;
   }
