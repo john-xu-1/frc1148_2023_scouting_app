@@ -13,14 +13,14 @@ bool fieldCapability = false;
 SheetsHelper sh = SheetsHelper();
 
 
-class pit_scouting extends StatefulWidget {
- const pit_scouting({super.key, required this.teamName});
+class PitScouting extends StatefulWidget {
+ const PitScouting({super.key, required this.teamName});
   final String teamName;
   @override
-  _pit_scouting createState() => _pit_scouting();
+  State<PitScouting> createState() => _PitScouting();
 }
 
-class _pit_scouting extends State<pit_scouting> {
+class _PitScouting extends State<PitScouting> {
   final List<String> entries = <String>[
     'Enter Robot Weight (lbs)',
     'Enter Robot score Capablity #1',

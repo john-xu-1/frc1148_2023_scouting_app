@@ -21,7 +21,7 @@ class ScoutingForm extends StatefulWidget {
   const ScoutingForm({super.key, required this.teamName});
   final String teamName;
   @override
-  _ScoutingForm createState() => _ScoutingForm();
+  State<ScoutingForm> createState() => _ScoutingForm();
 }
 
 class _ScoutingForm extends State<ScoutingForm> {    
@@ -134,14 +134,6 @@ class _ScoutingForm extends State<ScoutingForm> {
       print('Error: $e');
     }
   }
-
-
-
-  
-  
-
-  
-  
 
   @override
   Widget build(BuildContext context) {

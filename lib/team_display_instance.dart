@@ -5,14 +5,14 @@ import 'package:frc1148_2023_scouting_app/sheetsHelper.dart';
 List<ScoutingForm> sf = List.empty();
 SheetsHelper sh = SheetsHelper();
 
-class team_display_instance extends StatefulWidget {
-  const team_display_instance({super.key, required this.teamID});
+class TeamDisplayInstance extends StatefulWidget {
+  const TeamDisplayInstance({super.key, required this.teamID});
   final String teamID;
   @override
-  State<team_display_instance> createState() => _team_display_instanceState();
+  State<TeamDisplayInstance> createState() => _TeamDisplayInstanceState();
 }
 
-class _team_display_instanceState extends State<team_display_instance> {
+class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
   List<String> dataSet = List.empty();
   List<String> dataNames = List.empty();
 

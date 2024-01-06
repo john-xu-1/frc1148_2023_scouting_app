@@ -5,76 +5,29 @@ import 'sheetsHelper.dart';
 
 SheetsHelper sh = SheetsHelper();
 
-class team_display_choice extends StatefulWidget {
-  const team_display_choice({super.key});
+class TeamDisplayChoice extends StatefulWidget {
+  const TeamDisplayChoice({super.key});
 
   @override
-  State<team_display_choice> createState() => _team_display_choiceState();
+  State<TeamDisplayChoice> createState() => _TeamDisplayChoiceState();
   
 }
 
-class _team_display_choiceState extends State<team_display_choice> {
+class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
 
-  // void _incrementCounter() {
-  //   setState(() {
-      
-
-  //   });
-  // }
-  //int currentPageIndex = 0;
-
-  // void navigateToPage(Widget page) {
-  //   setState(() {
-  //     pages.add(page);
-  //     currentPageIndex = pages.length - 1;
-  //   });
-  // }
-
-  // void returnToPreviousPage() {
-  //   if (currentPageIndex > 0) {
-  //     setState(() {
-  //       currentPageIndex--;
-  //     });
-  //   }
-  // }
-
-  // void createForm (int ind){
-  //   setState(() {
-      
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute
-  //       (
-  //         builder: (context) => entryObjects[ind]
-  //       )
-  //     );
-
-  //   });
-  // }
-
-
-  
   List<String> allTeams = List.empty();
-  List<team_display_instance> allTeamDisplays = [];
+  List<TeamDisplayInstance> allTeamDisplays = [];
 
 
   Future<void> _updateTeams() async {
     try {
-      // final gsheets = GSheets(_creds);
-      // final ss = await gsheets.spreadsheet('1C4_kygqZTOo3uue3eBxrMV9b_3UJVuDiOVZqAeGHvzE');
-      // final sheet = ss.worksheetByTitle('PowerRatings.py');     
-
       final sheet = await sh.sheetSetup("PowerRatings.py");
 
-      // Writing data
-      //final firstRow = [topScoreCone, midScoreCone, lowScoreCone, topScoreCube, midScoreCube, lowScoreCube, tryParkAuto, missedCube];
-      //await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
-      // prints [index, letter, number, label]
       allTeams = await sheet!.values.column(1);
       allTeams = allTeams.sublist(1);
       setState(() {
         for (int i = 0; i < allTeams.length; i++){
-          allTeamDisplays.add(team_display_instance(teamID: allTeams[i]));
+          allTeamDisplays.add(TeamDisplayInstance(teamID: allTeams[i]));
         }
       }); //referesh after successful fetch
       print (allTeams.length);

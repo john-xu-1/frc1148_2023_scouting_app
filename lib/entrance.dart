@@ -1,6 +1,4 @@
 
-import 'package:flutter/foundation.dart';
-import 'package:frc1148_2023_scouting_app/scouting_form.dart';
 import 'package:frc1148_2023_scouting_app/team_display_choice.dart';
 import 'package:frc1148_2023_scouting_app/log_in.dart';
 import 'pit_scouting.dart';
@@ -11,7 +9,7 @@ class Entrance extends StatefulWidget {
   const Entrance({Key? key}) : super(key: key);
 
   @override
-  _Entrance createState() => _Entrance();
+  State<Entrance> createState() => _Entrance();
 }
 
 // enum ColorLabel {
@@ -93,7 +91,7 @@ class _Entrance extends State<Entrance> {
                         context, 
                         MaterialPageRoute
                         (
-                          builder: (context) => const team_display_choice(),
+                          builder: (context) => const TeamDisplayChoice(),
                         )
                       );
                     },  
@@ -122,7 +120,7 @@ class _Entrance extends State<Entrance> {
                         context, 
                         MaterialPageRoute
                         (
-                          builder: (context) => const log_in(title: "log in"),
+                          builder: (context) => const LogIn(title: "log in"),
                         )
                       );
                     },  
@@ -153,7 +151,7 @@ class _Entrance extends State<Entrance> {
                           context, 
                           MaterialPageRoute
                           (
-                            builder: (context) => pit_scouting(teamName: pitTeam)
+                            builder: (context) => PitScouting(teamName: pitTeam)
                           )
                         );
                       }
@@ -178,7 +176,8 @@ class _Entrance extends State<Entrance> {
                       ),
                     ],
                   ),
-                  
+                  const SizedBox(height: 10,),
+                  const Text("Pit Scouts"),
                 ],
               )
             ),

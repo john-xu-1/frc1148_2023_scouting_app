@@ -1,5 +1,5 @@
 
-class return_team {
+class ReturnTeam {
     //the string lists will be the blue and red teams in order of matches
   
   List<String> b1;
@@ -10,19 +10,8 @@ class return_team {
   List<String> r3;
 
 
-  String parser(){
 
-    
-
-    return "";
-  }
-
-
-
-  return_team(this.b1, this.b2, this.b3, this.r1, this.r2, this.r3){
-
-
-  }
+  ReturnTeam(this.b1, this.b2, this.b3, this.r1, this.r2, this.r3);
 
   String identifier = "";
   int index = 0;
@@ -49,9 +38,10 @@ class return_team {
     //after the q number and identifier are input changes the identifier's value
     String result = "";
     if (index < 1) {
-      return ""; // Invalid index
+      return result; // Invalid index
     }
 
+    print ("index ${index}");
     
 
     if ((identifier == 'A')||(identifier == 'a')) {
@@ -79,17 +69,16 @@ class return_team {
         result = r3[index - 1];
       }
     }
-    else if (identifier =='X'){
-    if (index <= b1.length) {
-        result = b1[index - 1] +", " + b2[index - 1] +", "+ b3[index - 1];
+    else if (identifier =='X'||(identifier == 'x')){
+      if (index <= b1.length && index <= b2.length && index <= b3.length ) {
+        result = "${b1[index - 1]}, ${b2[index - 1]}, ${b3[index - 1]}";
       }
     }
-    else if (identifier =='Y'){
-    if (index <= r1.length) {
-        result = r1[index - 1] +", " + r2[index - 1] +", "+ r3[index - 1];
+    else if (identifier =='Y'||(identifier == 'y')){
+      if (index <= r1.length && index <= r2.length && index <= r3.length ) {
+        result = "${r1[index - 1]}, ${r2[index - 1]}, ${r3[index - 1]}";
       }
     }
-    //print (result);
     return result;
   }
 }

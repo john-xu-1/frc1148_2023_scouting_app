@@ -19,7 +19,7 @@ class SubjectiveForm extends StatefulWidget {
   const SubjectiveForm({super.key, required this.teamName});
   final String teamName;
   @override
-  _SubjectiveForm createState() => _SubjectiveForm();
+  State<SubjectiveForm> createState() => _SubjectiveForm();
 }
 
 class _SubjectiveForm extends State<SubjectiveForm> {
@@ -311,7 +311,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                     context,
                     MaterialPageRoute
                     (
-                      builder: (context) => const log_in(title: "test",)
+                      builder: (context) => const LogIn(title: "test",)
                     )
                   );
                 });

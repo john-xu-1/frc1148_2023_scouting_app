@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/entrance.dart';
-import 'package:frc1148_2023_scouting_app/log_in.dart';
-//import 'package:frc1148_2023_scouting_app/team_display_choice.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
-      home: const Entrance(), //const team_display_choice() 
+      home: const Entrance(),
     );
   }
 }
