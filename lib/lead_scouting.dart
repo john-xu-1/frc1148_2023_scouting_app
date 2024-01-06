@@ -204,7 +204,7 @@ class _LeadScouting extends State<LeadScouting> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text("Try Parking?",textScaleFactor: 1.5,),
+                  const Text("Coopertition?",textScaleFactor: 1.5,),
                   Checkbox(
                     value: coopertition,
                     //color: Colors.red[700],
