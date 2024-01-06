@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frc1148_2023_scouting_app/log_in.dart';
-import 'sheetsHelper.dart';
+import 'entrance.dart';
+import 'sheets_helper.dart';
 import 'scouting_form.dart' as sf;
 import 'teleop_form.dart' as tp;
 
@@ -45,11 +45,6 @@ class _SubjectiveForm extends State<SubjectiveForm> {
 
   Future<void> _submitSection() async {
     try {
-      // final gsheets = GSheets(_creds);
-      // final ss = await gsheets.spreadsheet('1C4_kygqZTOo3uue3eBxrMV9b_3UJVuDiOVZqAeGHvzE');
-      // final sheet = ss.worksheetByTitle('JohnTest');    
-      //
-
 
       final sheet = await sh.sheetSetup("JohnTest"); 
 
@@ -311,7 +306,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                     context,
                     MaterialPageRoute
                     (
-                      builder: (context) => const LogIn(title: "test",)
+                      builder: (context) => const Entrance()
                     )
                   );
                 });

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/teleop_form.dart';
-import 'sheetsHelper.dart';
+import 'sheets_helper.dart';
 
 int topScoreCone = 0;
 int midScoreCone = 0;
@@ -115,10 +115,6 @@ class _ScoutingForm extends State<ScoutingForm> {
 
   Future<void> _submitSection() async {
     try {
-      // final gsheets = GSheets(_creds);
-      // final ss = await gsheets.spreadsheet('1C4_kygqZTOo3uue3eBxrMV9b_3UJVuDiOVZqAeGHvzE');
-      // final sheet = ss.worksheetByTitle('JohnTest');    
-      //
 
       final sheet = await sh.sheetSetup("JohnTest"); 
 

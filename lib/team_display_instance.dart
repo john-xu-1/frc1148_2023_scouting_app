@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/scouting_form.dart';
-import 'package:frc1148_2023_scouting_app/sheetsHelper.dart';
+import 'package:frc1148_2023_scouting_app/sheets_helper.dart';
 
 List<ScoutingForm> sf = List.empty();
 SheetsHelper sh = SheetsHelper();

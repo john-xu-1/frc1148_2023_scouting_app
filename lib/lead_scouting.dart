@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'sheetsHelper.dart';
+import 'sheets_helper.dart';
+import 'entrance.dart';
 
 String effectiveness1 = "";
 String effectiveness2 = "";
@@ -30,14 +31,14 @@ class _LeadScouting extends State<LeadScouting> {
   ];
 
   
-  Future<void> _submitForm(column, row) async {
+  Future<void> _submitForm() async {
     try {
       final sheet = await sh.sheetSetup("Scouting Lead Notes"); // Replace with your sheet name    
 
        // Writing data
       final firstRow = [effectiveness1, notes1, effectiveness2, notes2, effectiveness3, notes3, relPsdEffectiveness1, relPsdEffectiveness2 ,relPsdEffectiveness3];
       await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
-      // prints [index, letter, number, label]
+
       print(await sheet.values.row(1));
   }catch (e) {
       print('Error: $e');
@@ -192,8 +193,14 @@ class _LeadScouting extends State<LeadScouting> {
 
             ElevatedButton(
               onPressed: () {
-                _submitForm(0,0);
-
+                _submitForm();
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute
+                  (
+                    builder: (context) => const Entrance()
+                  )
+                );
               },
               child: const Icon(Icons.send),
             )

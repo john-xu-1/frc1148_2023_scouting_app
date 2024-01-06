@@ -7,9 +7,7 @@ import 'return_team.dart' as rt;
 SheetsHelper sh = SheetsHelper();
 
 class LogIn extends StatefulWidget {
-  const LogIn({Key? key, required this.title}) : super(key: key);
-  final String title;
-
+  const LogIn({Key? key}) : super(key: key);
   @override
   State<LogIn> createState() => _LogIn();
 }
@@ -257,12 +255,8 @@ class _LogIn extends State<LogIn> {
                       (
                         builder: (context) => ScoutingForm(teamName: out)
                       )
-                  );
+                    );
                   }
-                  
-                  
-                
-
               },
               child: const Icon(Icons.send),
             )

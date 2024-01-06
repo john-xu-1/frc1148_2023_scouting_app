@@ -120,7 +120,7 @@ class _Entrance extends State<Entrance> {
                         context, 
                         MaterialPageRoute
                         (
-                          builder: (context) => const LogIn(title: "log in"),
+                          builder: (context) => const LogIn(),
                         )
                       );
                     },  
@@ -206,9 +206,6 @@ class _Entrance extends State<Entrance> {
                 ],
               )
             ),
-            
-            
-            
           ],
 
         ),
