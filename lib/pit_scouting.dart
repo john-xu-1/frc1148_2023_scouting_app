@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart'; // For TapGestureRecognizer
 import 'package:url_launcher/url_launcher.dart';
+import 'entrance.dart';
 import 'sheetsHelper.dart';
 
 
@@ -247,7 +248,13 @@ class _pit_scouting extends State<pit_scouting> {
             ElevatedButton(
               onPressed: () {
                 _submitForm(0,0);
-
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute
+                  (
+                    builder: (context) => const Entrance()
+                  )
+                );
               },
               child: const Icon(Icons.send),
             )

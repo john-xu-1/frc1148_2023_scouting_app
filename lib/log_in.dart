@@ -160,7 +160,7 @@ class _log_in extends State<log_in> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("log in", textScaleFactor: 1.5,),
+        title: const Text("match scouting log in",),
         elevation: 21,
       ),
       body: Center(
