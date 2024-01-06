@@ -6,9 +6,9 @@ import 'sheets_helper.dart';
 
 
 String robotWeight="";
-bool one = false;
-bool two = false;
-String three = "";
+bool CapablityOne = false;
+bool CapablityTwo = false;
+String bumperQuality = "";
 bool fieldCapability = false;
 SheetsHelper sh = SheetsHelper();
 
@@ -36,7 +36,7 @@ class _PitScouting extends State<PitScouting> {
     try {
       final sheet = await sh.sheetSetup('PitScouting');
        // Writing data
-      final firstRow = [robotWeight, one, two, three, fieldCapability];
+      final firstRow = [robotWeight, CapablityOne, CapablityTwo, bumperQuality, fieldCapability];
       await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
       // prints [index, letter, number, label]
       print(await sheet.values.row(1));
@@ -138,11 +138,11 @@ class _PitScouting extends State<PitScouting> {
                   children: <Widget>[
                     Text(entries[1],textScaleFactor: 1.5,),
                     Checkbox(
-                    value: one,
+                    value: CapablityOne,
                     //color: Colors.amber[700],
                     onChanged: (newValue) {
                       setState(() {
-                        one = newValue!;
+                        CapablityOne = newValue!;
                       });
                     },
                   ),
@@ -159,11 +159,11 @@ class _PitScouting extends State<PitScouting> {
                   children: <Widget>[
                     Text(entries[2],textScaleFactor: 1.5,),
                     Checkbox(
-                    value: two,
+                    value: CapablityTwo,
                     //color: Colors.amber[700],
                     onChanged: (newValue) {
                       setState(() {
-                        two = newValue!;
+                        CapablityTwo = newValue!;
                       });
                     },
                   )
@@ -184,7 +184,7 @@ class _PitScouting extends State<PitScouting> {
                       width: width /3,
                       child: TextField(
                         onChanged: (String value) {
-                          three = (value);
+                          bumperQuality = (value);
                           print ("$value");
                         },
                       ),
