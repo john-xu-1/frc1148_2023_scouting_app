@@ -321,16 +321,15 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                 sf.missedCone = 0;
                 sf.missedCube = 0;
 
-                tp.topScoreCone = 0;
-                tp.midScoreCone = 0;
-                tp.lowScoreCone = 0;
-                tp.topScoreCube = 0;
-                tp.midScoreCube = 0;
-                tp.lowScoreCube = 0;
-                tp.tryParkTele = false;
-                tp.messUpParkTele = false;
-                tp.missedCone = 0;
-                tp.missedCube = 0;
+                tp.speakerPoints = 0;
+                tp.speakerAmpedCounter = 0;
+                tp.speakerNotAmpedCounter = 0;
+  
+                tp.ampPoints = 0;
+                tp.trapPoints = 0;
+
+                tp.missedS = 0;
+                tp.missedA = 0;
 
                 
 

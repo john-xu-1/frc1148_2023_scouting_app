@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'sheets_helper.dart';
 import 'entrance.dart';
 
+bool coopertition = false;
+
 String effectiveness1 = "";
 String effectiveness2 = "";
 String effectiveness3 = "";
@@ -28,6 +30,7 @@ class _LeadScouting extends State<LeadScouting> {
     'Enter Robot effectivness 5 is highest (1-5)',
     'Enter relative effectivness 1 is highest (1-3)',
     'Enter Notes on robot (strengths weaknesses ect.)',
+    'Did the alliance press Coopertition button',
   ];
 
   
@@ -36,7 +39,7 @@ class _LeadScouting extends State<LeadScouting> {
       final sheet = await sh.sheetSetup("Scouting Lead Notes"); // Replace with your sheet name    
 
        // Writing data
-      final firstRow = [effectiveness1, notes1, effectiveness2, notes2, effectiveness3, notes3, relPsdEffectiveness1, relPsdEffectiveness2 ,relPsdEffectiveness3];
+      final firstRow = [coopertition, effectiveness1, notes1, effectiveness2, notes2, effectiveness3, notes3, relPsdEffectiveness1, relPsdEffectiveness2 ,relPsdEffectiveness3];
       await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
 
       print(await sheet.values.row(1));
@@ -190,6 +193,31 @@ class _LeadScouting extends State<LeadScouting> {
               ),
             ),
           ),
+
+            const Divider(),
+            Container(
+              width: width,
+              height: height/5,
+              //color: Colors.red[300],
+              alignment: AlignmentDirectional.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text("Coopertition?",textScaleFactor: 1.5,),
+                  Checkbox(
+                    value: coopertition,
+                    //color: Colors.red[700],
+                    onChanged: (newValue) {
+                      setState(() {
+                        coopertition = newValue!;
+                      });
+                    },
+                  ),
+                ]
+              ),
+            ),
+            const Divider(),
 
             ElevatedButton(
               onPressed: () {
