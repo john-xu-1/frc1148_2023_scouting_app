@@ -120,7 +120,7 @@ void _addSpeaker (score){
     else if (score == "missed"){
       if (missedA >= 0) setState(() => missedA -= 1);
     }
-//   }
+   }
 
 //   void _minusCone (score){
 //     if (score == "top"){
@@ -218,7 +218,6 @@ void _addSpeaker (score){
   
   
 
-  
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -232,8 +231,227 @@ void _addSpeaker (score){
           ],
         ),
       ),
-    );
-      }
+      body: Center(
+        child: ListView(
+          children: <Widget>[
+            Row(
+              children: [
+                Column (
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [ 
+                    Container( 
+                      height: height/10,
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.50,
+                      //color: Colors.amber[100],
+                      child: Text("Speaker", textScaleFactor: 2.5,),
+                    ),
+                    Container(width: width/14, height: height/10, child: FittedBox(child: Text("$speakerPoints",textScaleFactor: 3.5,),),), 
+                    Container(
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      child: const Divider(),
+                    ),
+                    Container(
+                      height: height/3,
+                      width: width * 0.50,
+                      //color: Colors.amber[600],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              _addSpeaker("Amp"); 
+                            },
+                            style: IconButton.styleFrom(
+                                minimumSize: Size(width/2, height/10),
+                              ),
+                            icon: const Icon(Icons.arrow_upward)
+                          ) ,
+                          IconButton(
+                            onPressed: () {
+                              _minusSpeaker("Amp"); 
+                            },
+                            style: IconButton.styleFrom(
+                                minimumSize: Size(width/2, height/10),
+                              ),
+                            icon: const Icon(Icons.arrow_downward),
+                          )
+                        ]
+                      )
+                    ),
+                    Container(
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      child: const Divider(),
+                    ),
+                    Container(
+                      height: height/3,
+                      width: width * 0.50,
+                      //color: Colors.amber[400],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton (
+                              onPressed: () {
+                                _addSpeaker("reg"); 
+                              },
+                              style: IconButton.styleFrom(
+                                minimumSize: Size(width/2, height/10),
+                              ),
+                              icon: const Icon(Icons.arrow_upward),
+                          ),
+                          IconButton (
+                              onPressed: () {
+                                _minusSpeaker("reg"); 
+                              },
+                              style: IconButton.styleFrom(
+                                minimumSize: Size(width/2, height/10),
+                              ),
+                              icon: const Icon(Icons.arrow_downward),
+                          )
+                        ]
+                      )
+                    ),
+                    Container(
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      child: const Divider(),
+                    ),
+                    Container(
+                      height: height/3,
+                      width: width * 0.50,
+                      //color: Colors.amber[300],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              _addSpeaker("missed"); 
+                            },
+                            style: IconButton.styleFrom(
+                                minimumSize: Size(width/2, height/10),
+                              ),
+                            icon: const Icon(Icons.arrow_upward)
+                          ) ,
+                          ButtonTheme(
+                            minWidth: width/14,
+                            height: height/5,
+                            child: IconButton(
+                            onPressed: () {
+                              _minusSpeaker("missed"); 
+                            },
+                            style: IconButton.styleFrom(
+                                minimumSize: Size(width/2, height/10),
+                            ),
+                            icon: const Icon(Icons.arrow_downward),
+                          )
+                          ),
+
+
+
+
+
+                  Column (
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [ 
+                    Container( 
+                      height: height/10,
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.50,
+                      //color: Colors.amber[100],
+                      child: Text("Amp", textScaleFactor: 2.5,),
+                    ),
+                    Container(width: width/14, height: height/10, child: FittedBox(child: Text("$ampPoints",textScaleFactor: 3.5,),),), 
+                    Container(
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      child: const Divider(),
+                    ),
+                    Container(
+                      height: height/3,
+                      width: width * 0.50,
+                      //color: Colors.amber[600],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              _addAmp("reg"); 
+                            },
+                            style: IconButton.styleFrom(
+                                minimumSize: Size(width/2, height/10),
+                              ),
+                            icon: const Icon(Icons.arrow_upward)
+                          ) ,
+                          IconButton(
+                            onPressed: () {
+                              _minusAmp("erg"); 
+                            },
+                            style: IconButton.styleFrom(
+                                minimumSize: Size(width/2, height/10),
+                              ),
+                            icon: const Icon(Icons.arrow_downward),
+                          )
+                        ]
+                      )
+                    ),
+                    Container(
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      child: const Divider(),
+                    ),
+                    Container(
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      child: const Divider(),
+                    ),
+                    Container(
+                      height: height/3,
+                      width: width * 0.50,
+                      //color: Colors.amber[300],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              _addAmp("missed"); 
+                            },
+                            style: IconButton.styleFrom(
+                                minimumSize: Size(width/2, height/10),
+                              ),
+                            icon: const Icon(Icons.arrow_upward)
+                          ) ,
+                          ButtonTheme(
+                            minWidth: width/14,
+                            height: height/5,
+                            child: IconButton(
+                            onPressed: () {
+                              _minusAmp("missed"); 
+                            },
+                            style: IconButton.styleFrom(
+                                minimumSize: Size(width/2, height/10),
+                            ),
+                            icon: const Icon(Icons.arrow_downward),
+                          )
+                          ),                          
+
+
+
+
+
+
+
+
+                        ]
+                      )
+                    ),
+                  ]
+                ),
+]
+                      ))]
+  }
+}
 
 //   @override
 //   Widget build(BuildContext context) {
@@ -612,4 +830,4 @@ void _addSpeaker (score){
 //     );
 //   }
 // }
-  }
+}
