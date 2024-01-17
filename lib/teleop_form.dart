@@ -30,6 +30,9 @@ SheetsHelper sh = SheetsHelper();
   int missedS = 0;
   int missedA = 0;
 
+  bool tryParkTele = false;
+  bool messUpParkTele = false;
+
   // A  S
   // +  +
   // -  -
@@ -434,7 +437,63 @@ void _addSpeaker (score){
                             ),
                             icon: const Icon(Icons.arrow_downward),
                           )
-                          ),                          
+                          ),
+
+
+
+
+
+
+
+
+
+                          const Divider(),
+                    Container(
+                      width: width,
+                      height: height/5,
+                      //color: Colors.amber[300],
+                      alignment: AlignmentDirectional.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text("Try Parking?",textScaleFactor: 1.5,),
+                          Checkbox(
+                            value: tryParkTele,
+                            //color: Colors.amber[700],
+                            onChanged: (newValue) {
+                              setState(() {
+                                tryParkTele = newValue!;
+                              });
+                            },
+                          ),
+                        ]
+                      ),
+                    ),
+                    const Divider(),
+                    Container(
+                      width: width,
+                      height: height/5,
+                      //color Colors.amber[300],
+                      alignment: AlignmentDirectional.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text("Mess Up Parking?",textScaleFactor: 1.5,),
+                          Checkbox(
+                            value: messUpParkTele,
+                            //color Colors.amber[700],
+                            onChanged: (newValue) {
+                              setState(() {
+                                messUpParkTele = newValue!;
+                              });
+                            },
+                          ),
+                        ]
+                      ),
+                    ),
+
 
 
 
