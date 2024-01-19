@@ -54,24 +54,6 @@ class TeleopForm extends StatefulWidget {
 
 class _TeleopForm extends State<TeleopForm> {
 
-  
-// void _addCone (score){
-//     if (score == "top"){
-//       if (topScoreCone >= 0) setState(() => topScoreCone += 1);
-//       print (topScoreCone);
-
-//     }
-//     else if (score == "mid"){
-//       if (midScoreCone >= 0) setState(() => midScoreCone += 1);
-//       print (midScoreCone);
-//     }
-//     else if (score == "low"){
-//       if (lowScoreCone >= 0) setState(() => lowScoreCone += 1);
-//       print (lowScoreCone);
-//     }
-//     else if (score == "missed"){
-//       if (missedCone >= 0) setState(() => missedCone += 1);
-//     }
 
 void _addSpeaker (score){
     if (score == "reg"){
@@ -113,7 +95,7 @@ void _addSpeaker (score){
     else if (score == "missed"){
       if (missedA >= 0) setState(() => missedA += 1);
     }
-
+  }
   void _minusAmp (score){
     if (score == "reg"){
       if (ampPoints >= 0) setState(() => ampPoints -= 1);
@@ -124,64 +106,6 @@ void _addSpeaker (score){
       if (missedA >= 0) setState(() => missedA -= 1);
     }
    }
-
-//   void _minusCone (score){
-//     if (score == "top"){
-//       if (topScoreCone > 0) setState(() => topScoreCone -= 1);
-//       print (topScoreCone);
-
-//     }
-//     else if (score == "mid"){
-//       if (midScoreCone > 0) setState(() => midScoreCone -= 1);
-//       print (midScoreCone);
-//     }
-//     else if (score == "low"){
-//       if (lowScoreCone > 0) setState(() => lowScoreCone -= 1);
-//       print (lowScoreCone);
-//     }
-//     else if (score == "missed"){
-//       if (missedCone > 0) setState(() => missedCone -= 1);
-//     }
-//   }
-
-//   void _addCube (score){
-//     if (score == "top"){
-//       if (topScoreCube >= 0) setState(() => topScoreCube += 1);
-//       print (topScoreCube);
-
-//     }
-//     else if (score == "mid"){
-//       if (midScoreCube >= 0) setState(() => midScoreCube += 1);
-//       print (midScoreCube);
-//     }
-//     else if (score == "low"){
-//       if (lowScoreCube >= 0) setState(() => lowScoreCube += 1);
-//       print (lowScoreCube);
-//     }
-//     else if (score == "missed"){
-//       if (missedCube >= 0) setState(() => missedCube += 1);
-//     }
-    
-//   }
-
-//   void _minusCube (score){
-//     if (score == "top"){
-//       if (topScoreCube > 0) setState(() => topScoreCube -= 1);
-//       print (topScoreCube);
-
-//     }
-//     else if (score == "mid"){
-//       if (midScoreCube > 0) setState(() => midScoreCube -= 1);
-//       print (midScoreCube);
-//     }
-//     else if (score == "low"){
-//       if (lowScoreCube > 0) setState(() => lowScoreCube -= 1);
-//       print (lowScoreCube);
-//     }
-//     else if (score == "missed"){
-//       if (missedCube > 0) setState(() => missedCube -= 1);
-//     }
-//   }
   
 
   
@@ -200,12 +124,6 @@ void _addSpeaker (score){
 
 
       final sheet = await sh.sheetSetup("JohnTest");
-
-      // // Writing data
-      // final firstRow = [topScoreCone, midScoreCone, lowScoreCone, topScoreCube, midScoreCube, lowScoreCube, tryParkTele, messUpParkTele, missedCube];
-      // await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 10);
-      // // prints [index, letter, number, label]
-      // print(await sheet.values.row(1));
 
       // Writing data
       final firstRow = [speakerPoints, speakerAmpedCounter, speakerNotAmpedCounter, ampPoints, trapPoints, missedS, missedA];
@@ -236,7 +154,8 @@ void _addSpeaker (score){
       ),
       body: Center(
         child: ListView(
-          children: <Widget>[
+          children: <Widget>
+          [
             Row(
               children: [
                 Column (
@@ -247,18 +166,17 @@ void _addSpeaker (score){
                       alignment: AlignmentDirectional.center,
                       width: width * 0.50,
                       //color: Colors.amber[100],
-                      child: Text("Speaker", textScaleFactor: 2.5,),
+                      child: const Text("Speaker", textScaleFactor: 2.5,),
                     ),
-                    Container(width: width/14, height: height/10, child: FittedBox(child: Text("$speakerPoints",textScaleFactor: 3.5,),),), 
+                    SizedBox(width: width/14, height: height/10, child: FittedBox(child: Text("$speakerPoints",textScaleFactor: 3.5,),),), 
                     Container(
                       alignment: AlignmentDirectional.center,
                       width: width * 0.5,
                       child: const Divider(),
                     ),
-                    Container(
+                    SizedBox(
                       height: height/3,
                       width: width * 0.50,
-                      //color: Colors.amber[600],
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -288,7 +206,7 @@ void _addSpeaker (score){
                       width: width * 0.5,
                       child: const Divider(),
                     ),
-                    Container(
+                    SizedBox(
                       height: height/3,
                       width: width * 0.50,
                       //color: Colors.amber[400],
@@ -321,7 +239,15 @@ void _addSpeaker (score){
                       width: width * 0.5,
                       child: const Divider(),
                     ),
-                    Container(
+                    Container( 
+                      height: height/10,
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.50,
+                      //color: Colors.amber[100],
+                      child: const Text("Missed Speaker", textScaleFactor: 2,),
+                    ),
+                    SizedBox(width: width/14, height: height/10, child: FittedBox(child: Text("$missedS",textScaleFactor: 3.5),),), 
+                    SizedBox(
                       height: height/3,
                       width: width * 0.50,
                       //color: Colors.amber[300],
@@ -348,14 +274,14 @@ void _addSpeaker (score){
                                 minimumSize: Size(width/2, height/10),
                             ),
                             icon: const Icon(Icons.arrow_downward),
-                          )
+                            )
                           ),
-
-
-
-
-
-                  Column (
+                        ]
+                      )
+                    ),
+                  ], 
+                ),
+                Column (
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [ 
                     Container( 
@@ -363,15 +289,15 @@ void _addSpeaker (score){
                       alignment: AlignmentDirectional.center,
                       width: width * 0.50,
                       //color: Colors.amber[100],
-                      child: Text("Amp", textScaleFactor: 2.5,),
+                      child: const Text("Amp", textScaleFactor: 2.5,),
                     ),
-                    Container(width: width/14, height: height/10, child: FittedBox(child: Text("$ampPoints",textScaleFactor: 3.5,),),), 
+                    SizedBox(width: width/14, height: height/10, child: FittedBox(child: Text("$ampPoints",textScaleFactor: 3.5,),),), 
                     Container(
                       alignment: AlignmentDirectional.center,
                       width: width * 0.5,
                       child: const Divider(),
                     ),
-                    Container(
+                    SizedBox(
                       height: height/3,
                       width: width * 0.50,
                       //color: Colors.amber[600],
@@ -389,7 +315,7 @@ void _addSpeaker (score){
                           ) ,
                           IconButton(
                             onPressed: () {
-                              _minusAmp("erg"); 
+                              _minusAmp("reg"); 
                             },
                             style: IconButton.styleFrom(
                                 minimumSize: Size(width/2, height/10),
@@ -404,18 +330,14 @@ void _addSpeaker (score){
                       width: width * 0.5,
                       child: const Divider(),
                     ),
-                    Container(
-                      alignment: AlignmentDirectional.center,
-                      width: width * 0.5,
-                      child: const Divider(),
-                    ),
-                    Container(
+                    SizedBox(
                       height: height/3,
                       width: width * 0.50,
                       //color: Colors.amber[300],
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: 
+                        [
                           IconButton(
                             onPressed: () {
                               _addAmp("missed"); 
@@ -425,10 +347,7 @@ void _addSpeaker (score){
                               ),
                             icon: const Icon(Icons.arrow_upward)
                           ) ,
-                          ButtonTheme(
-                            minWidth: width/14,
-                            height: height/5,
-                            child: IconButton(
+                          IconButton(
                             onPressed: () {
                               _minusAmp("missed"); 
                             },
@@ -437,78 +356,85 @@ void _addSpeaker (score){
                             ),
                             icon: const Icon(Icons.arrow_downward),
                           )
-                          ),
-
-
-
-
-
-
-
-
-
-                          const Divider(),
-                    Container(
-                      width: width,
-                      height: height/5,
-                      //color: Colors.amber[300],
-                      alignment: AlignmentDirectional.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Text("Try Parking?",textScaleFactor: 1.5,),
-                          Checkbox(
-                            value: tryParkTele,
-                            //color: Colors.amber[700],
-                            onChanged: (newValue) {
-                              setState(() {
-                                tryParkTele = newValue!;
-                              });
-                            },
-                          ),
                         ]
                       ),
-                    ),
-                    const Divider(),
-                    Container(
-                      width: width,
-                      height: height/5,
-                      //color Colors.amber[300],
-                      alignment: AlignmentDirectional.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Text("Mess Up Parking?",textScaleFactor: 1.5,),
-                          Checkbox(
-                            value: messUpParkTele,
-                            //color Colors.amber[700],
-                            onChanged: (newValue) {
-                              setState(() {
-                                messUpParkTele = newValue!;
-                              });
-                            },
-                          ),
-                        ]
-                      ),
-                    ),
-
-
-
-
-
-
-
-
-
-                        ]
-                      )
                     ),
                   ]
-                ),
-]
-                      ))]
+                ),  
+              ]
+            ),
+            const Divider(),
+            Container(
+              width: width,
+              height: height/5,
+              //color: Colors.amber[300],
+              alignment: AlignmentDirectional.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text("Try Parking?",textScaleFactor: 1.5,),
+                  Checkbox(
+                    value: tryParkTele,
+                    //color: Colors.amber[700],
+                    onChanged: (newValue) {
+                      setState(() {
+                        tryParkTele = newValue!;
+                      });
+                    },
+                  ),
+                ]
+              ),
+            ),
+            const Divider(),
+            Container(
+              width: width,
+              height: height/5,
+              //color Colors.amber[300],
+              alignment: AlignmentDirectional.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text("Mess Up Parking?",textScaleFactor: 1.5,),
+                  Checkbox(
+                    value: messUpParkTele,
+                    //color Colors.amber[700],
+                    onChanged: (newValue) {
+                      setState(() {
+                        messUpParkTele = newValue!;
+                      });
+                    },
+                  ),
+                ]
+              ),
+            ),
+            ElevatedButton(
+              onPressed: (){
+                // subf.speed = 0;
+                subf.tippiness = 0;
+                // subf.roborating = 0;
+
+                subf.tip = false;
+                subf.defensive = false;
+                // subf.ally = false;
+                setState(() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute
+                    (
+                      builder: (context) => SubjectiveForm(teamName: widget.teamName)
+                    )
+                  );
+                });
+                _submitSection();
+              },
+              child: const Text("Next"),
+            )
+          ]
+        )
+      )
+    );
   }
 }
 
@@ -889,4 +815,4 @@ void _addSpeaker (score){
 //     );
 //   }
 // }
-}
+//}
