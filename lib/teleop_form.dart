@@ -135,7 +135,7 @@ void _minus (score){
       final sheet = await sh.sheetSetup("JohnTest");
 
       // Writing data
-      final firstRow = [speakerPoints, speakerAmpedCounter, speakerNotAmpedCounter, ampPoints, trapPoints, missedS, missedA];
+      final firstRow = [speakerPoints, speakerAmpedCounter, speakerNotAmpedCounter, ampPoints, trapPoints, missedS, missedA, missedT,tryParkTele,messUpParkTele];
       await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 10);
       // prints [index, letter, number, label]
       print(await sheet.values.row(1));
