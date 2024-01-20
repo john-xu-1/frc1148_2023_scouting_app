@@ -29,6 +29,7 @@ SheetsHelper sh = SheetsHelper();
 
   int missedS = 0;
   int missedA = 0;
+  int missedT = 0;
 
   bool tryParkTele = false;
   bool messUpParkTele = false;
@@ -54,59 +55,67 @@ class TeleopForm extends StatefulWidget {
 
 class _TeleopForm extends State<TeleopForm> {
 
-
-void _addSpeaker (score){
-    if (score == "reg"){
+void _add (score){
+  if (score == "regS"){
       if (speakerPoints >= 0) setState(() => speakerPoints += 2);
       speakerNotAmpedCounter+=1;
       print (speakerPoints);
 
     }
-    else if (score == "Amp"){
+    else if (score == "AmpS"){
       if (speakerPoints >= 0) setState(() => speakerPoints += 5);
       speakerAmpedCounter+=1;
       print (speakerPoints);
     }
-    else if (score == "missed"){
+    else if (score == "missedS"){
       if (missedS >= 0) setState(() => missedS += 1);
     }
-}
-  void _minusSpeaker (score){
-    if (score == "reg"){
-      if (speakerPoints >= 0) setState(() => speakerPoints -= 2);
-      print (speakerPoints);
-
-    }
-    else if (score == "Amp"){
-      if (speakerPoints >= 0) setState(() => speakerPoints -= 5);
-      print (speakerPoints);
-    }
-    else if (score == "missed"){
-      if (missedS >= 0) setState(() => missedS -= 1);
-    }
-  }
-
-  void _addAmp (score){
-    if (score == "reg"){
+    else if (score == "regA"){
       if (ampPoints >= 0) setState(() => ampPoints += 1);
       print (ampPoints);
 
     }
-    else if (score == "missed"){
+    else if (score == "missedA"){
       if (missedA >= 0) setState(() => missedA += 1);
     }
-  }
-  void _minusAmp (score){
-    if (score == "reg"){
-      if (ampPoints >= 0) setState(() => ampPoints -= 1);
+    else if (score == "trap"){
+      if (trapPoints>=0) setState(()=>trapPoints+=5);
+    }
+    else if (score == "missedT"){
+      if (missedT >= 0) setState(() => missedT += 1);
+    }
+}
+  
+void _minus (score){
+  if (score == "regS"){
+      if (speakerPoints >= 2) setState(() => speakerPoints -= 2);
+      speakerNotAmpedCounter-=1;
+      print (speakerPoints);
+
+    }
+    else if (score == "AmpS"){
+      if (speakerPoints >= 5) setState(() => speakerPoints -= 5);
+      speakerAmpedCounter-=1;
+      print (speakerPoints);
+    }
+    else if (score == "missedS"){
+      if (missedS >= 1) setState(() => missedS -= 1);
+    }
+    else if (score == "regA"){
+      if (ampPoints >= 1) setState(() => ampPoints -= 1);
       print (ampPoints);
 
     }
-    else if (score == "missed"){
-      if (missedA >= 0) setState(() => missedA -= 1);
+    else if (score == "missedA"){
+      if (missedA >= 1) setState(() => missedA -= 1);
     }
-   }
-  
+    else if (score == "trap"){
+      if (trapPoints>=5) setState(()=>trapPoints-=5);
+    }
+    else if (score == "missedT"){
+      if (missedT >= 1) setState(() => missedT -= 1);
+    }
+}
 
   
   
@@ -161,119 +170,128 @@ void _addSpeaker (score){
                 Column (
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [ 
+                    Row(
+                      children: [
                     Container( 
                       height: height/10,
                       alignment: AlignmentDirectional.center,
-                      width: width * 0.50,
+                      width: width * 0.25,
                       //color: Colors.amber[100],
                       child: const Text("Speaker", textScaleFactor: 2.5,),
                     ),
-                    SizedBox(width: width/14, height: height/10, child: FittedBox(child: Text("$speakerPoints",textScaleFactor: 3.5,),),), 
-                    Container(
-                      alignment: AlignmentDirectional.center,
-                      width: width * 0.5,
-                      child: const Divider(),
-                    ),
-                    SizedBox(
-                      height: height/3,
-                      width: width * 0.50,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              _addSpeaker("Amp"); 
-                            },
-                            style: IconButton.styleFrom(
-                                minimumSize: Size(width/2, height/10),
-                              ),
-                            icon: const Icon(Icons.arrow_upward)
-                          ) ,
-                          IconButton(
-                            onPressed: () {
-                              _minusSpeaker("Amp"); 
-                            },
-                            style: IconButton.styleFrom(
-                                minimumSize: Size(width/2, height/10),
-                              ),
-                            icon: const Icon(Icons.arrow_downward),
-                          )
-                        ]
-                      )
-                    ),
-                    Container(
-                      alignment: AlignmentDirectional.center,
-                      width: width * 0.5,
-                      child: const Divider(),
-                    ),
-                    SizedBox(
-                      height: height/3,
-                      width: width * 0.50,
-                      //color: Colors.amber[400],
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton (
+                     SizedBox(width: width/14, height: height/10, child: FittedBox(child: Text("$speakerPoints",textScaleFactor: 3.5,),),), 
+                    ],
+                  ),
+
+
+                    Row(
+                      children: [
+                
+              
+                      SizedBox(
+                        height: height/3,
+                        width: width * 0.25,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(width: width/2, height: height/20, child: FittedBox(child: Text("Amplified",textScaleFactor: 3.5),),), 
+                            IconButton(
                               onPressed: () {
-                                _addSpeaker("reg"); 
+                                _add("AmpS"); 
                               },
                               style: IconButton.styleFrom(
-                                minimumSize: Size(width/2, height/10),
-                              ),
-                              icon: const Icon(Icons.arrow_upward),
-                          ),
-                          IconButton (
+                                  minimumSize: Size(width/2, height/10),
+                                ),
+                              icon: const Text('+',textScaleFactor: 4,)
+                            ) ,
+                            IconButton(
                               onPressed: () {
-                                _minusSpeaker("reg"); 
+                                _minus("AmpS"); 
                               },
                               style: IconButton.styleFrom(
-                                minimumSize: Size(width/2, height/10),
-                              ),
-                              icon: const Icon(Icons.arrow_downward),
-                          )
-                        ]
-                      )
-                    ),
+                                  minimumSize: Size(width/8, height/40),
+                                ),
+                              icon: const Text('-',textScaleFactor: 2.5,)
+                            )
+                          ]
+                        )
+                      ),
+                      
+                      
+                      SizedBox(
+                        height: height/3,
+                        width: width * 0.25,
+                        //color: Colors.amber[400],
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(width: width/2, height: height/20, child: FittedBox(child: Text("Regular",textScaleFactor: 3.5),),),
+                            IconButton (
+                                onPressed: () {
+                                  _add("regS"); 
+                                },
+                                style: IconButton.styleFrom(
+                                  minimumSize: Size(width/2, height/10),
+                                ),
+                              icon: const Text('+',textScaleFactor: 4,)
+                            ),
+                            IconButton (
+                                onPressed: () {
+                                  _minus("regS"); 
+                                },
+                                style: IconButton.styleFrom(
+                                  minimumSize: Size(width/8, height/40),
+                                ),
+                              icon: const Text('-',textScaleFactor: 2.5,)
+                            )
+                          ]
+                        )
+                      ),
+                    ],
+                  ),
                     Container(
                       alignment: AlignmentDirectional.center,
                       width: width * 0.5,
                       child: const Divider(),
                     ),
+                    Row (
+                      children:[
                     Container( 
                       height: height/10,
                       alignment: AlignmentDirectional.center,
-                      width: width * 0.50,
+                      width: width * 0.25,
                       //color: Colors.amber[100],
                       child: const Text("Missed Speaker", textScaleFactor: 2,),
                     ),
-                    SizedBox(width: width/14, height: height/10, child: FittedBox(child: Text("$missedS",textScaleFactor: 3.5),),), 
+                    SizedBox(width: width/14, height: height/10, child: FittedBox(child: Text("$missedS",textScaleFactor: 3.5),),),
+                      ],),
                     SizedBox(
                       height: height/3,
                       width: width * 0.50,
                       //color: Colors.amber[300],
-                      child: Column(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
                             onPressed: () {
-                              _addSpeaker("missed"); 
+                              _add("missedS"); 
                             },
                             style: IconButton.styleFrom(
-                                minimumSize: Size(width/2, height/10),
+                                minimumSize: Size(width/4, height/10),
                               ),
-                            icon: const Icon(Icons.arrow_upward)
+                              icon: const Text('+',textScaleFactor: 4,)
                           ) ,
                           ButtonTheme(
                             minWidth: width/14,
                             height: height/5,
                             child: IconButton(
                             onPressed: () {
-                              _minusSpeaker("missed"); 
+                              _minus("missedS"); 
                             },
                             style: IconButton.styleFrom(
-                                minimumSize: Size(width/2, height/10),
+                                minimumSize: Size(width/8, height/40),
                             ),
-                            icon: const Icon(Icons.arrow_downward),
+                              icon: const Text('-',textScaleFactor: 2.5,)
                             )
                           ),
                         ]
@@ -281,88 +299,191 @@ void _addSpeaker (score){
                     ),
                   ], 
                 ),
+                
+                
+                
                 Column (
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [ 
+                    
                     Container( 
                       height: height/10,
                       alignment: AlignmentDirectional.center,
-                      width: width * 0.50,
+                      width: width * 0.5,
                       //color: Colors.amber[100],
                       child: const Text("Amp", textScaleFactor: 2.5,),
                     ),
-                    SizedBox(width: width/14, height: height/10, child: FittedBox(child: Text("$ampPoints",textScaleFactor: 3.5,),),), 
-                    Container(
-                      alignment: AlignmentDirectional.center,
-                      width: width * 0.5,
-                      child: const Divider(),
-                    ),
+                     
+                    
+                    Row(children: [
+
+                    
                     SizedBox(
                       height: height/3,
-                      width: width * 0.50,
+                      width: width * 0.25,
                       //color: Colors.amber[600],
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              _addAmp("reg"); 
-                            },
-                            style: IconButton.styleFrom(
-                                minimumSize: Size(width/2, height/10),
-                              ),
-                            icon: const Icon(Icons.arrow_upward)
-                          ) ,
-                          IconButton(
-                            onPressed: () {
-                              _minusAmp("reg"); 
-                            },
-                            style: IconButton.styleFrom(
-                                minimumSize: Size(width/2, height/10),
-                              ),
-                            icon: const Icon(Icons.arrow_downward),
+                          children: [
+                            Row(
+                              children:[
+                            SizedBox(width: width/8, height: height/20, child: FittedBox(child: Text("Points",textScaleFactor: 3.5),),),
+                            SizedBox(width: width/8, height: height/15, child: FittedBox(child: Text("$ampPoints",textScaleFactor: 3.5,),),), 
+                              ],),
+                            IconButton(
+                              onPressed: () {
+                                _add("regA"); 
+                              },
+                              style: IconButton.styleFrom(
+                                  minimumSize: Size(width/2, height/10),
+                                ),
+                              icon: const Text('+',textScaleFactor: 4,)
+                            ) ,
+                            IconButton(
+                              onPressed: () {
+                                _minus("regA"); 
+                              },
+                              style: IconButton.styleFrom(
+                                  minimumSize: Size(width/8, height/40),
+                                ),
+                              icon: const Text('-',textScaleFactor: 2.5,)
                           )
                         ]
                       )
                     ),
-                    Container(
-                      alignment: AlignmentDirectional.center,
-                      width: width * 0.5,
-                      child: const Divider(),
-                    ),
                     SizedBox(
                       height: height/3,
-                      width: width * 0.50,
+                      width: width * 0.25,
                       //color: Colors.amber[300],
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: 
-                        [
-                          IconButton(
-                            onPressed: () {
-                              _addAmp("missed"); 
-                            },
-                            style: IconButton.styleFrom(
-                                minimumSize: Size(width/2, height/10),
-                              ),
-                            icon: const Icon(Icons.arrow_upward)
-                          ) ,
-                          IconButton(
-                            onPressed: () {
-                              _minusAmp("missed"); 
-                            },
-                            style: IconButton.styleFrom(
-                                minimumSize: Size(width/2, height/10),
+                         mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                          Row(
+                              children:[
+                            SizedBox(width: width/8, height: height/20, child: FittedBox(child: Text("Missed",textScaleFactor: 3.5),),),
+                            SizedBox(width: width/8, height: height/15, child: FittedBox(child: Text("$missedA",textScaleFactor: 3.5,),),), 
+                              ],),                            IconButton (
+                                onPressed: () {
+                                  _add("missedA"); 
+                                },
+                                style: IconButton.styleFrom(
+                                  minimumSize: Size(width/2, height/10),
+                                ),
+                              icon: const Text('+',textScaleFactor: 4,)
                             ),
-                            icon: const Icon(Icons.arrow_downward),
+                            IconButton (
+                                onPressed: () {
+                                  _minus("missedA"); 
+                                },
+                                style: IconButton.styleFrom(
+                                  minimumSize: Size(width/8, height/40),
+                                ),
+                              icon: const Text('-',textScaleFactor: 2.5,)
                           )
                         ]
                       ),
                     ),
+                    ],
+                    ),
+                  Container(
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      child: const Divider(),
+                    ),
+                  
+                    Container( 
+                      height: height/10,
+                      alignment: AlignmentDirectional.center,
+                      width: width * 0.5,
+                      //color: Colors.amber[100],
+                      child: const Text("Trap", textScaleFactor: 2.5,),
+                    ),
+                    
+
+                      Row(
+                        children:[
+                    SizedBox(
+                      height: height/3,
+                      width: width * 0.25,
+                      //color: Colors.amber[300],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                              children:[
+                            SizedBox(width: width/8, height: height/20, child: FittedBox(child: Text("Points",textScaleFactor: 3.5),),),
+                            SizedBox(width: width/8, height: height/15, child: FittedBox(child: Text("$trapPoints",textScaleFactor: 3.5,),),), 
+                              ],),
+                          IconButton(
+                            onPressed: () {
+                              _add("trap"); 
+                            },
+                            style: IconButton.styleFrom(
+                                minimumSize: Size(width/4, height/10),
+                              ),
+                              icon: const Text('+',textScaleFactor: 4,)
+                          ) ,
+                          ButtonTheme(
+                            minWidth: width/14,
+                            height: height/5,
+                            child: IconButton(
+                            onPressed: () {
+                              _minus("trap"); 
+                            },
+                            style: IconButton.styleFrom(
+                                minimumSize: Size(width/8, height/40),
+                            ),
+                              icon: const Text('-',textScaleFactor: 2.5,)
+                            )
+                          ),
+                          
+                        ]
+                      ),
+                    ),
+                   
+                   //
+                   SizedBox(
+                      height: height/3,
+                      width: width * 0.25,
+                      //color: Colors.amber[300],
+                      child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              children:[
+                            SizedBox(width: width/8, height: height/20, child: FittedBox(child: Text("Missed",textScaleFactor: 3.5),),),
+                            SizedBox(width: width/8, height: height/15, child: FittedBox(child: Text("$missedT",textScaleFactor: 3.5,),),), 
+                              ],),                            IconButton (
+                                onPressed: () {
+                                  _add("missedT"); 
+                                },
+                                style: IconButton.styleFrom(
+                                  minimumSize: Size(width/2, height/10),
+                                ),
+                              icon: const Text('+',textScaleFactor: 4,)
+                            ),
+                            IconButton (
+                                onPressed: () {
+                                  _minus("missedT"); 
+                                },
+                                style: IconButton.styleFrom(
+                                  minimumSize: Size(width/8, height/40),
+                                ),
+                              icon: const Text('-',textScaleFactor: 2.5,)
+                          )
+                        ]
+                      ),
+                    ),
+                    //
+                  ],),
+                    //
+                    //
                   ]
                 ),  
               ]
             ),
+ 
+
             const Divider(),
             Container(
               width: width,
