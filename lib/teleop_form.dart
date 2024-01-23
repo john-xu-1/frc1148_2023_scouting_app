@@ -177,7 +177,7 @@ void _minus (score){
                       alignment: AlignmentDirectional.center,
                       width: width * 0.25,
                       //color: Colors.amber[100],
-                      child: const Text("Speaker", textScaleFactor: 2.5,),
+                      child: const Text("Speaker", textScaleFactor: 1.5,),
                     ),
                      SizedBox(width: width/14, height: height/10, child: FittedBox(child: Text("$speakerPoints",textScaleFactor: 3.5,),),), 
                     ],
@@ -194,7 +194,7 @@ void _minus (score){
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(width: width/2, height: height/20, child: FittedBox(child: Text("Amplified",textScaleFactor: 3.5),),), 
+                            SizedBox(width: width/6, height: height/20, child: FittedBox(child: Text("Amplified",textScaleFactor: 0.75),),), 
                             IconButton(
                               onPressed: () {
                                 _add("AmpS"); 
@@ -225,7 +225,7 @@ void _minus (score){
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(width: width/2, height: height/20, child: FittedBox(child: Text("Regular",textScaleFactor: 3.5),),),
+                            SizedBox(width: width/6, height: height/20, child: FittedBox(child: Text("Regular",textScaleFactor: 0.5),),),
                             IconButton (
                                 onPressed: () {
                                   _add("regS"); 
@@ -251,7 +251,7 @@ void _minus (score){
                   ),
                     Container(
                       alignment: AlignmentDirectional.center,
-                      width: width * 0.5,
+                      width: width * 0.45,
                       child: const Divider(),
                     ),
                     Row (
@@ -261,13 +261,13 @@ void _minus (score){
                       alignment: AlignmentDirectional.center,
                       width: width * 0.25,
                       //color: Colors.amber[100],
-                      child: const Text("Missed Speaker", textScaleFactor: 2,),
+                      child: const Text("Missed Speaker", textScaleFactor: 1.5,),
                     ),
                     SizedBox(width: width/14, height: height/10, child: FittedBox(child: Text("$missedS",textScaleFactor: 3.5),),),
                       ],),
                     SizedBox(
                       height: height/3,
-                      width: width * 0.50,
+                      width: width * 0.45,
                       //color: Colors.amber[300],
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -301,17 +301,24 @@ void _minus (score){
                 ),
                 
                 
-                
                 Column (
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [ 
-                    
+                    Container(
+                      height:height,
+                      child: const VerticalDivider(),
+                    ),],),
+                
+                Column (
+                  
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [ 
                     Container( 
                       height: height/10,
                       alignment: AlignmentDirectional.center,
-                      width: width * 0.5,
+                      width: width * 0.4,
                       //color: Colors.amber[100],
-                      child: const Text("Amp", textScaleFactor: 2.5,),
+                      child: const Text("Amp", textScaleFactor: 1.5,),
                     ),
                      
                     
@@ -327,8 +334,8 @@ void _minus (score){
                           children: [
                             Row(
                               children:[
-                            SizedBox(width: width/8, height: height/20, child: FittedBox(child: Text("Points",textScaleFactor: 3.5),),),
-                            SizedBox(width: width/8, height: height/15, child: FittedBox(child: Text("$ampPoints",textScaleFactor: 3.5,),),), 
+                            SizedBox(width: width/10, height: height/20, child: FittedBox(child: Text("Points",textScaleFactor: 3.5),),),
+                            SizedBox(width: width/10, height: height/15, child: FittedBox(child: Text("$ampPoints",textScaleFactor: 3.5,),),), 
                               ],),
                             IconButton(
                               onPressed: () {
@@ -353,21 +360,21 @@ void _minus (score){
                     ),
                     SizedBox(
                       height: height/3,
-                      width: width * 0.25,
+                      width: width * 0.2,
                       //color: Colors.amber[300],
                       child: Column(
                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                           Row(
                               children:[
-                            SizedBox(width: width/8, height: height/20, child: FittedBox(child: Text("Missed",textScaleFactor: 3.5),),),
-                            SizedBox(width: width/8, height: height/15, child: FittedBox(child: Text("$missedA",textScaleFactor: 3.5,),),), 
+                            SizedBox(width: width/10, height: height/20, child: FittedBox(child: Text("Missed",textScaleFactor: 3.5),),),
+                            SizedBox(width: width/10, height: height/15, child: FittedBox(child: Text("$missedA",textScaleFactor: 3.5,),),), 
                               ],),                            IconButton (
                                 onPressed: () {
                                   _add("missedA"); 
                                 },
                                 style: IconButton.styleFrom(
-                                  minimumSize: Size(width/2, height/10),
+                                  minimumSize: Size(width/8, height/10),
                                 ),
                               icon: const Text('+',textScaleFactor: 4,)
                             ),
@@ -387,14 +394,14 @@ void _minus (score){
                     ),
                   Container(
                       alignment: AlignmentDirectional.center,
-                      width: width * 0.5,
+                      width: width * 0.4,
                       child: const Divider(),
                     ),
                   
                     Container( 
                       height: height/10,
                       alignment: AlignmentDirectional.center,
-                      width: width * 0.5,
+                      width: width * 0.4,
                       //color: Colors.amber[100],
                       child: const Text("Trap", textScaleFactor: 2.5,),
                     ),
@@ -411,15 +418,15 @@ void _minus (score){
                         children: [
                           Row(
                               children:[
-                            SizedBox(width: width/8, height: height/20, child: FittedBox(child: Text("Points",textScaleFactor: 3.5),),),
-                            SizedBox(width: width/8, height: height/15, child: FittedBox(child: Text("$trapPoints",textScaleFactor: 3.5,),),), 
+                            SizedBox(width: width/10, height: height/20, child: FittedBox(child: Text("Points",textScaleFactor: 3.5),),),
+                            SizedBox(width: width/10, height: height/15, child: FittedBox(child: Text("$trapPoints",textScaleFactor: 3.5,),),), 
                               ],),
                           IconButton(
                             onPressed: () {
                               _add("trap"); 
                             },
                             style: IconButton.styleFrom(
-                                minimumSize: Size(width/4, height/10),
+                                minimumSize: Size(width/5, height/10),
                               ),
                               icon: const Text('+',textScaleFactor: 4,)
                           ) ,
@@ -444,21 +451,21 @@ void _minus (score){
                    //
                    SizedBox(
                       height: height/3,
-                      width: width * 0.25,
+                      width: width * 0.2,
                       //color: Colors.amber[300],
                       child: Column(
                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Row(
                               children:[
-                            SizedBox(width: width/8, height: height/20, child: FittedBox(child: Text("Missed",textScaleFactor: 3.5),),),
-                            SizedBox(width: width/8, height: height/15, child: FittedBox(child: Text("$missedT",textScaleFactor: 3.5,),),), 
+                            SizedBox(width: width/10, height: height/20, child: FittedBox(child: Text("Missed",textScaleFactor: 3.5),),),
+                            SizedBox(width: width/10, height: height/15, child: FittedBox(child: Text("$missedT",textScaleFactor: 3.5,),),), 
                               ],),                            IconButton (
                                 onPressed: () {
                                   _add("missedT"); 
                                 },
                                 style: IconButton.styleFrom(
-                                  minimumSize: Size(width/2, height/10),
+                                  minimumSize: Size(width/5, height/10),
                                 ),
                               icon: const Text('+',textScaleFactor: 4,)
                             ),
@@ -467,7 +474,7 @@ void _minus (score){
                                   _minus("missedT"); 
                                 },
                                 style: IconButton.styleFrom(
-                                  minimumSize: Size(width/8, height/40),
+                                  minimumSize: Size(width/10, height/40),
                                 ),
                               icon: const Text('-',textScaleFactor: 2.5,)
                           )
