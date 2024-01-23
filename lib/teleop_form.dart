@@ -501,7 +501,7 @@ void _minus (score){
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text("Try Parking?",textScaleFactor: 1.5,),
+                  const Text("Try Hanging?",textScaleFactor: 1.5,),
                   Checkbox(
                     value: tryParkTele,
                     //color: Colors.amber[700],
@@ -524,7 +524,7 @@ void _minus (score){
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text("Mess Up Parking?",textScaleFactor: 1.5,),
+                  const Text("Mess Up Hanging?",textScaleFactor: 1.5,),
                   Checkbox(
                     value: messUpParkTele,
                     //color Colors.amber[700],
