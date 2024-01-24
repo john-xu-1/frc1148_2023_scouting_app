@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/entrance.dart';
-import 'teleop_form.dart';
+import 'auto_form.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
-      home: TeleopForm(teamName: "1148"),//const Entrance(),
+      home: AutoForm(teamName: "1148"),//const Entrance(),
     );
   }
 }
