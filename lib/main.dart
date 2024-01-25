@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
-      home: AutoForm(teamName: "1148"),//const Entrance(),
+      home: const Entrance(),
     );
   }
 }

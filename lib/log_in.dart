@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/lead_scouting.dart';
-import 'package:frc1148_2023_scouting_app/scouting_form.dart';
+import 'package:frc1148_2023_scouting_app/auto_form.dart';
 import 'sheets_helper.dart';
 
 SheetsHelper sh = SheetsHelper();
@@ -193,7 +193,7 @@ class _LogIn extends State<LogIn> {
                       context, 
                       MaterialPageRoute
                       (
-                        builder: (context) => ScoutingForm(teamName: out)
+                        builder: (context) => AutoForm(teamName: out)
                       )
                     );
                   }
