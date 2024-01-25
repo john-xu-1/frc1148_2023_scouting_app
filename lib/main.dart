@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/entrance.dart';
-import 'auto_form.dart';
 
 void main() {
   runApp(const MyApp());
