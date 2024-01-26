@@ -15,8 +15,6 @@ bool tryParkAuto = false;
 int missedCone = 0;
 int missedCube = 0;
 
-SheetsHelper sh = SheetsHelper();
-
 class ScoutingForm extends StatefulWidget {
   const ScoutingForm({super.key, required this.teamName});
   final String teamName;
@@ -116,7 +114,7 @@ class _ScoutingForm extends State<ScoutingForm> {
   Future<void> _submitSection() async {
     try {
 
-      final sheet = await sh.sheetSetup("JohnTest"); 
+      final sheet = await SheetsHelper.sheetSetup("JohnTest"); 
 
       // Writing data
       final firstRow = [topScoreCone, midScoreCone, lowScoreCone, topScoreCube, midScoreCube, lowScoreCube, tryParkAuto, missedCube];

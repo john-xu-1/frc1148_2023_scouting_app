@@ -2,7 +2,7 @@ import 'package:gsheets/gsheets.dart';
 
 class SheetsHelper{
 
-  final _creds = r'''
+  static const _creds = r'''
   {
     "type": "service_account",
     "project_id": "frc-scouting-spreadsheet",
@@ -20,7 +20,7 @@ class SheetsHelper{
 
   
 
-  Future<Worksheet?> sheetSetup(String name ) async {
+  static Future<Worksheet?> sheetSetup(String name ) async {
     final gsheets = GSheets(_creds);
     final ss = await gsheets.spreadsheet('1C4_kygqZTOo3uue3eBxrMV9b_3UJVuDiOVZqAeGHvzE');
     final sheet = ss.worksheetByTitle(name); 

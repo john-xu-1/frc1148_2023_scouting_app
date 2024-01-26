@@ -12,8 +12,6 @@ import 'teleop_form.dart' as tp;
   bool robotBreak = false;
   bool defensive = false;
 
-  SheetsHelper sh = SheetsHelper();
-
 
 class SubjectiveForm extends StatefulWidget {
   const SubjectiveForm({super.key, required this.teamName});
@@ -46,7 +44,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
   Future<void> _submitSection() async {
     try {
 
-      final sheet = await sh.sheetSetup("JohnTest"); 
+      final sheet = await SheetsHelper.sheetSetup("JohnTest"); 
 
       // Writing data
       

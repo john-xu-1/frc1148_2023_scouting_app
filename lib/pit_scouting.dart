@@ -10,7 +10,6 @@ bool CapablityOne = false;
 bool CapablityTwo = false;
 String bumperQuality = "";
 bool fieldCapability = false;
-SheetsHelper sh = SheetsHelper();
 
 
 class PitScouting extends StatefulWidget {
@@ -34,7 +33,7 @@ class _PitScouting extends State<PitScouting> {
   
   Future<void> _submitForm(column, row) async {
     try {
-      final sheet = await sh.sheetSetup('PitScouting');
+      final sheet = await SheetsHelper.sheetSetup('PitScouting');
        // Writing data
       final firstRow = [robotWeight, CapablityOne, CapablityTwo, bumperQuality, fieldCapability];
       await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);

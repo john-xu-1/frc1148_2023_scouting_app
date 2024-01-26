@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'team_display_instance.dart';
 import 'sheets_helper.dart';
 
-SheetsHelper sh = SheetsHelper();
-
 class TeamDisplayChoice extends StatefulWidget {
   const TeamDisplayChoice({super.key});
 
@@ -21,7 +19,7 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
 
   Future<void> _updateTeams() async {
     try {
-      final sheet = await sh.sheetSetup("PowerRatings.py");
+      final sheet = await SheetsHelper.sheetSetup("PowerRatings.py");
 
       allTeams = await sheet!.values.column(1);
       allTeams = allTeams.sublist(1);

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'teleop_form.dart';
 import 'sheets_helper.dart';
-SheetsHelper sh = SheetsHelper();
 
 
 class AutoForm extends StatefulWidget {
@@ -17,7 +16,7 @@ class _AutoForm extends State<AutoForm> {
   Future<void> _submitSection() async {
     try {
 
-      final sheet = await sh.sheetSetup("JohnTest"); 
+      final sheet = await SheetsHelper.sheetSetup("JohnTest"); 
 
       // Writing data
       final firstRow = [autoPath];

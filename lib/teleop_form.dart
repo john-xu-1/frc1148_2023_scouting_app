@@ -3,8 +3,6 @@ import 'package:frc1148_2023_scouting_app/subjective_form.dart';
 import 'sheets_helper.dart';
 import 'subjective_form.dart' as subf;
 
-SheetsHelper sh = SheetsHelper();
-
 
   // int topScoreCone = 0;
   // int midScoreCone = 0;
@@ -132,7 +130,7 @@ void _minus (score){
       // final sheet = ss.worksheetByTitle('JohnTest');
 
 
-      final sheet = await sh.sheetSetup("JohnTest");
+      final sheet = await SheetsHelper.sheetSetup("JohnTest");
 
       // Writing data
       final firstRow = [speakerPoints, speakerAmpedCounter, speakerNotAmpedCounter, ampPoints, trapPoints, missedS, missedA, missedT,tryParkTele,messUpParkTele];

@@ -16,8 +16,6 @@ String notes1 = "";
 String notes2 = "";
 String notes3 = "";
 
-SheetsHelper sh = SheetsHelper();
-
 class LeadScouting extends StatefulWidget {
   const LeadScouting({super.key, required this.teamName});
   final String teamName;
@@ -36,7 +34,7 @@ class _LeadScouting extends State<LeadScouting> {
   
   Future<void> _submitForm() async {
     try {
-      final sheet = await sh.sheetSetup("Scouting Lead Notes"); // Replace with your sheet name    
+      final sheet = await SheetsHelper.sheetSetup("Scouting Lead Notes"); // Replace with your sheet name    
 
        // Writing data
       final firstRow = [coopertition, effectiveness1, notes1, effectiveness2, notes2, effectiveness3, notes3, relPsdEffectiveness1, relPsdEffectiveness2 ,relPsdEffectiveness3];

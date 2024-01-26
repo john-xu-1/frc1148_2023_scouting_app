@@ -3,8 +3,6 @@ import 'package:frc1148_2023_scouting_app/lead_scouting.dart';
 import 'package:frc1148_2023_scouting_app/auto_form.dart';
 import 'sheets_helper.dart';
 
-SheetsHelper sh = SheetsHelper();
-
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
   @override
@@ -29,7 +27,7 @@ class _LogIn extends State<LogIn> {
 
   Future<String> _fetchForm(column, row) async {
     try {
-      final sheet = await sh.sheetSetup('Scouting Assignment'); // Replace with your sheet name    
+      final sheet = await SheetsHelper.sheetSetup('Scouting Assignment'); // Replace with your sheet name    
 
       // Writing data
       final cell = await sheet?.cells.cell(column: column, row: row);
