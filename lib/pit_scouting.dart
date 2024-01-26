@@ -22,11 +22,11 @@ class PitScouting extends StatefulWidget {
 
 class _PitScouting extends State<PitScouting> {
   final List<String> entries = <String>[
-    'Enter Robot Weight (lbs)',
-    'Enter Robot score Capablity #1',
-    'Enter Robot score Capablity #2',
+    'Enter Robot Weight (lbs)',//maybe not, add can score in trap
+    'Can score in Amp',
+    'Can score in speaker',
     'Enter Robot bumper quality',
-    'Maneuverability on field Capability',
+    'Maneuverability on field Capability(under stage)',
   ];
 
 
