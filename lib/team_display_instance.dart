@@ -104,22 +104,27 @@ class DataBlock extends StatelessWidget {
   final String data;
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-            color: Colors.amber,
-            child: Column(
-              children: [
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("$category: "),
+          height: height/8,
+          color: Color.fromARGB(255, 231, 148, 142),
+          child: Column(
+            children: [
+              //const Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("$category: "),
                     Text(data),
-                  ],
-                ),
-                const Divider(),
-              ],
-            )));
+                ],
+              ),
+                //const Divider(),
+            ],
+          )
+        )
+      );
   }
 }
