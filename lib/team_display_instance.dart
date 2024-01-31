@@ -59,6 +59,7 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     if (dataSet.isEmpty || dataNames.isEmpty) {
       return const SafeArea(
         child: Scaffold(
@@ -84,7 +85,10 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
             return DataBlock(category: dataNames[index], data: dataSet[index]);
           },
           separatorBuilder: (BuildContext context, int index) =>
-              const Divider(),
+              Container(
+                alignment: AlignmentDirectional.center,
+                height: height / 150,
+              ),
         ))
 
         // Column(
@@ -110,18 +114,29 @@ class DataBlock extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         child: Container(
           height: height/8,
-          color: Color.fromARGB(255, 231, 148, 142),
+           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+            color: Color.fromRGBO(86, 14, 12, 0.982)),
           child: Column(
             children: [
               //const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("$category: "),
-                    Text(data),
-                ],
+              SizedBox(
+                height: height/20,
+                width: width,
               ),
-                //const Divider(),
+              Container(
+                //color: Color.fromARGB(255, 192, 180, 180),
+                width:width/2,
+                decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(20),
+                  color: Color.fromARGB(255, 204, 191, 191),),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("$category: ",textScaleFactor: 1.5,style: TextStyle(color: Color.fromRGBO(244, 11, 3, 1))),
+                      Text(data,textScaleFactor: 1.5,style: TextStyle(color: Color.fromRGBO(244, 11, 3, 1))),
+                    ],
+                ),
+              ),
             ],
           )
         )
