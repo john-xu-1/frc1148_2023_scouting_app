@@ -51,7 +51,7 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
             body: Center(
               child: Text(
                 "loading",
-                style: TextStyle(color: Color.fromARGB(255, 224, 224, 224)),
+                style: TextStyle(color: Color.fromARGB(255, 245, 241, 241)),
               ),
             )),
       );
@@ -69,7 +69,7 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
             return Container(
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(20),
-                  color: Color.fromARGB(255, 192, 180, 180),),
+                  color: Color.fromARGB(255, 181, 179, 179),),
               child: Row(
                 children: [
                   SizedBox(

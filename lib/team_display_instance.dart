@@ -115,12 +115,14 @@ class DataBlock extends StatelessWidget {
         child: Container(
           height: height/8,
            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
-            color: Color.fromRGBO(86, 14, 12, 0.982)),
+            //color: Color.fromRGBO(86, 14, 12, 0.982)),
+            //color: Color.fromARGB(255, 45, 44, 44)),
+            color: Color.fromARGB(255, 184, 180, 180)),
           child: Column(
             children: [
               //const Divider(),
               SizedBox(
-                height: height/20,
+                height: height/25,
                 width: width,
               ),
               Container(
@@ -128,12 +130,13 @@ class DataBlock extends StatelessWidget {
                 width:width/2,
                 decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(20),
-                  color: Color.fromARGB(255, 204, 191, 191),),
+                  //color: Color.fromARGB(255, 204, 191, 191),),
+                  color: Color.fromARGB(255, 248, 245, 245),),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("$category: ",textScaleFactor: 1.5,style: TextStyle(color: Color.fromRGBO(244, 11, 3, 1))),
-                      Text(data,textScaleFactor: 1.5,style: TextStyle(color: Color.fromRGBO(244, 11, 3, 1))),
+                      Text("$category: ",textScaleFactor: 1.5,style: TextStyle(color: Color.fromRGBO(189, 46, 46, 1))),
+                      Text(data,textScaleFactor: 1.5,style: TextStyle( color: Color.fromRGBO(189, 46, 46, 1))),
                     ],
                 ),
               ),
