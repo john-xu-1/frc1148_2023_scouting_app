@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/scouting_form.dart';
 import 'package:frc1148_2023_scouting_app/sheets_helper.dart';
+import 'package:frc1148_2023_scouting_app/color_scheme.dart';
+
 
 List<ScoutingForm> sf = List.empty();
 SheetsHelper sh = SheetsHelper();
@@ -117,7 +119,7 @@ class DataBlock extends StatelessWidget {
            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
             //color: Color.fromRGBO(86, 14, 12, 0.982)),
             //color: Color.fromARGB(255, 45, 44, 44)),
-            color: Color.fromARGB(255, 184, 180, 180)),
+            color: colors.myOnBackground),
           child: Column(
             children: [
               //const Divider(),
@@ -131,12 +133,12 @@ class DataBlock extends StatelessWidget {
                 decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(20),
                   //color: Color.fromARGB(255, 204, 191, 191),),
-                  color: Color.fromARGB(255, 248, 245, 245),),
+                  color: colors.myPrimaryColor,),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("$category: ",textScaleFactor: 1.5,style: TextStyle(color: Color.fromRGBO(189, 46, 46, 1))),
-                      Text(data,textScaleFactor: 1.5,style: TextStyle( color: Color.fromRGBO(189, 46, 46, 1))),
+                      Text("$category: ",textScaleFactor: 1.5,style: TextStyle(color: colors.myOnPrimary)),
+                      Text(data,textScaleFactor: 1.5,style: TextStyle( color: colors.myOnPrimary)),
                     ],
                 ),
               ),

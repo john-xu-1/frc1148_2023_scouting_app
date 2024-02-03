@@ -2,6 +2,7 @@
 import 'package:frc1148_2023_scouting_app/team_display_choice.dart';
 import 'package:frc1148_2023_scouting_app/log_in.dart';
 import 'pit_scouting.dart';
+import 'package:frc1148_2023_scouting_app/color_scheme.dart';
 import 'package:flutter/material.dart';
 
 
@@ -38,7 +39,7 @@ class _Entrance extends State<Entrance> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Selection Menu"),
-        backgroundColor: Color.fromARGB(19, 137, 137, 137),
+        backgroundColor: colors.myBackground,
       ),
       body: Center(
       //   child: DropdownMenu<ColorLabel>(
