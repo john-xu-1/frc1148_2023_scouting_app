@@ -67,7 +67,7 @@ class _Entrance extends State<Entrance> {
       //     }).toList(),
       //   ),
         child: Container(
-          color: Colors.white,
+          color: colors.myPrimaryColor,
           child: GridView.count(
           crossAxisCount: 2,
           padding: const EdgeInsets.all(10),
@@ -79,7 +79,8 @@ class _Entrance extends State<Entrance> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(60.0),
                 ),
-                color: Color.fromARGB(20, 62, 62, 62)
+                //color: Color.fromARGB(20, 62, 62, 62)
+                color: colors.myOnBackground
               ),
               //color: Colors.grey,
               child: Column(
@@ -108,7 +109,8 @@ class _Entrance extends State<Entrance> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(60.0),
                 ),
-                color: Color.fromARGB(20, 62, 62, 62)
+                //color: Color.fromARGB(20, 62, 62, 62)
+                color: colors.myOnBackground
               ),
               //color: Colors.grey,
               child: Column(
@@ -138,7 +140,8 @@ class _Entrance extends State<Entrance> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(60.0),
                 ),
-                color: Color.fromARGB(20, 62, 62, 62)
+                //color: Color.fromARGB(20, 62, 62, 62)
+                color: colors.myOnBackground
               ),
               //color: Colors.grey,
               child: Column(
@@ -187,7 +190,8 @@ class _Entrance extends State<Entrance> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(60.0),
                 ),
-                color: Color.fromARGB(20, 62, 62, 62)
+                //color: Color.fromARGB(20, 62, 62, 62)
+                color: colors.myOnBackground
               ),
               //color: Colors.grey,
               child: Column(

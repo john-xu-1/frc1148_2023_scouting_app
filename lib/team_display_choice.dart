@@ -48,11 +48,11 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
     if (allTeams.isEmpty) {
       return const SafeArea(
         child: Scaffold(
-            backgroundColor: Color.fromARGB(255, 36, 36, 36),
+            backgroundColor: colors.myBackground,
             body: Center(
               child: Text(
-                "loading",
-                style: TextStyle(color: Color.fromARGB(255, 245, 241, 241)),
+                "loading ...",
+                style: TextStyle(color: colors.myOnPrimary),
               ),
             )),
       );
@@ -70,7 +70,7 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
             return Container(
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(20),
-                  color: Color.fromARGB(255, 181, 179, 179),),
+                  color: colors.myOnBackgroundD,),
               child: Row(
                 children: [
                   SizedBox(

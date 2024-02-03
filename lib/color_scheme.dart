@@ -7,7 +7,9 @@ class colors extends ColorScheme {
   static const Color myOnPrimary = Color.fromRGBO(189, 46, 46, 1);
   
   static const Color myBackground = Color.fromARGB(255, 245, 243, 243);
-  static const Color myOnBackground = Color.fromARGB(255, 184, 180, 180);
+  static const Color myOnBackground = Color.fromARGB(103, 184, 180, 180);
+  static const Color myOnBackgroundD = Color.fromARGB(255, 184, 180, 180);
+
   
   static const Color mySurface = Color.fromARGB(255, 245, 242, 242);
   static const Color myOnSurface = Color.fromARGB(255, 4, 4, 4);
@@ -23,7 +25,7 @@ class colors extends ColorScheme {
     Color primary = myPrimaryColor,
     Color onPrimary = myOnPrimary,
     Color background = myBackground,
-    Color onBackground = myOnBackground,
+    //Color onBackground = myOnBackground,
 
     Color surface = mySurface,
     Color onSurface = myOnSurface,

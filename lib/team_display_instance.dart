@@ -65,11 +65,11 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
     if (dataSet.isEmpty || dataNames.isEmpty) {
       return const SafeArea(
         child: Scaffold(
-            backgroundColor: Color.fromARGB(255, 36, 36, 36),
+            backgroundColor: colors.myBackground,
             body: Center(
               child: Text(
-                "loading",
-                style: TextStyle(color: Color.fromARGB(255, 224, 224, 224)),
+                "loading ...",
+                style: TextStyle(color: colors.myOnPrimary),
               ),
             )),
       );
@@ -119,7 +119,7 @@ class DataBlock extends StatelessWidget {
            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
             //color: Color.fromRGBO(86, 14, 12, 0.982)),
             //color: Color.fromARGB(255, 45, 44, 44)),
-            color: colors.myOnBackground),
+            color: colors.myOnBackgroundD),
           child: Column(
             children: [
               //const Divider(),
