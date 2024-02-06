@@ -202,7 +202,7 @@ void _minus (score){
                               style: IconButton.styleFrom(
                                   minimumSize: Size(width/2, height/10),
                                 ),
-                              icon: const Text('+',textScaleFactor: 4,)
+                              icon: const Text('+',textScaleFactor: 2,)
                             ) ,
                             IconButton(
                               onPressed: () {
@@ -233,7 +233,7 @@ void _minus (score){
                                 style: IconButton.styleFrom(
                                   minimumSize: Size(width/2, height/10),
                                 ),
-                              icon: const Text('+',textScaleFactor: 4,)
+                              icon: const Text('+',textScaleFactor: 2,)
                             ),
                             IconButton (
                                 onPressed: () {
@@ -279,7 +279,7 @@ void _minus (score){
                             style: IconButton.styleFrom(
                                 minimumSize: Size(width/4, height/10),
                               ),
-                              icon: const Text('+',textScaleFactor: 4,)
+                              icon: const Text('+',textScaleFactor: 2,)
                           ) ,
                           ButtonTheme(
                             minWidth: width/14,
@@ -344,7 +344,7 @@ void _minus (score){
                               style: IconButton.styleFrom(
                                   minimumSize: Size(width/2, height/10),
                                 ),
-                              icon: const Text('+',textScaleFactor: 4,)
+                              icon: const Text('+',textScaleFactor: 2,)
                             ) ,
                             IconButton(
                               onPressed: () {
@@ -376,7 +376,7 @@ void _minus (score){
                                 style: IconButton.styleFrom(
                                   minimumSize: Size(width/8, height/10),
                                 ),
-                              icon: const Text('+',textScaleFactor: 4,)
+                              icon: const Text('+',textScaleFactor: 2,)
                             ),
                             IconButton (
                                 onPressed: () {
@@ -428,7 +428,7 @@ void _minus (score){
                             style: IconButton.styleFrom(
                                 minimumSize: Size(width/5, height/10),
                               ),
-                              icon: const Text('+',textScaleFactor: 4,)
+                              icon: const Text('+',textScaleFactor: 2,)
                           ) ,
                           ButtonTheme(
                             minWidth: width/14,
@@ -467,7 +467,7 @@ void _minus (score){
                                 style: IconButton.styleFrom(
                                   minimumSize: Size(width/5, height/10),
                                 ),
-                              icon: const Text('+',textScaleFactor: 4,)
+                              icon: const Text('+',textScaleFactor: 2,)
                             ),
                             IconButton (
                                 onPressed: () {
