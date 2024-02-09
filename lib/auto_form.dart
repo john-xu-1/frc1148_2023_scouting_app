@@ -4,6 +4,8 @@ import 'teleop_form.dart';
 import 'sheets_helper.dart';
 
 
+String autoPath = "";
+
 class AutoForm extends StatefulWidget {
   const AutoForm({super.key, required this.teamName});
   final String teamName;
@@ -31,7 +33,7 @@ class _AutoForm extends State<AutoForm> {
     }
   }
 
-  String autoPath = "";
+  
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +100,6 @@ class _AutoForm extends State<AutoForm> {
         
         
       ),
-      //floatingActionButton: FloatingActionButton(onPressed: (){print(autoPath);}),
 
     );
   }

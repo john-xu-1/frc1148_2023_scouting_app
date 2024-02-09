@@ -1,45 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/subjective_form.dart';
 import 'sheets_helper.dart';
-import 'subjective_form.dart' as subf;
 
 
-  // int topScoreCone = 0;
-  // int midScoreCone = 0;
-  // int lowScoreCone = 0;
 
-  // int topScoreCube = 0;
-  // int midScoreCube = 0;
-  // int lowScoreCube = 0;
+  PrimitiveWrapper playerPointsToAdd = PrimitiveWrapper(0);
 
-  // bool tryParkTele = false;
-  // bool messUpParkTele = false;
-
-  // int missedCone = 0;
-  // int missedCube = 0;
-
-  int speakerPoints = 0;
-  int speakerAmpedCounter = 0;
-  int speakerNotAmpedCounter = 0;
+  PrimitiveWrapper speakerPoints = PrimitiveWrapper(0); 
+  PrimitiveWrapper speakerAmpedCounter = PrimitiveWrapper(0); 
+  PrimitiveWrapper speakerNotAmpedCounter = PrimitiveWrapper(0);
   
-  int ampPoints = 0;
-  int trapPoints = 0;
+  PrimitiveWrapper ampPoints = PrimitiveWrapper(0);
+  PrimitiveWrapper trapPoints = PrimitiveWrapper(0);
 
-  int missedS = 0;
-  int missedA = 0;
-  int missedT = 0;
+  PrimitiveWrapper missedS = PrimitiveWrapper(0);
+  PrimitiveWrapper missedA = PrimitiveWrapper(0);
+  PrimitiveWrapper missedT = PrimitiveWrapper(0);
 
   bool tryParkTele = false;
   bool messUpParkTele = false;
-
-  // A  S
-  // +  +
-  // -  -
-
-  // +  +
-  // -  -
-
-  // + T -
+  int cycleCounter = 0;
 
 
 
@@ -53,95 +33,40 @@ class TeleopForm extends StatefulWidget {
 
 class _TeleopForm extends State<TeleopForm> {
 
-void _add (score){
-  if (score == "regS"){
-      if (speakerPoints >= 0) setState(() => speakerPoints += 2);
-      speakerNotAmpedCounter+=1;
-      print (speakerPoints);
-
-    }
-    else if (score == "AmpS"){
-      if (speakerPoints >= 0) setState(() => speakerPoints += 5);
-      speakerAmpedCounter+=1;
-      print (speakerPoints);
-    }
-    else if (score == "missedS"){
-      if (missedS >= 0) setState(() => missedS += 1);
-    }
-    else if (score == "regA"){
-      if (ampPoints >= 0) setState(() => ampPoints += 1);
-      print (ampPoints);
-
-    }
-    else if (score == "missedA"){
-      if (missedA >= 0) setState(() => missedA += 1);
-    }
-    else if (score == "trap"){
-      if (trapPoints>=0) setState(()=>trapPoints+=5);
-    }
-    else if (score == "missedT"){
-      if (missedT >= 0) setState(() => missedT += 1);
-    }
-}
-  
-void _minus (score){
-  if (score == "regS"){
-      if (speakerPoints >= 2) setState(() => speakerPoints -= 2);
-      speakerNotAmpedCounter-=1;
-      print (speakerPoints);
-
-    }
-    else if (score == "AmpS"){
-      if (speakerPoints >= 5) setState(() => speakerPoints -= 5);
-      speakerAmpedCounter-=1;
-      print (speakerPoints);
-    }
-    else if (score == "missedS"){
-      if (missedS >= 1) setState(() => missedS -= 1);
-    }
-    else if (score == "regA"){
-      if (ampPoints >= 1) setState(() => ampPoints -= 1);
-      print (ampPoints);
-
-    }
-    else if (score == "missedA"){
-      if (missedA >= 1) setState(() => missedA -= 1);
-    }
-    else if (score == "trap"){
-      if (trapPoints>=5) setState(()=>trapPoints-=5);
-    }
-    else if (score == "missedT"){
-      if (missedT >= 1) setState(() => missedT -= 1);
-    }
-}
-
-  
-  
-  
-
-  
   
 
 
   Future<void> _submitSection() async {
     try {
-      // final gsheets = GSheets(_creds);
-      // final ss = await gsheets.spreadsheet('1C4_kygqZTOo3uue3eBxrMV9b_3UJVuDiOVZqAeGHvzE');
-      // final sheet = ss.worksheetByTitle('JohnTest');
 
 
       final sheet = await SheetsHelper.sheetSetup("JohnTest");
 
       // Writing data
-      final firstRow = [speakerPoints, speakerAmpedCounter, speakerNotAmpedCounter, ampPoints, trapPoints, missedS, missedA, missedT,tryParkTele,messUpParkTele];
-      await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 10);
-      // prints [index, letter, number, label]
-      print(await sheet.values.row(1));
+      final firstRow = [speakerPoints.value, speakerAmpedCounter.value, speakerNotAmpedCounter.value, ampPoints.value, trapPoints.value, missedS.value, missedA.value, missedT.value,tryParkTele,messUpParkTele];
+      await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 3);
+      
 
     } catch (e) {
       print('Error: $e');
     }
   }
+
+  void update(PrimitiveWrapper variable, int inc){
+    setState(() {
+      if ((variable.value + inc) >= 0){
+        variable.value += inc;
+      }
+      if (variable == speakerPoints && inc == 5){
+        speakerAmpedCounter.value += 1;
+      }
+      if (variable == speakerPoints && inc == 1){
+        speakerNotAmpedCounter.value += 1;
+      }
+      
+    });
+  }
+
 
   
   
@@ -166,326 +91,105 @@ void _minus (score){
             Row(
               children: [
                 Column (
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [ 
+                    ScoreDisplay(speakerPoints.value, "Speaker Pts: "),
                     Row(
                       children: [
-                    Container( 
-                      height: height/10,
-                      alignment: AlignmentDirectional.center,
-                      width: width * 0.25,
-                      //color: Colors.amber[100],
-                      child: const Text("Speaker", textScaleFactor: 1.5,),
+                        SizedBox(
+                          height: height/3,
+                          width: width * 0.25,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("Amplified",textScaleFactor: 1.5),
+                              CounterButton(update, speakerPoints, 5, const Text('+',textScaleFactor: 4,)),
+                              CounterButton(update, speakerPoints, -5, const Text('-',textScaleFactor: 2.5,)),
+                              
+                            ]
+                          )
+                        ),
+                        SizedBox(
+                          height: height/3,
+                          width: width * 0.25,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("Regular",textScaleFactor: 1.5),
+                              CounterButton(update, speakerPoints, 2, const Text('+',textScaleFactor: 4,)),
+                              CounterButton(update, speakerPoints, -2, const Text('-',textScaleFactor: 2.5,)),
+                            ]
+                          )
+                        ),
+                      ],
                     ),
-                     SizedBox(width: width/14, height: height/10, child: FittedBox(child: Text("$speakerPoints",textScaleFactor: 3.5,),),), 
-                    ],
-                  ),
+
+                    Container( alignment: AlignmentDirectional.center,width: width * 0.45,child: const Divider(),),
 
 
-                    Row(
-                      children: [
-                
-              
-                      SizedBox(
-                        height: height/3,
-                        width: width * 0.25,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(width: width/6, height: height/20, child: FittedBox(child: Text("Amplified",textScaleFactor: 0.75),),), 
-                            IconButton(
-                              onPressed: () {
-                                _add("AmpS"); 
-                              },
-                              style: IconButton.styleFrom(
-                                  minimumSize: Size(width/2, height/10),
-                                ),
-                              icon: const Text('+',textScaleFactor: 4,)
-                            ) ,
-                            IconButton(
-                              onPressed: () {
-                                _minus("AmpS"); 
-                              },
-                              style: IconButton.styleFrom(
-                                  minimumSize: Size(width/8, height/40),
-                                ),
-                              icon: const Text('-',textScaleFactor: 2.5,)
-                            )
-                          ]
-                        )
-                      ),
-                      
-                      
-                      SizedBox(
-                        height: height/3,
-                        width: width * 0.25,
-                        //color: Colors.amber[400],
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(width: width/6, height: height/20, child: FittedBox(child: Text("Regular",textScaleFactor: 0.5),),),
-                            IconButton (
-                                onPressed: () {
-                                  _add("regS"); 
-                                },
-                                style: IconButton.styleFrom(
-                                  minimumSize: Size(width/2, height/10),
-                                ),
-                              icon: const Text('+',textScaleFactor: 4,)
-                            ),
-                            IconButton (
-                                onPressed: () {
-                                  _minus("regS"); 
-                                },
-                                style: IconButton.styleFrom(
-                                  minimumSize: Size(width/8, height/40),
-                                ),
-                              icon: const Text('-',textScaleFactor: 2.5,)
-                            )
-                          ]
-                        )
-                      ),
-                    ],
-                  ),
-                    Container(
-                      alignment: AlignmentDirectional.center,
-                      width: width * 0.45,
-                      child: const Divider(),
-                    ),
-                    Row (
-                      children:[
-                    Container( 
-                      height: height/10,
-                      alignment: AlignmentDirectional.center,
-                      width: width * 0.25,
-                      //color: Colors.amber[100],
-                      child: const Text("Missed Speaker", textScaleFactor: 1.5,),
-                    ),
-                    SizedBox(width: width/14, height: height/10, child: FittedBox(child: Text("$missedS",textScaleFactor: 3.5),),),
-                      ],),
-                    SizedBox(
-                      height: height/3,
-                      width: width * 0.45,
-                      //color: Colors.amber[300],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              _add("missedS"); 
-                            },
-                            style: IconButton.styleFrom(
-                                minimumSize: Size(width/4, height/10),
-                              ),
-                              icon: const Text('+',textScaleFactor: 4,)
-                          ) ,
-                          ButtonTheme(
-                            minWidth: width/14,
-                            height: height/5,
-                            child: IconButton(
-                            onPressed: () {
-                              _minus("missedS"); 
-                            },
-                            style: IconButton.styleFrom(
-                                minimumSize: Size(width/8, height/40),
-                            ),
-                              icon: const Text('-',textScaleFactor: 2.5,)
-                            )
-                          ),
-                        ]
-                      )
-                    ),
-                  ], 
+                    ScoreDisplay(missedS.value, "Missed Speaker: "),
+
+                    CounterButton(update, missedS, 1, const Text('+',textScaleFactor: 4,)),
+                    CounterButton(update, missedS, -1, const Text('-',textScaleFactor: 2.5,)),
+                  ],
                 ),
                 
+
+                
+                SizedBox(
+                  height:height *0.9,
+                  child: const VerticalDivider(),
+                ),
+
                 
                 Column (
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [ 
-                    Container(
-                      height:height,
-                      child: const VerticalDivider(),
-                    ),],),
-                
-                Column (
-                  
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [ 
-                    Container( 
-                      height: height/10,
-                      alignment: AlignmentDirectional.center,
-                      width: width * 0.4,
-                      //color: Colors.amber[100],
-                      child: const Text("Amp", textScaleFactor: 1.5,),
-                    ),
-                     
+                    ScoreDisplay(ampPoints.value, "Amp pts: "),
                     
-                    Row(children: [
+                    CounterButton(update, ampPoints, 1, const Text('+',textScaleFactor: 4,)),
+                      
+                    CounterButton(update, ampPoints, -1, const Text('-',textScaleFactor: 2.5,)),
 
-                    
-                    SizedBox(
-                      height: height/3,
-                      width: width * 0.25,
-                      //color: Colors.amber[600],
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              children:[
-                            SizedBox(width: width/10, height: height/20, child: FittedBox(child: Text("Points",textScaleFactor: 3.5),),),
-                            SizedBox(width: width/10, height: height/15, child: FittedBox(child: Text("$ampPoints",textScaleFactor: 3.5,),),), 
-                              ],),
-                            IconButton(
-                              onPressed: () {
-                                _add("regA"); 
-                              },
-                              style: IconButton.styleFrom(
-                                  minimumSize: Size(width/2, height/10),
-                                ),
-                              icon: const Text('+',textScaleFactor: 4,)
-                            ) ,
-                            IconButton(
-                              onPressed: () {
-                                _minus("regA"); 
-                              },
-                              style: IconButton.styleFrom(
-                                  minimumSize: Size(width/8, height/40),
-                                ),
-                              icon: const Text('-',textScaleFactor: 2.5,)
-                          )
-                        ]
-                      )
-                    ),
-                    SizedBox(
-                      height: height/3,
-                      width: width * 0.2,
-                      //color: Colors.amber[300],
-                      child: Column(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                          Row(
-                              children:[
-                            SizedBox(width: width/10, height: height/20, child: FittedBox(child: Text("Missed",textScaleFactor: 3.5),),),
-                            SizedBox(width: width/10, height: height/15, child: FittedBox(child: Text("$missedA",textScaleFactor: 3.5,),),), 
-                              ],),                            IconButton (
-                                onPressed: () {
-                                  _add("missedA"); 
-                                },
-                                style: IconButton.styleFrom(
-                                  minimumSize: Size(width/8, height/10),
-                                ),
-                              icon: const Text('+',textScaleFactor: 4,)
-                            ),
-                            IconButton (
-                                onPressed: () {
-                                  _minus("missedA"); 
-                                },
-                                style: IconButton.styleFrom(
-                                  minimumSize: Size(width/8, height/40),
-                                ),
-                              icon: const Text('-',textScaleFactor: 2.5,)
-                          )
-                        ]
-                      ),
-                    ),
-                    ],
-                    ),
-                  Container(
-                      alignment: AlignmentDirectional.center,
-                      width: width * 0.4,
-                      child: const Divider(),
-                    ),
-                  
-                    Container( 
-                      height: height/10,
-                      alignment: AlignmentDirectional.center,
-                      width: width * 0.4,
-                      //color: Colors.amber[100],
-                      child: const Text("Trap", textScaleFactor: 2.5,),
-                    ),
-                    
+                    const SizedBox(height: 70,),
 
-                      Row(
-                        children:[
-                    SizedBox(
-                      height: height/3,
-                      width: width * 0.25,
-                      //color: Colors.amber[300],
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                              children:[
-                            SizedBox(width: width/10, height: height/20, child: FittedBox(child: Text("Points",textScaleFactor: 3.5),),),
-                            SizedBox(width: width/10, height: height/15, child: FittedBox(child: Text("$trapPoints",textScaleFactor: 3.5,),),), 
-                              ],),
-                          IconButton(
-                            onPressed: () {
-                              _add("trap"); 
-                            },
-                            style: IconButton.styleFrom(
-                                minimumSize: Size(width/5, height/10),
-                              ),
-                              icon: const Text('+',textScaleFactor: 4,)
-                          ) ,
-                          ButtonTheme(
-                            minWidth: width/14,
-                            height: height/5,
-                            child: IconButton(
-                            onPressed: () {
-                              _minus("trap"); 
-                            },
-                            style: IconButton.styleFrom(
-                                minimumSize: Size(width/8, height/40),
-                            ),
-                              icon: const Text('-',textScaleFactor: 2.5,)
-                            )
-                          ),
-                          
-                        ]
-                      ),
-                    ),
-                   
-                   //
-                   SizedBox(
-                      height: height/3,
-                      width: width * 0.2,
-                      //color: Colors.amber[300],
-                      child: Column(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              children:[
-                            SizedBox(width: width/10, height: height/20, child: FittedBox(child: Text("Missed",textScaleFactor: 3.5),),),
-                            SizedBox(width: width/10, height: height/15, child: FittedBox(child: Text("$missedT",textScaleFactor: 3.5,),),), 
-                              ],),                            IconButton (
-                                onPressed: () {
-                                  _add("missedT"); 
-                                },
-                                style: IconButton.styleFrom(
-                                  minimumSize: Size(width/5, height/10),
-                                ),
-                              icon: const Text('+',textScaleFactor: 4,)
-                            ),
-                            IconButton (
-                                onPressed: () {
-                                  _minus("missedT"); 
-                                },
-                                style: IconButton.styleFrom(
-                                  minimumSize: Size(width/10, height/40),
-                                ),
-                              icon: const Text('-',textScaleFactor: 2.5,)
-                          )
-                        ]
-                      ),
-                    ),
-                    //
-                  ],),
-                    //
-                    //
+                    Container( alignment: AlignmentDirectional.center,width: width * 0.45,child: const Divider(),),
+                    ScoreDisplay(missedA.value, "Missed Amps: "),                            
+                    CounterButton(update, missedA, 1, const Text('+',textScaleFactor: 4,)),
+                    CounterButton(update, missedA, -1, const Text('-',textScaleFactor: 2.5,)),
                   ]
-                ),  
+                ), 
               ]
+            ),
+            Container( 
+              height: height/10,
+              alignment: AlignmentDirectional.center,
+              width: width * 0.4,
+              //color: Colors.amber[100],
+              child: const Text("Trap", textScaleFactor: 2.5,),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ScoreDisplay(trapPoints.value, "Points:"),
+                    CounterButton(update, trapPoints, 5, const Text('+',textScaleFactor: 4,)),
+                    CounterButton(update, trapPoints, -5, const Text('-',textScaleFactor: 2.5,)),
+                    
+                  ]
+                ),
+                const SizedBox(width: 50,),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                    children: [      
+                      ScoreDisplay(missedT.value, "missed:"),                     
+                      CounterButton(update,missedT, 1, const Text('+',textScaleFactor: 4,)),
+                      CounterButton(update, missedT, -1, const Text('-',textScaleFactor: 2.5,)),
+                  ]
+                ),
+              ],
             ),
  
 
@@ -493,7 +197,6 @@ void _minus (score){
             Container(
               width: width,
               height: height/5,
-              //color: Colors.amber[300],
               alignment: AlignmentDirectional.center,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -502,7 +205,6 @@ void _minus (score){
                   const Text("Try Hanging?",textScaleFactor: 1.5,),
                   Checkbox(
                     value: tryParkTele,
-                    //color: Colors.amber[700],
                     onChanged: (newValue) {
                       setState(() {
                         tryParkTele = newValue!;
@@ -516,7 +218,6 @@ void _minus (score){
             Container(
               width: width,
               height: height/5,
-              //color Colors.amber[300],
               alignment: AlignmentDirectional.center,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -525,7 +226,6 @@ void _minus (score){
                   const Text("Mess Up Hanging?",textScaleFactor: 1.5,),
                   Checkbox(
                     value: messUpParkTele,
-                    //color Colors.amber[700],
                     onChanged: (newValue) {
                       setState(() {
                         messUpParkTele = newValue!;
@@ -536,14 +236,7 @@ void _minus (score){
               ),
             ),
             ElevatedButton(
-              onPressed: (){
-                // subf.speed = 0;
-                subf.tippiness = 0;
-                // subf.roborating = 0;
-
-                subf.tip = false;
-                subf.defensive = false;
-                // subf.ally = false;
+              onPressed: (){                
                 setState(() {
                   Navigator.push(
                     context,
@@ -564,381 +257,48 @@ void _minus (score){
   }
 }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     double height = MediaQuery.of(context).size.height;
-//     double width = MediaQuery.of(context).size.width;
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Column(
-//           children: [
-//           const Text ("Teleop Phase",),
-//           Text(widget.teamName),
-//           ],
-//         ),
-//       ),
-//       body: Center(
-//         child: ListView(
-//           children: <Widget>[
-//             Row(
-//               children: [
-//                 Column (
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [ 
-//                     Container( 
-//                       height: height/10,
-//                       alignment: AlignmentDirectional.center,
-//                       width: width * 0.50,
-//                       //color: Colors.amber[100],
-//                       child: Text("Cone", textScaleFactor: 2.5,),
-//                     ),
-//                     Container(
-//                       alignment: AlignmentDirectional.center,
-//                       width: width * 0.5,
-//                       child: const Divider(),
-//                     ),
-//                     Container(
-//                       height: height/3,
-//                       width: width * 0.50,
-//                       //color: Colors.amber[600],
-//                       child: Column(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//                         children: [
-//                           IconButton(
-//                             onPressed: () {
-//                               _addCone("top"); 
-//                             },
-//                             style: IconButton.styleFrom(
-//                                 minimumSize: Size(width/2, height/10),
-//                               ),
-//                             icon: const Icon(Icons.arrow_upward)
-//                           ) ,
-//                           SizedBox(width: width/14, height: height/75),
-//                           Container(width: width/14, height: height/10, child: FittedBox(child: Text("$topScoreCone",textScaleFactor: 3.5,),),), 
-//                           SizedBox(width: width/14, height: height/75),
-//                           IconButton(
-//                             onPressed: () {
-//                               _minusCone("top"); 
-//                             },
-//                             style: IconButton.styleFrom(
-//                                 minimumSize: Size(width/2, height/10),
-//                               ),
-//                             icon: const Icon(Icons.arrow_downward),
-//                           )
-//                         ]
-//                       )
-//                     ),
-//                     Container(
-//                       alignment: AlignmentDirectional.center,
-//                       width: width * 0.5,
-//                       child: const Divider(),
-//                     ),
-//                     Container(
-//                       height: height/3,
-//                       width: width * 0.50,
-//                       //color: Colors.amber[400],
-//                       child: Column(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//                         children: [
-//                           IconButton (
-//                               onPressed: () {
-//                                 _addCone("mid"); 
-//                               },
-//                               style: IconButton.styleFrom(
-//                                 minimumSize: Size(width/2, height/10),
-//                               ),
-//                               icon: const Icon(Icons.arrow_upward),
-//                           ),
-//                           Container(width: width/14, height: height/10, child: FittedBox(child: Text("$midScoreCone",textScaleFactor: 3.5,),),), 
-//                           IconButton (
-//                               onPressed: () {
-//                                 _minusCone("mid"); 
-//                               },
-//                               style: IconButton.styleFrom(
-//                                 minimumSize: Size(width/2, height/10),
-//                               ),
-//                               icon: const Icon(Icons.arrow_downward),
-//                           )
-//                         ]
-//                       )
-//                     ),
-//                     Container(
-//                       alignment: AlignmentDirectional.center,
-//                       width: width * 0.5,
-//                       child: const Divider(),
-//                     ),
-//                     Container(
-//                       height: height/3,
-//                       width: width * 0.50,
-//                       //color: Colors.amber[300],
-//                       child: Column(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//                         children: [
-//                           IconButton(
-//                             onPressed: () {
-//                               _addCone("low"); 
-//                             },
-//                             style: IconButton.styleFrom(
-//                                 minimumSize: Size(width/2, height/10),
-//                               ),
-//                             icon: const Icon(Icons.arrow_upward)
-//                           ) ,
-//                           Container(width: width/14, height: height/10, child: FittedBox(child: Text("$lowScoreCone",textScaleFactor: 3.5,),),), 
-//                           ButtonTheme(
-//                             minWidth: width/14,
-//                             height: height/5,
-//                             child: IconButton(
-//                             onPressed: () {
-//                               _minusCone("low"); 
-//                             },
-//                             style: IconButton.styleFrom(
-//                                 minimumSize: Size(width/2, height/10),
-//                             ),
-//                             icon: const Icon(Icons.arrow_downward),
-//                           )
-//                           ),
-                          
-//                         ]
-//                       )
-//                     ),
-//                   ]
-//                 ),
-//                 Column (
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [ 
-//                     Container( 
-//                       height: height/10,
-//                       alignment: AlignmentDirectional.center,
-//                       width: width * 0.50,
-//                       //color: Colors.amber[100],
-//                       child: Text("Cube", textScaleFactor: 2.5,),
-//                     ),
-//                     Container(
-//                       alignment: AlignmentDirectional.center,
-//                       width: width * 0.5,
-//                       child: const Divider(),
-//                     ),
-//                     Container(
-//                       height: height/3,
-//                       width: width * 0.50,
-//                       //color: Colors.amber[600],
-//                       child: Column(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//                         children: [
-//                           IconButton(
-//                             onPressed: () {
-//                               _addCube("top"); 
-//                             },
-//                             style: IconButton.styleFrom(
-//                                 minimumSize: Size(width/2, height/10),
-//                               ),
-//                             icon: const Icon(Icons.arrow_upward)
-//                           ) ,
-//                           SizedBox(width: width/14, height: height/75),
-//                           Container(width: width/14, height: height/10, child: FittedBox(child: Text("$topScoreCube",textScaleFactor: 3.5,),),), 
-//                           SizedBox(width: width/14, height: height/75),
-//                           IconButton(
-//                             onPressed: () {
-//                               _minusCube("top"); 
-//                             },
-//                             style: IconButton.styleFrom(
-//                                 minimumSize: Size(width/2, height/10),
-//                               ),
-//                             icon: const Icon(Icons.arrow_downward),
-//                           )
-//                         ]
-//                       )
-//                     ),
-//                     Container(
-//                       alignment: AlignmentDirectional.center,
-//                       width: width * 0.5,
-//                       child: const Divider(),
-//                     ),
-//                     Container(
-//                       height: height/3,
-//                       width: width * 0.50,
-//                       //color: Colors.amber[400],
-//                       child: Column(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//                         children: [
-//                           IconButton (
-//                               onPressed: () {
-//                                 _addCube("mid"); 
-//                               },
-//                               style: IconButton.styleFrom(
-//                                 minimumSize: Size(width/2, height/10),
-//                               ),
-//                               icon: const Icon(Icons.arrow_upward),
-//                           ),
-//                           Container(width: width/14, height: height/10, child: FittedBox(child: Text("$midScoreCube",textScaleFactor: 3.5,),),), 
-//                           IconButton (
-//                               onPressed: () {
-//                                 _minusCube("mid"); 
-//                               },
-//                               style: IconButton.styleFrom(
-//                                 minimumSize: Size(width/2, height/10),
-//                               ),
-//                               icon: const Icon(Icons.arrow_downward),
-//                           )
-//                         ]
-//                       )
-//                     ),
-//                     Container(
-//                       alignment: AlignmentDirectional.center,
-//                       width: width * 0.5,
-//                       child: const Divider(),
-//                     ),
-//                     Container(
-//                       height: height/3,
-//                       width: width * 0.50,
-//                       //color: Colors.amber[300],
-//                       child: Column(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//                         children: [
-//                           IconButton(
-//                             onPressed: () {
-//                               _addCube("low"); 
-//                             },
-//                             style: IconButton.styleFrom(
-//                                 minimumSize: Size(width/2, height/10),
-//                               ),
-//                             icon: const Icon(Icons.arrow_upward)
-//                           ) ,
-//                           Container(width: width/14, height: height/10, child: FittedBox(child: Text("$lowScoreCube",textScaleFactor: 3.5,),),), 
-//                           ButtonTheme(
-//                             minWidth: width/14,
-//                             height: height/5,
-//                             child: IconButton(
-//                             onPressed: () {
-//                               _minusCube("low"); 
-//                             },
-//                             style: IconButton.styleFrom(
-//                                 minimumSize: Size(width/2, height/10),
-//                             ),
-//                             icon: const Icon(Icons.arrow_downward),
-//                           )
-//                           ),
-//                         ]
-//                       )
-//                     ),
-//                   ]
-//                 ),
-//               ],
-//             ),
-//             const Divider(),
-//             Container(
-//               width: width,
-//               height: height/5,
-//               //color: Colors.amber[300],
-//               alignment: AlignmentDirectional.center,
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 crossAxisAlignment: CrossAxisAlignment.center,
-//                 children: [
-//                   const Text("Try Parking?",textScaleFactor: 1.5,),
-//                   Checkbox(
-//                     value: tryParkTele,
-//                     //color: Colors.amber[700],
-//                     onChanged: (newValue) {
-//                       setState(() {
-//                         tryParkTele = newValue!;
-//                       });
-//                     },
-//                   ),
-//                 ]
-//               ),
-//             ),
-//             const Divider(),
-//             Container(
-//               width: width,
-//               height: height/5,
-//               //color Colors.amber[300],
-//               alignment: AlignmentDirectional.center,
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 crossAxisAlignment: CrossAxisAlignment.center,
-//                 children: [
-//                   const Text("Mess Up Parking?",textScaleFactor: 1.5,),
-//                   Checkbox(
-//                     value: messUpParkTele,
-//                     //color Colors.amber[700],
-//                     onChanged: (newValue) {
-//                       setState(() {
-//                         messUpParkTele = newValue!;
-//                       });
-//                     },
-//                   ),
-//                 ]
-//               ),
-//             ),
-//             const Divider(),
-//             Column(
-//               children: [
-//                 Container( 
-//                   height: height/20,
-//                   alignment: AlignmentDirectional.center,
-//                   //color Colors.amber[400],
-//                   child: const Text("Missed", textScaleFactor: 1.5,),
-//                 ),
-//                 Container(
-//                   height: height/5,
-//                   width: width,
-//                   //color Colors.amber[400],
-//                   child: Column(
-//                     mainAxisAlignment: MainAxisAlignment.center,
-//                     children: [
-//                       IconButton (
-//                           onPressed: () {
-//                             _addCube("missed"); 
-//                           },
-//                           style: IconButton.styleFrom(
-//                             minimumSize: Size(width, height/15),
-//                           ),
-//                           icon: const Icon(Icons.arrow_upward),
-//                       ),
-//                       Container(width: width/14, height: height/15, child: FittedBox(child: Text("$missedCube",textScaleFactor: 3.5,),),), 
-//                       IconButton (
-//                           onPressed: () {
-//                             _minusCube("missed"); 
-//                           },
-//                           style: IconButton.styleFrom(
-//                             minimumSize: Size(width, height/15),
-//                           ),
-//                           icon: const Icon(Icons.arrow_downward),
-//                       )
-//                     ]
-//                   )
-//                 ),
+class ScoreDisplay extends StatelessWidget{
+  final int points;
+  final String lable;
+  const ScoreDisplay(this.points, this.lable, {super.key});
 
-//               ],
-//             ),
-//             ElevatedButton(
-//               onPressed: (){
-//                 // subf.speed = 0;
-//                 subf.tippiness = 0;
-//                 // subf.roborating = 0;
+  @override
+  Widget build (BuildContext context){
+    double width = MediaQuery.of(context).size.width;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(lable, textScaleFactor: 1.5,),
+        SizedBox (width: width/20),
+        FittedBox(child: Text("$points",textScaleFactor: 3.5,),), 
+      ],
+    );
+  }
+}
 
-//                 subf.tip = false;
-//                 subf.defensive = false;
-//                 // subf.ally = false;
-//                 setState(() {
-//                   Navigator.push(
-//                     context,
-//                     MaterialPageRoute
-//                     (
-//                       builder: (context) => SubjectiveForm(teamName: widget.teamName)
-//                     )
-//                   );
-//                 });
-//                 _submitSection();
-//               },
-//               child: Text("Next"),
-//             )
-            
-//           ]
-//       )   
-//     )
-//     );
-//   }
-// }
-//}
+
+
+class CounterButton extends StatelessWidget{
+  final Function func;
+  final PrimitiveWrapper prim;
+  final int inc;
+  final Widget child;
+  const CounterButton(this.func, this.prim, this.inc, this.child, {super.key});
+
+  @override
+  Widget build (BuildContext context){
+    return IconButton(
+      onPressed: () {
+        func (prim, inc);
+      },
+      icon: child
+    );
+  }
+  
+}
+
+class PrimitiveWrapper {
+  int value = 0;
+  PrimitiveWrapper(this.value);
+}

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'entrance.dart';
 import 'sheets_helper.dart';
-import 'scouting_form.dart' as sf;
-import 'teleop_form.dart' as tp;
+import 'auto_form.dart' as af;
+import 'teleop_form.dart' as tf;
 
 
 
@@ -44,14 +44,10 @@ class _SubjectiveForm extends State<SubjectiveForm> {
   Future<void> _submitSection() async {
     try {
 
-      final sheet = await SheetsHelper.sheetSetup("JohnTest"); 
-
-      // Writing data
+      final sheet = await SheetsHelper.sheetSetup("JohnTest");       
       
       final firstRow = [defensive, tippiness, robotBreak, tip];
-      await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 19);
-      // prints [index, letter, number, label]
-      print(firstRow);
+      await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 13);
 
 
 
@@ -96,7 +92,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                   const Text("Were they defensive?",textScaleFactor: 1.5,),
                   Checkbox(
                     value: defensive,
-                    //color Colors.amber[700],
+                    
                     onChanged: (newValue) {
                       setState(() {
                         defensive = newValue!;
@@ -107,45 +103,6 @@ class _SubjectiveForm extends State<SubjectiveForm> {
               ),
             ),
             const Divider(),
-            // Column(
-            //   children: [
-            //     Container( 
-            //       height: height/20,
-            //       alignment: AlignmentDirectional.center,
-            //       //color Colors.amber[400],
-            //       child: const Text("How fast were they? (0-5)", textScaleFactor: 1.5,),
-            //     ),
-            //     Container(
-            //       height: height/5,
-            //       width: width,
-            //       //color Colors.amber[400],
-            //       child: Column(
-            //         mainAxisAlignment: MainAxisAlignment.center,
-            //         children: [
-            //           IconButton (
-            //               onPressed: () {
-            //                 _add("speed"); 
-            //               },
-            //               style: IconButton.styleFrom(
-            //                 minimumSize: Size(width, height/15),
-            //               ),
-            //               icon: const Icon(Icons.arrow_upward),
-            //           ),
-            //           Container(width: width/14, height: height/15, child: FittedBox(child: Text("$speed",textScaleFactor: 3.5,),),), 
-            //           IconButton (
-            //               onPressed: () {
-            //                 _minus("speed"); 
-            //               },
-            //               style: IconButton.styleFrom(
-            //                 minimumSize: Size(width, height/15),
-            //               ),
-            //               icon: const Icon(Icons.arrow_downward),
-            //           )
-            //         ]
-            //       )
-            //     ),
-            //   ],
-            // ),
             Column(
               children: [
                 Container( 
@@ -154,7 +111,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                   //color Colors.amber[400],
                   child: const Text("How tippy are they? (0-5)", textScaleFactor: 1.5,),
                 ),
-                Container(
+                SizedBox(
                   height: height/5,
                   width: width,
                   //color Colors.amber[400],
@@ -170,7 +127,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                           ),
                           icon: const Icon(Icons.arrow_upward),
                       ),
-                      Container(width: width/14, height: height/15, child: FittedBox(child: Text("$tippiness",textScaleFactor: 3.5,),),), 
+                      SizedBox(width: width/14, height: height/15, child: FittedBox(child: Text("$tippiness",textScaleFactor: 3.5,),),), 
                       IconButton (
                           onPressed: () {
                             _minus("tip"); 
@@ -233,69 +190,6 @@ class _SubjectiveForm extends State<SubjectiveForm> {
               ),
             ),
             const Divider(),
-            
-            // Column(
-            //   children: [
-            //     Container( 
-            //       height: height/20,
-            //       alignment: AlignmentDirectional.center,
-            //       //color Colors.amber[400],
-            //       child: const Text("What rating would you give this robot (0-5)", textScaleFactor: 1.2, textAlign: TextAlign.center,),
-            //     ),
-            //     Container(
-            //       height: height/5,
-            //       width: width,
-            //       //color Colors.amber[400],
-            //       child: Column(
-            //         mainAxisAlignment: MainAxisAlignment.center,
-            //         children: [
-            //           IconButton (
-            //               onPressed: () {
-            //                 _add("rating"); 
-            //               },
-            //               style: IconButton.styleFrom(
-            //                 minimumSize: Size(width, height/15),
-            //               ),
-            //               icon: const Icon(Icons.arrow_upward),
-            //           ),
-            //           Container(width: width/14, height: height/15, child: FittedBox(child: Text("$roborating",textScaleFactor: 3.5,),),), 
-            //           IconButton (
-            //               onPressed: () {
-            //                 _minus("rating"); 
-            //               },
-            //               style: IconButton.styleFrom(
-            //                 minimumSize: Size(width, height/15),
-            //               ),
-            //               icon: const Icon(Icons.arrow_downward),
-            //           )
-            //         ]
-            //       )
-            //     ),
-            //   ],
-            // ),
-            // const Divider(),
-            // Container(
-            //   width: width,
-            //   height: height/5,
-            //   //color Colors.amber[300],
-            //   alignment: AlignmentDirectional.center,
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     crossAxisAlignment: CrossAxisAlignment.center,
-            //     children: [
-            //       const Text("Should we ally /w them?",textScaleFactor: 1.5,),
-            //       Checkbox(
-            //         value: ally,
-            //         //color Colors.amber[700],
-            //         onChanged: (newValue) {
-            //           setState(() {
-            //             ally = newValue!;
-            //           });
-            //         },
-            //       ),
-            //     ]
-            //   ),
-            // ),
             ElevatedButton(
               onPressed: (){
                 _submitSection();
@@ -308,33 +202,30 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                     )
                   );
                 });
-                
-                sf.topScoreCone = 0;
-                sf.midScoreCone = 0;
-                sf.lowScoreCone = 0;
-                sf.topScoreCube = 0;
-                sf.midScoreCube = 0;
-                sf.lowScoreCube = 0;
-                sf.tryParkAuto = false;
-                sf.missedCone = 0;
-                sf.missedCube = 0;
 
-                tp.speakerPoints = 0;
-                tp.speakerAmpedCounter = 0;
-                tp.speakerNotAmpedCounter = 0;
-  
-                tp.ampPoints = 0;
-                tp.trapPoints = 0;
+                af.autoPath = "";
 
-                tp.missedS = 0;
-                tp.missedA = 0;
+                tf.speakerPoints.value = 0;
+                tf.speakerAmpedCounter.value = 0;
+                tf.speakerNotAmpedCounter.value = 0;
+                tf.ampPoints.value = 0;
+                tf.trapPoints.value = 0; 
+                tf.missedS.value = 0;
+                tf.missedA.value = 0;
+                tf.missedT.value = 0;
+                tf.tryParkTele = false;
+                tf.messUpParkTele = false;
 
                 
-
-
+                tippiness = 0;
+                tip = false;
+                defensive = false;
+                robotBreak = false;
                 
+                
+
               },
-              child: Text("Next"),
+              child: const Text("Next"),
             )
           ]
       )   
