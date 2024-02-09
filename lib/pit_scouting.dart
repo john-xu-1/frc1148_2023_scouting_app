@@ -24,7 +24,7 @@ class _PitScouting extends State<PitScouting> {
     'Enter Robot Weight (lbs)',//maybe not, add can score in trap
     'Can score in Amp',
     'Can score in speaker',
-    'Enter Robot bumper quality',
+    'Enter Robot bumper quality (1-5), 5 is best',
     'Maneuverability on field Capability(under stage)',
   ];
 

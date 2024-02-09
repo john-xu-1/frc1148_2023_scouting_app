@@ -2,6 +2,7 @@
 import 'package:frc1148_2023_scouting_app/team_display_choice.dart';
 import 'package:frc1148_2023_scouting_app/log_in.dart';
 import 'pit_scouting.dart';
+import 'package:frc1148_2023_scouting_app/color_scheme.dart';
 import 'package:flutter/material.dart';
 
 
@@ -38,7 +39,7 @@ class _Entrance extends State<Entrance> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Selection Menu"),
-        backgroundColor: Color.fromARGB(19, 137, 137, 137),
+        backgroundColor: colors.myBackground,
       ),
       body: Center(
       //   child: DropdownMenu<ColorLabel>(
@@ -66,7 +67,7 @@ class _Entrance extends State<Entrance> {
       //     }).toList(),
       //   ),
         child: Container(
-          color: Colors.white,
+          color: colors.myPrimaryColor,
           child: GridView.count(
           crossAxisCount: 2,
           padding: const EdgeInsets.all(10),
@@ -78,7 +79,8 @@ class _Entrance extends State<Entrance> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(60.0),
                 ),
-                color: Color.fromARGB(20, 62, 62, 62)
+                //color: Color.fromARGB(20, 62, 62, 62)
+                color: colors.myOnBackground
               ),
               //color: Colors.grey,
               child: Column(
@@ -107,7 +109,8 @@ class _Entrance extends State<Entrance> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(60.0),
                 ),
-                color: Color.fromARGB(20, 62, 62, 62)
+                //color: Color.fromARGB(20, 62, 62, 62)
+                color: colors.myOnBackground
               ),
               //color: Colors.grey,
               child: Column(
@@ -137,7 +140,8 @@ class _Entrance extends State<Entrance> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(60.0),
                 ),
-                color: Color.fromARGB(20, 62, 62, 62)
+                //color: Color.fromARGB(20, 62, 62, 62)
+                color: colors.myOnBackground
               ),
               //color: Colors.grey,
               child: Column(
@@ -186,7 +190,8 @@ class _Entrance extends State<Entrance> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(60.0),
                 ),
-                color: Color.fromARGB(20, 62, 62, 62)
+                //color: Color.fromARGB(20, 62, 62, 62)
+                color: colors.myOnBackground
               ),
               //color: Colors.grey,
               child: Column(

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/scouting_form.dart';
-import 'sheets_helper.dart';
+import 'package:frc1148_2023_scouting_app/sheets_helper.dart';
+import 'package:frc1148_2023_scouting_app/color_scheme.dart';
+
 
 List<ScoutingForm> sf = List.empty();
+SheetsHelper sh = SheetsHelper();
 
 class TeamDisplayInstance extends StatefulWidget {
   const TeamDisplayInstance({super.key, required this.teamID});
@@ -17,7 +20,7 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
 
   Future<void> _getNames() async {
     try {
-      final sheet = await SheetsHelper.sheetSetup("TeamDisplay");
+      final sheet = await sh.sheetSetup("TeamDisplay");
 
       dataNames = await sheet!.values.row(1);
       dataNames = dataNames.sublist(1);
@@ -33,7 +36,7 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
       // final ss = await gsheets.spreadsheet('1C4_kygqZTOo3uue3eBxrMV9b_3UJVuDiOVZqAeGHvzE');
       // final sheet = ss.worksheetByTitle('TeamDisplay');
 
-      final sheet = await SheetsHelper.sheetSetup("TeamDisplay");
+      final sheet = await sh.sheetSetup("TeamDisplay");
 
       // Writing data
       //final firstRow = [topScoreCone, midScoreCone, lowScoreCone, topScoreCube, midScoreCube, lowScoreCube, tryParkAuto, missedCube];
@@ -58,14 +61,15 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     if (dataSet.isEmpty || dataNames.isEmpty) {
       return const SafeArea(
         child: Scaffold(
-            backgroundColor: Color.fromARGB(255, 36, 36, 36),
+            backgroundColor: colors.myBackground,
             body: Center(
               child: Text(
-                "loading",
-                style: TextStyle(color: Color.fromARGB(255, 224, 224, 224)),
+                "loading ...",
+                style: TextStyle(color: colors.myOnPrimary),
               ),
             )),
       );
@@ -83,7 +87,10 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
             return DataBlock(category: dataNames[index], data: dataSet[index]);
           },
           separatorBuilder: (BuildContext context, int index) =>
-              const Divider(),
+              Container(
+                alignment: AlignmentDirectional.center,
+                height: height / 150,
+              ),
         ))
 
         // Column(
@@ -103,22 +110,41 @@ class DataBlock extends StatelessWidget {
   final String data;
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-            color: Colors.amber,
-            child: Column(
-              children: [
-                const Divider(),
-                Row(
+          height: height/8,
+           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+            //color: Color.fromRGBO(86, 14, 12, 0.982)),
+            //color: Color.fromARGB(255, 45, 44, 44)),
+            color: colors.myOnBackgroundD),
+          child: Column(
+            children: [
+              //const Divider(),
+              SizedBox(
+                height: height/25,
+                width: width,
+              ),
+              Container(
+                //color: Color.fromARGB(255, 192, 180, 180),
+                width:width/2,
+                decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(20),
+                  //color: Color.fromARGB(255, 204, 191, 191),),
+                  color: colors.myPrimaryColor,),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("$category: "),
-                    Text(data),
-                  ],
+                    children: [
+                      Text("$category: ",textScaleFactor: 1.5,style: TextStyle(color: colors.myOnPrimary)),
+                      Text(data,textScaleFactor: 1.5,style: TextStyle( color: colors.myOnPrimary)),
+                    ],
                 ),
-                const Divider(),
-              ],
-            )));
+              ),
+            ],
+          )
+        )
+      );
   }
 }
