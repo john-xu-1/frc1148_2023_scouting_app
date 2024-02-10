@@ -55,8 +55,22 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
       body: Center(
       child: ListView(
 
+//**
+//make a colum
+//  blue teams
+//    row of 7         Amp points       Auto / not x3 [make auto vs match different colors]
+//    row of 7         Speaker points   Auto / not x3
+//    row of 4         Trap points      x3
+//    row of 4         Parking Status   x3
+//  
+//  divider
 
-//do planning here
+//  red teams
+//    row of 7         Amp points       Auto / not x3 [make auto vs match different colors]
+//    row of 7         Speaker points   Auto / not x3
+//    row of 4         Trap points      x3
+//    row of 4         Parking Status   x3
+//*/
 
 
 
