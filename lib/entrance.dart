@@ -200,12 +200,12 @@ class _Entrance extends State<Entrance> {
                   IconButton(
                     iconSize: 100,
                     onPressed: (){
-                      print ("data analysis");
+                      print ("match list");
                     },  
                     icon: const Icon(Icons.search),
                     color: Colors.black,
                   ),
-                  const Text("data analysis"),
+                  const Text("Match List"),
                   
                   
                 ],

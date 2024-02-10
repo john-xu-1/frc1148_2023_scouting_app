@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/lead_scouting.dart';
 import 'package:frc1148_2023_scouting_app/auto_form.dart';
 import 'sheets_helper.dart';
+import 'color_scheme.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
@@ -140,6 +141,7 @@ class _LogIn extends State<LogIn> {
                             id = value;
                           });
                         },
+                        cursorColor: colors.myOnSurface,
                       ),
                     ),
                     
@@ -164,6 +166,7 @@ class _LogIn extends State<LogIn> {
                             mnum = value;
                           });
                         },
+                        cursorColor: colors.myOnSurface,
                       ),
                     ),
                   ],

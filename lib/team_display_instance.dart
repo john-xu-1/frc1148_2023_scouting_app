@@ -5,7 +5,6 @@ import 'package:frc1148_2023_scouting_app/color_scheme.dart';
 
 
 List<ScoutingForm> sf = List.empty();
-SheetsHelper sh = SheetsHelper();
 
 class TeamDisplayInstance extends StatefulWidget {
   const TeamDisplayInstance({super.key, required this.teamID});
@@ -20,7 +19,7 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
 
   Future<void> _getNames() async {
     try {
-      final sheet = await sh.sheetSetup("TeamDisplay");
+      final sheet = await SheetsHelper.sheetSetup("TeamDisplay");
 
       dataNames = await sheet!.values.row(1);
       dataNames = dataNames.sublist(1);
@@ -36,7 +35,7 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
       // final ss = await gsheets.spreadsheet('1C4_kygqZTOo3uue3eBxrMV9b_3UJVuDiOVZqAeGHvzE');
       // final sheet = ss.worksheetByTitle('TeamDisplay');
 
-      final sheet = await sh.sheetSetup("TeamDisplay");
+      final sheet = await SheetsHelper.sheetSetup("TeamDisplay");
 
       // Writing data
       //final firstRow = [topScoreCone, midScoreCone, lowScoreCone, topScoreCube, midScoreCube, lowScoreCube, tryParkAuto, missedCube];

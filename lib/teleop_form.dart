@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/subjective_form.dart';
 import 'sheets_helper.dart';
+import 'color_scheme.dart';
 
 
 
@@ -103,7 +104,7 @@ class _TeleopForm extends State<TeleopForm> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text("Amplified",textScaleFactor: 1.5),
-                              CounterButton(update, speakerPoints, 5, const Text('+',textScaleFactor: 4,)),
+                              CounterButton(update, speakerPoints, 5, const Text('+',textScaleFactor: 2,)),
                               CounterButton(update, speakerPoints, -5, const Text('-',textScaleFactor: 2.5,)),
                               
                             ]
@@ -116,7 +117,7 @@ class _TeleopForm extends State<TeleopForm> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text("Regular",textScaleFactor: 1.5),
-                              CounterButton(update, speakerPoints, 2, const Text('+',textScaleFactor: 4,)),
+                              CounterButton(update, speakerPoints, 2, const Text('+',textScaleFactor: 2,)),
                               CounterButton(update, speakerPoints, -2, const Text('-',textScaleFactor: 2.5,)),
                             ]
                           )
@@ -124,12 +125,12 @@ class _TeleopForm extends State<TeleopForm> {
                       ],
                     ),
 
-                    Container( alignment: AlignmentDirectional.center,width: width * 0.45,child: const Divider(),),
+                    Container( alignment: AlignmentDirectional.center,width: width * 0.45,child: const Divider(color: colors.mySecondaryColor),),
 
 
                     ScoreDisplay(missedS.value, "Missed Speaker: "),
 
-                    CounterButton(update, missedS, 1, const Text('+',textScaleFactor: 4,)),
+                    CounterButton(update, missedS, 1, const Text('+',textScaleFactor: 2,)),
                     CounterButton(update, missedS, -1, const Text('-',textScaleFactor: 2.5,)),
                   ],
                 ),
@@ -138,24 +139,28 @@ class _TeleopForm extends State<TeleopForm> {
                 
                 SizedBox(
                   height:height *0.9,
-                  child: const VerticalDivider(),
+                  child: const VerticalDivider(color: colors.mySecondaryColor,),
                 ),
 
                 
                 Column (
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [ 
                     ScoreDisplay(ampPoints.value, "Amp pts: "),
+
                     
-                    CounterButton(update, ampPoints, 1, const Text('+',textScaleFactor: 4,)),
+                    
+                    CounterButton(update, ampPoints, 1, const Text('+',textScaleFactor: 2,)),
                       
                     CounterButton(update, ampPoints, -1, const Text('-',textScaleFactor: 2.5,)),
 
-                    const SizedBox(height: 70,),
+                    const SizedBox(height: 165,),
+                    
 
-                    Container( alignment: AlignmentDirectional.center,width: width * 0.45,child: const Divider(),),
+                    Container( alignment: AlignmentDirectional.center,width: width * 0.45,child: const Divider(color: colors.mySecondaryColor),),
                     ScoreDisplay(missedA.value, "Missed Amps: "),                            
-                    CounterButton(update, missedA, 1, const Text('+',textScaleFactor: 4,)),
+                    CounterButton(update, missedA, 1, const Text('+',textScaleFactor: 2,)),
                     CounterButton(update, missedA, -1, const Text('-',textScaleFactor: 2.5,)),
                   ]
                 ), 
@@ -175,7 +180,7 @@ class _TeleopForm extends State<TeleopForm> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ScoreDisplay(trapPoints.value, "Points:"),
-                    CounterButton(update, trapPoints, 5, const Text('+',textScaleFactor: 4,)),
+                    CounterButton(update, trapPoints, 5, const Text('+',textScaleFactor: 2,)),
                     CounterButton(update, trapPoints, -5, const Text('-',textScaleFactor: 2.5,)),
                     
                   ]
@@ -185,7 +190,7 @@ class _TeleopForm extends State<TeleopForm> {
                   mainAxisAlignment: MainAxisAlignment.center,
                     children: [      
                       ScoreDisplay(missedT.value, "missed:"),                     
-                      CounterButton(update,missedT, 1, const Text('+',textScaleFactor: 4,)),
+                      CounterButton(update,missedT, 1, const Text('+',textScaleFactor: 2,)),
                       CounterButton(update, missedT, -1, const Text('-',textScaleFactor: 2.5,)),
                   ]
                 ),
@@ -193,7 +198,7 @@ class _TeleopForm extends State<TeleopForm> {
             ),
  
 
-            const Divider(),
+            const Divider(color: colors.mySecondaryColor),
             Container(
               width: width,
               height: height/5,
@@ -214,7 +219,7 @@ class _TeleopForm extends State<TeleopForm> {
                 ]
               ),
             ),
-            const Divider(),
+            const Divider(color: colors.mySecondaryColor),
             Container(
               width: width,
               height: height/5,
@@ -271,7 +276,7 @@ class ScoreDisplay extends StatelessWidget{
       children: [
         Text(lable, textScaleFactor: 1.5,),
         SizedBox (width: width/20),
-        FittedBox(child: Text("$points",textScaleFactor: 3.5,),), 
+        FittedBox(child: Text("$points",textScaleFactor: 3.5, style: const TextStyle(color: colors.myOnPrimary))), 
       ],
     );
   }
