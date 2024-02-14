@@ -17,7 +17,9 @@ class colors extends ColorScheme {
   
   static const Color myError = Color.fromARGB(255, 244, 5, 5);
   
-  static const Color test = Color.fromARGB(255, 57, 5, 244);
+  static const Color myBlue = Color.fromARGB(255, 55, 0, 255);
+  static const Color myRed = Color.fromARGB(255, 255, 0, 0);
+
 
   // Override the constructor
   const colors({
@@ -31,7 +33,9 @@ class colors extends ColorScheme {
     Color surface = mySurface,
     Color onSurface = myOnSurface,
     Color error = myError,
-    Color test = test,
+    Color blue = myBlue,  
+    Color red = myRed,
+
   
     // Include other color properties from the super class
     // such as background, surface, onBackground, etc.
