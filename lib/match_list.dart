@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'sheets_helper.dart';
 import 'color_scheme.dart';
-import 'log_in.dart'; //delete when merge
+import 'match_list_display.dart';
 
 class MatchList extends StatefulWidget {
   const MatchList({Key? key}) : super(key: key);
@@ -86,9 +86,10 @@ class _MatchList extends State<MatchList> {
                       child: ElevatedButton(
                         child: Text(matches[index]),
                         onPressed: () async {
+                          List<String> matchData = await _fetchRow(matches[index]);
                           Navigator.push(
                               context,
-                              MaterialPageRoute( builder: (context) => LogIn() /* MatchListDisplay (await _fetchRow(matches[index]), matches[index]) */)
+                              MaterialPageRoute( builder: (context) =>  MatchListDisplay (matchData: matchData, matchID: matches[index]) )
                           );
                         }
                       )
