@@ -83,9 +83,11 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        allTeamDisplays[index]));
-                          }))
+                                    builder: (context) => allTeamDisplays[index])
+                            );
+                          }
+                      )
+                    )
                 ],
               ),
             );
