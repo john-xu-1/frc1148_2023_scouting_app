@@ -67,6 +67,9 @@ class _MatchList extends State<MatchList> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Home"),
+      ),
       body: ListView.separated(
           padding: const EdgeInsets.all(8),
           itemCount: matches.length,
