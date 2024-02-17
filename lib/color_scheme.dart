@@ -20,6 +20,9 @@ class colors extends ColorScheme {
   static const Color myBlue = Color.fromARGB(255, 55, 0, 255);
   static const Color myRed = Color.fromARGB(255, 255, 0, 0);
 
+  static const Color myAuto = Color.fromARGB(255, 98, 97, 97);
+  static const Color myMatch = Color.fromARGB(255, 4, 4, 4);
+
 
   // Override the constructor
   const colors({
@@ -35,6 +38,8 @@ class colors extends ColorScheme {
     Color error = myError,
     Color blue = myBlue,  
     Color red = myRed,
+    Color auto = myAuto,
+    Color match = myMatch,
 
   
     // Include other color properties from the super class

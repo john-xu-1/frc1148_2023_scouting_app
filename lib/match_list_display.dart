@@ -56,8 +56,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(widget.matchData[3],style: TextStyle(color: colors.myPrimaryColor)),
-                          Text(widget.matchData[4],style: TextStyle(color: colors.mySecondaryColor))
+                          Text(widget.matchData[3],style: TextStyle(color: colors.myAuto)),
+                          SizedBox(child:Text(" | ")),
+                          Text(widget.matchData[4],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -65,8 +66,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(widget.matchData[6],style: TextStyle(color: colors.myPrimaryColor)),
-                          Text(widget.matchData[7],style: TextStyle(color: colors.mySecondaryColor))
+                          Text(widget.matchData[5],style: TextStyle(color: colors.myAuto)),
+                          SizedBox(child:Text(" | ")),
+                          Text(widget.matchData[6],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -74,8 +76,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(widget.matchData[8],style: TextStyle(color: colors.myPrimaryColor)),
-                          Text(widget.matchData[9],style: TextStyle(color: colors.mySecondaryColor))
+                          Text(widget.matchData[7],style: TextStyle(color: colors.myAuto)),
+                          SizedBox(child:Text(" | ")),
+                          Text(widget.matchData[8],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -91,8 +94,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(widget.matchData[10],style: TextStyle(color: colors.myPrimaryColor)),
-                          Text(widget.matchData[11],style: TextStyle(color: colors.mySecondaryColor))
+                          Text(widget.matchData[9],style: TextStyle(color: colors.myAuto)),
+                          SizedBox(child:Text(" | ")),
+                          Text(widget.matchData[10],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -100,8 +104,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(widget.matchData[12],style: TextStyle(color: colors.myPrimaryColor)),
-                          Text(widget.matchData[13],style: TextStyle(color: colors.mySecondaryColor))
+                          Text(widget.matchData[11],style: TextStyle(color: colors.myAuto)),
+                          SizedBox(child:Text(" | ")),
+                          Text(widget.matchData[12],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -109,8 +114,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(widget.matchData[14],style: TextStyle(color: colors.myPrimaryColor)),
-                          Text(widget.matchData[15],style: TextStyle(color: colors.mySecondaryColor))
+                          Text(widget.matchData[13],style: TextStyle(color: colors.myAuto)),
+                          SizedBox(child:Text(" | ")),
+                          Text(widget.matchData[14],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -123,13 +129,13 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Text("Trap points: "),
                     ),
                     SizedBox(
+                      child: Text(widget.matchData[15])
+                    ),
+                    SizedBox(
                       child: Text(widget.matchData[16])
                     ),
                     SizedBox(
                       child: Text(widget.matchData[17])
-                    ),
-                    SizedBox(
-                      child: Text(widget.matchData[18])
                     ),
                   ]
                 ),
@@ -140,13 +146,13 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Text("Parking Status: "),
                     ),
                     SizedBox(
+                      child: Text(widget.matchData[18])
+                    ),
+                    SizedBox(
                       child: Text(widget.matchData[19])
                     ),
                     SizedBox(
                       child: Text(widget.matchData[20])
-                    ),
-                    SizedBox(
-                      child: Text(widget.matchData[21])
                     ),
                   ]
                 ),
@@ -160,13 +166,13 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Text("Red Alliance: ",style: TextStyle(color: colors.myRed))
                     ),
                     SizedBox(
+                      child: Text(widget.matchData[21])
+                    ),
+                    SizedBox(
                       child: Text(widget.matchData[22])
                     ),
                     SizedBox(
-                      child: Text(widget.matchData[13])
-                    ),
-                    SizedBox(
-                      child: Text(widget.matchData[24])
+                      child: Text(widget.matchData[23])
                     ),
                   ]
                 ),
@@ -180,8 +186,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(widget.matchData[25],style: TextStyle(color: colors.myPrimaryColor)),
-                          Text(widget.matchData[26],style: TextStyle(color: colors.mySecondaryColor))
+                          Text(widget.matchData[24],style: TextStyle(color: colors.myAuto)),
+                          SizedBox(child:Text(" | ")),
+                          Text(widget.matchData[25],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -189,8 +196,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(widget.matchData[27],style: TextStyle(color: colors.myPrimaryColor)),
-                          Text(widget.matchData[28],style: TextStyle(color: colors.mySecondaryColor))
+                          Text(widget.matchData[26],style: TextStyle(color: colors.myAuto)),
+                          SizedBox(child:Text(" | ")),
+                          Text(widget.matchData[27],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -198,8 +206,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(widget.matchData[29],style: TextStyle(color: colors.myPrimaryColor)),
-                          Text(widget.matchData[30],style: TextStyle(color: colors.mySecondaryColor))
+                          Text(widget.matchData[28],style: TextStyle(color: colors.myAuto)),
+                          SizedBox(child:Text(" | ")),
+                          Text(widget.matchData[29],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -215,8 +224,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(widget.matchData[31],style: TextStyle(color: colors.myPrimaryColor)),
-                          Text(widget.matchData[32],style: TextStyle(color: colors.mySecondaryColor))
+                          Text(widget.matchData[30],style: TextStyle(color: colors.myAuto)),
+                          SizedBox(child:Text(" | ")),
+                          Text(widget.matchData[31],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -224,8 +234,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(widget.matchData[33],style: TextStyle(color: colors.myPrimaryColor)),
-                          Text(widget.matchData[34],style: TextStyle(color: colors.mySecondaryColor))
+                          Text(widget.matchData[32],style: TextStyle(color: colors.myAuto)),
+                          SizedBox(child:Text(" | ")),
+                          Text(widget.matchData[33],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -233,8 +244,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(widget.matchData[35],style: TextStyle(color: colors.myPrimaryColor)),
-                          Text(widget.matchData[36],style: TextStyle(color: colors.mySecondaryColor))
+                          Text(widget.matchData[34],style: TextStyle(color: colors.myAuto)),
+                          SizedBox(child:Text(" | ")),
+                          Text(widget.matchData[35],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -247,13 +259,13 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Text("Trap points: "),
                     ),
                     SizedBox(
+                      child: Text(widget.matchData[36])
+                    ),
+                    SizedBox(
                       child: Text(widget.matchData[37])
                     ),
                     SizedBox(
-                      child: Text(widget.matchData[39])
-                    ),
-                    SizedBox(
-                      child: Text(widget.matchData[39])
+                      child: Text(widget.matchData[38])
                     ),
                   ]
                 ),
@@ -264,13 +276,13 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Text("Parking Status: "),
                     ),
                     SizedBox(
+                      child: Text(widget.matchData[39])
+                    ),
+                    SizedBox(
                       child: Text(widget.matchData[40])
                     ),
                     SizedBox(
                       child: Text(widget.matchData[41])
-                    ),
-                    SizedBox(
-                      child: Text(widget.matchData[42])
                     ),
                   ]
                 ),
