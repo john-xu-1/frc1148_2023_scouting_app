@@ -13,6 +13,7 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
 
   @override
   Widget build(BuildContext context) {
+      double height = MediaQuery.of(context).size.height;
     return Scaffold(
 
       appBar: AppBar( 
@@ -29,6 +30,7 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Container(height: height/8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -156,9 +158,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                     ),
                   ]
                 ),
-
+                Container(height: height/8),
                 Divider(),
-                
+                Container(height: height/8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
