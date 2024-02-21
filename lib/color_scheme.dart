@@ -20,7 +20,7 @@ class colors extends ColorScheme {
   static const Color myBlue = Color.fromARGB(255, 55, 0, 255);
   static const Color myRed = Color.fromARGB(255, 255, 0, 0);
 
-  static const Color myAuto = Color.fromARGB(255, 98, 97, 97);
+  static const Color myAmped = Color.fromARGB(255, 98, 97, 97);
   static const Color myMatch = Color.fromARGB(255, 4, 4, 4);
 
 
@@ -38,7 +38,7 @@ class colors extends ColorScheme {
     Color error = myError,
     Color blue = myBlue,  
     Color red = myRed,
-    Color auto = myAuto,
+    Color amped = myAmped,
     Color match = myMatch,
 
   
