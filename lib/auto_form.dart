@@ -61,9 +61,9 @@ class _AutoForm extends State<AutoForm> {
         child: Stack(
           children: <Widget> [
             //alliance rings
-            TopLeftFieldElement(Image.asset("ring.png"), 50, width / 20 * 10, height / 2 - (height / 2)  / 3 * 3 + 50, autoPathWriter, "alliance1"),
-            TopLeftFieldElement(Image.asset("ring.png"), 50, width / 20 * 10, height / 2 - (height / 2)  / 3 * 2 + 50, autoPathWriter, "alliance2"),
-            TopLeftFieldElement(Image.asset("ring.png"), 50, width / 20 * 10, height / 2 - (height / 2)  / 3 * 1 + 50, autoPathWriter, "alliance3"),
+            TopLeftFieldElement(const Icon(Icons.adjust, color: Colors.orange,), 50, width / 20 * 10, height / 2 - (height / 2)  / 3 * 3 + 50, autoPathWriter, "alliance1"),
+            TopLeftFieldElement(const Icon(Icons.adjust, color: Colors.orange,), 50, width / 20 * 10, height / 2 - (height / 2)  / 3 * 2 + 50, autoPathWriter, "alliance2"),
+            TopLeftFieldElement(const Icon(Icons.adjust, color: Colors.orange,), 50, width / 20 * 10, height / 2 - (height / 2)  / 3 * 1 + 50, autoPathWriter, "alliance3"),
 
             // amp
             TopLeftFieldElement(const Icon(Icons.amp_stories), 50, width / 20 * 6, height - height, autoPathWriter, "Amplifier"),
@@ -71,11 +71,11 @@ class _AutoForm extends State<AutoForm> {
             TopLeftFieldElement(const Icon(Icons.speaker), 50, width / 20, height / 6, autoPathWriter, "Speaker"),
 
             //middle rings
-            TopRightFieldElement(Image.asset("ring.png"), 50, width/20, height - height, autoPathWriter, "mid1"),
-            TopRightFieldElement(Image.asset("ring.png"), 50, width/20, height - height/5 * 4, autoPathWriter, "mid2"),
-            TopRightFieldElement(Image.asset("ring.png"), 50, width/20, height - height/5 * 3, autoPathWriter, "mid3"),
-            TopRightFieldElement(Image.asset("ring.png"), 50, width/20, height - height/5 * 2, autoPathWriter, "mid4"),
-            TopRightFieldElement(Image.asset("ring.png"), 50, width/20, height - height/5 * 1, autoPathWriter, "mid5"),
+            TopRightFieldElement(const Icon(Icons.adjust, color: Colors.orange,), 50, width/20, height - height, autoPathWriter, "mid1"),
+            TopRightFieldElement(const Icon(Icons.adjust, color: Colors.orange,), 50, width/20, height - height/5 * 4, autoPathWriter, "mid2"),
+            TopRightFieldElement(const Icon(Icons.adjust, color: Colors.orange,), 50, width/20, height - height/5 * 3, autoPathWriter, "mid3"),
+            TopRightFieldElement(const Icon(Icons.adjust, color: Colors.orange,), 50, width/20, height - height/5 * 2, autoPathWriter, "mid4"),
+            TopRightFieldElement(const Icon(Icons.adjust, color: Colors.orange,), 50, width/20, height - height/5 * 1, autoPathWriter, "mid5"),
             Positioned(
               width: width,
               bottom: 0,
@@ -109,6 +109,8 @@ class _AutoForm extends State<AutoForm> {
   }
 }
 
+
+
 class TopLeftFieldElement extends StatelessWidget{
   final Widget icon;
   final double left;
@@ -116,6 +118,9 @@ class TopLeftFieldElement extends StatelessWidget{
   final Function onClickBehavior;
   final String path;
   final double iconSize;
+
+  
+
 
   const TopLeftFieldElement(this.icon, this.iconSize, this.left, this.top, this.onClickBehavior, this.path, {super.key});
 
