@@ -117,13 +117,13 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Text("Trap points: "),
                     ),
                     SizedBox(
-                      child: Text(widget.matchData[10])
+                      child: Text("center: " +widget.matchData[10])
                     ),
                     SizedBox(
-                      child: Text(widget.matchData[11])
+                      child: Text("left: " + widget.matchData[11])
                     ),
                     SizedBox(
-                      child: Text(widget.matchData[12])
+                      child: Text("right: " + widget.matchData[12])
                     ),
                   ]
                 ),
@@ -231,13 +231,13 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Text("Trap points: "),
                     ),
                     SizedBox(
-                      child: Text(widget.matchData[26])
+                      child: Text("center: " + widget.matchData[26])
                     ),
                     SizedBox(
-                      child: Text(widget.matchData[27])
+                      child: Text("left: " + widget.matchData[27])
                     ),
                     SizedBox(
-                      child: Text(widget.matchData[28])
+                      child: Text("right: " + widget.matchData[28])
                     ),
                   ]
                 ),
