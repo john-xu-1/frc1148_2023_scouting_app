@@ -10,6 +10,10 @@ bool CapablityOne = false;
 bool CapablityTwo = false;
 String bumperQuality = "";
 bool fieldCapability = false;
+bool climb = false;
+bool trap = false;
+bool ground=false;
+bool source = false;
 
 
 class PitScouting extends StatefulWidget {
@@ -26,6 +30,10 @@ class _PitScouting extends State<PitScouting> {
     'Can score in speaker',
     'Enter Robot bumper quality (1-5), 5 is best',
     'Maneuverability on field Capability(under stage)',
+    'Can Robot climb',
+    'Can score Trap',
+    'intake from ground',
+    'intake from source',
   ];
 
 
@@ -35,7 +43,7 @@ class _PitScouting extends State<PitScouting> {
     try {
       final sheet = await SheetsHelper.sheetSetup('PitScouting');
        // Writing data
-      final firstRow = [robotWeight, CapablityOne, CapablityTwo, bumperQuality, fieldCapability];
+      final firstRow = [robotWeight, CapablityOne, CapablityTwo, bumperQuality, fieldCapability,climb,trap,ground,source];
       await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
       // prints [index, letter, number, label]
       print(await sheet.values.row(1));
@@ -211,6 +219,90 @@ class _PitScouting extends State<PitScouting> {
                     },
                   )
                     
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              height: height/3.5,
+              //color: Colors.red[400],
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(entries[5],textScaleFactor: 1.5,),
+                    Checkbox(
+                    value: climb,
+                    //color: Colors.amber[700],
+                    onChanged: (newValue) {
+                      setState(() {
+                        climb = newValue!;
+                      });
+                    },
+                  ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              height: height/3.5,
+              //color: Colors.red[400],
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(entries[6],textScaleFactor: 1.5,),
+                    Checkbox(
+                    value: trap,
+                    //color: Colors.amber[700],
+                    onChanged: (newValue) {
+                      setState(() {
+                        trap = newValue!;
+                      });
+                    },
+                  ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              height: height/3.5,
+              //color: Colors.red[400],
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(entries[7],textScaleFactor: 1.5,),
+                    Checkbox(
+                    value: ground,
+                    //color: Colors.amber[700],
+                    onChanged: (newValue) {
+                      setState(() {
+                        ground = newValue!;
+                      });
+                    },
+                  ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              height: height/3.5,
+              //color: Colors.red[400],
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(entries[8],textScaleFactor: 1.5,),
+                    Checkbox(
+                    value: source,
+                    //color: Colors.amber[700],
+                    onChanged: (newValue) {
+                      setState(() {
+                        source = newValue!;
+                      });
+                    },
+                  ),
                   ],
                 ),
               ),
