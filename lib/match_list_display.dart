@@ -32,8 +32,15 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
               children: <Widget>[
                 Container(height: height/12),
                 SizedBox(
-                 child: Text("Winner: "+ widget.matchData[0])
+                 child: Text("Winner: "+ widget.matchData[10])
                 ),
+                SizedBox(
+                 child: Text("B coop?: "+ widget.matchData[11],style: TextStyle(color: colors.myBlue))
+                ),
+                SizedBox(
+                 child: Text("R coop?: "+ widget.matchData[28],style: TextStyle(color: colors.myRed))
+                ),
+                
                 Divider(),
                 Container(height: height/12),
                 Row(
@@ -43,28 +50,31 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child:  Text("Blue Alliance: ",style: TextStyle(color: colors.myBlue))//make blue, Auto and match points are diff colors
                     ),
                     SizedBox(
-                      child: Text(widget.matchData[1])
-                    ),
-                    SizedBox(
                       child: Text(widget.matchData[2])
                     ),
                     SizedBox(
                       child: Text(widget.matchData[3])
                     ),
+                    SizedBox(
+                      child: Text(widget.matchData[4])
+                    ),
                   ]
+                ),
+                SizedBox(
+                 child: Text("Blue RP: "+ widget.matchData[0])
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     const SizedBox(
-                      child: Text("Amp points: "),
+                      child: Text("Amp pts: "),
                     ),
                     SizedBox(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          SizedBox(child:Text("Auto:")),
-                          Text(widget.matchData[4],style: TextStyle(color: colors.myMatch))
+                          SizedBox(child:Text("A:")),
+                          Text(widget.matchData[13],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -72,8 +82,8 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          SizedBox(child:Text("Match:")),
-                          Text(widget.matchData[5],style: TextStyle(color: colors.myMatch))
+                          SizedBox(child:Text("T:")),
+                          Text(widget.matchData[14],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -84,16 +94,14 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
 
                   children: <Widget>[
                     const SizedBox(
-                      child: Text("Speaker points: "),
+                      child: Text("Speaker pts: "),
                     ),
                     SizedBox(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          SizedBox(child:Text("Auto: ")),
-                          Text(widget.matchData[6],style: TextStyle(color: colors.myAmped)),
-                          SizedBox(child:Text(" | ")),
-                          Text(widget.matchData[7],style: TextStyle(color: colors.myMatch))
+                          SizedBox(child:Text("A: ")),
+                          Text(widget.matchData[15],style: TextStyle(color: colors.myAmped)),
                         ]
                       ),
                     ),
@@ -101,52 +109,52 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          SizedBox(child:Text("Tele: ")),
-                          Text(widget.matchData[8],style: TextStyle(color: colors.myAmped)),
+                          SizedBox(child:Text("T: ")),
+                          Text(widget.matchData[17],style: TextStyle(color: colors.myAmped)),
                           SizedBox(child:Text(" | ")),
-                          Text(widget.matchData[9],style: TextStyle(color: colors.myMatch))
+                          Text(widget.matchData[16],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
                   ]
                 ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //   children: <Widget>[
+                //     const SizedBox(
+                //       child: Text("Trap points: "),
+                //     ),
+                //     SizedBox(
+                //       child: Text("center: " +widget.matchData[18])
+                //     ),
+                //     SizedBox(
+                //       child: Text("left: " + widget.matchData[19])
+                //     ),
+                //     SizedBox(
+                //       child: Text("right: " + widget.matchData[20])
+                //     ),
+                //   ]
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     const SizedBox(
-                      child: Text("Trap points: "),
+                      child: Text("Parking: "),
                     ),
                     SizedBox(
-                      child: Text("center: " +widget.matchData[10])
+                      child: Text(widget.matchData[21])
                     ),
                     SizedBox(
-                      child: Text("left: " + widget.matchData[11])
+                      child: Text(widget.matchData[22])
                     ),
                     SizedBox(
-                      child: Text("right: " + widget.matchData[12])
-                    ),
-                  ]
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    const SizedBox(
-                      child: Text("Parking Status: "),
-                    ),
-                    SizedBox(
-                      child: Text("center: " + widget.matchData[13])
-                    ),
-                    SizedBox(
-                      child: Text("left: " + widget.matchData[14])
-                    ),
-                    SizedBox(
-                      child: Text("right: " + widget.matchData[15])
+                      child: Text(widget.matchData[23])
                     ),
                   ]
                 ),
                 Container(height: height/70),
                 SizedBox(
-                  child: Text("Total points: " + widget.matchData[16])
+                  child: Text("Total pts: " + widget.matchData[1], style: TextStyle(color:colors.myBlue),)
                 ),
                 Container(height: height/12),
                 Divider(),
@@ -158,28 +166,31 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Text("Red Alliance: ",style: TextStyle(color: colors.myRed))
                     ),
                     SizedBox(
-                      child: Text(widget.matchData[17])
+                      child: Text(widget.matchData[7])
                     ),
                     SizedBox(
-                      child: Text(widget.matchData[18])
+                      child: Text(widget.matchData[8])
                     ),
                     SizedBox(
-                      child: Text(widget.matchData[19])
+                      child: Text(widget.matchData[9])
                     ),
                   ]
+                ),
+                SizedBox(
+                 child: Text("Red RP: "+ widget.matchData[5])
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     const SizedBox(
-                      child: Text("Amp points: "),
+                      child: Text("Amp pts: "),
                     ),
                     SizedBox(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          SizedBox(child:Text("Auto:")),
-                          Text(widget.matchData[20],style: TextStyle(color: colors.myMatch))
+                          SizedBox(child:Text("A:")),
+                          Text(widget.matchData[30],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -187,8 +198,8 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          SizedBox(child:Text("Match:")),
-                          Text(widget.matchData[21],style: TextStyle(color: colors.myMatch))
+                          SizedBox(child:Text("M:")),
+                          Text(widget.matchData[31],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
@@ -198,69 +209,67 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     const SizedBox(
-                      child: Text("Speaker points: "),
+                      child: Text("Speaker pts: "),
                     ),
                     SizedBox(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          SizedBox(child:Text("Auto: ")),
-                          Text(widget.matchData[22],style: TextStyle(color: colors.myAmped)),
+                          SizedBox(child:Text("A: ")),
+                          Text(widget.matchData[32],style: TextStyle(color: colors.myAmped)),
+                        ]
+                      ),
+                    ),
+                    SizedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          SizedBox(child:Text("T: ")),
+                          Text(widget.matchData[34],style: TextStyle(color: colors.myAmped)),
                           SizedBox(child:Text(" | ")),
-                          Text(widget.matchData[23],style: TextStyle(color: colors.myMatch))
-                        ]
-                      ),
-                    ),
-                    SizedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          SizedBox(child:Text("Tele: ")),
-                          Text(widget.matchData[24],style: TextStyle(color: colors.myAmped)),
-                          SizedBox(child:Text(" | ")),
-                          Text(widget.matchData[25],style: TextStyle(color: colors.myMatch))
+                          Text(widget.matchData[33],style: TextStyle(color: colors.myMatch))
                         ]
                       ),
                     ),
                   ]
                 ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //   children: <Widget>[
+                //     const SizedBox(
+                //       child: Text("Trap points: "),
+                //     ),
+                //     SizedBox(
+                //       child: Text("center: " + widget.matchData[35])
+                //     ),
+                //     SizedBox(
+                //       child: Text("left: " + widget.matchData[36])
+                //     ),
+                //     SizedBox(
+                //       child: Text("right: " + widget.matchData[37])
+                //     ),
+                //   ]
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     const SizedBox(
-                      child: Text("Trap points: "),
+                      child: Text("Parking: "),
                     ),
                     SizedBox(
-                      child: Text("center: " + widget.matchData[26])
+                      child: Text(widget.matchData[38])
                     ),
                     SizedBox(
-                      child: Text("left: " + widget.matchData[27])
+                      child: Text(widget.matchData[39])
                     ),
                     SizedBox(
-                      child: Text("right: " + widget.matchData[28])
-                    ),
-                  ]
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    const SizedBox(
-                      child: Text("Parking Status: "),
-                    ),
-                    SizedBox(
-                      child: Text("center: " + widget.matchData[29])
-                    ),
-                    SizedBox(
-                      child: Text("left: " + widget.matchData[30])
-                    ),
-                    SizedBox(
-                      child: Text("right: " + widget.matchData[31])
+                      child: Text(widget.matchData[40])
                     ),
                   ]
                 ),
                 Container(height: height/70),
                 SizedBox(
-                  child: Text("Total points: " + widget.matchData[32])
+                  child: Text("Total pts: " + widget.matchData[6], style: TextStyle(color:colors.myRed))
                 ),
               ]
             ),
