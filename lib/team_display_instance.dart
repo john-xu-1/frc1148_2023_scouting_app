@@ -43,7 +43,7 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
       // prints [index, letter, number, label]
 
       dataSet = (await sheet!.values.rowByKey(widget.teamID))!;
-      dataSet = dataSet.sublist(1);
+      dataSet = dataSet.sublist(0);
       setState(() {}); //referesh after successful fetch
     } catch (e) {
       print('Error: $e');
@@ -114,7 +114,7 @@ class DataBlock extends StatelessWidget {
     return Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-          height: height/8,
+          height: height/13,
            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
             //color: Color.fromRGBO(86, 14, 12, 0.982)),
             //color: Color.fromARGB(255, 45, 44, 44)),
@@ -123,7 +123,7 @@ class DataBlock extends StatelessWidget {
             children: [
               //const Divider(),
               SizedBox(
-                height: height/25,
+                height: height/45,
                 width: width,
               ),
               Container(
@@ -137,7 +137,12 @@ class DataBlock extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("$category: ",textScaleFactor: 1.5,style: TextStyle(color: colors.myOnPrimary)),
-                      Text(data,textScaleFactor: 1.5,style: TextStyle( color: colors.myOnPrimary)),
+                      if (data==("true"))
+                        Icon(Icons.check)
+                        else if (data==("false"))
+                        Icon(Icons.close)
+                        else
+                      Text(data,textScaleFactor: 1.5,style: TextStyle( color: const Color.fromARGB(255, 12, 11, 11))),
                     ],
                 ),
               ),
