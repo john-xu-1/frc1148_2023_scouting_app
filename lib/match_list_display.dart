@@ -60,9 +60,6 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                     ),
                   ]
                 ),
-                SizedBox(
-                 child: Text("Blue RP: "+ widget.matchData[0])
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -156,6 +153,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                 SizedBox(
                   child: Text("Total pts: " + widget.matchData[1], style: TextStyle(color:colors.myBlue),)
                 ),
+                SizedBox(
+                 child: Text("Blue RP: "+ widget.matchData[0])
+                ),
                 Container(height: height/12),
                 Divider(),
                 Container(height: height/12),
@@ -175,9 +175,6 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                       child: Text(widget.matchData[9])
                     ),
                   ]
-                ),
-                SizedBox(
-                 child: Text("Red RP: "+ widget.matchData[5])
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -270,6 +267,9 @@ class _MatchListDisplayState extends State<MatchListDisplay> {
                 Container(height: height/70),
                 SizedBox(
                   child: Text("Total pts: " + widget.matchData[6], style: TextStyle(color:colors.myRed))
+                ),
+                SizedBox(
+                 child: Text("Red RP: "+ widget.matchData[5])
                 ),
               ]
             ),
