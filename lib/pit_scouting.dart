@@ -32,8 +32,8 @@ class _PitScouting extends State<PitScouting> {
     'Maneuverability on field Capability(under stage)',
     'Can Robot climb',
     'Can score Trap',
-    'intake from ground',
-    'intake from source',
+    'Intake from ground',
+    'Intake from source',
   ];
 
 
@@ -102,8 +102,7 @@ class _PitScouting extends State<PitScouting> {
                 ),
               ),
             ),
-
-            Container(
+            SizedBox(
               height: height / 3.5,
               //color: Colors.red[300],
               child: Center(
@@ -111,7 +110,7 @@ class _PitScouting extends State<PitScouting> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(entries[0],textScaleFactor: 1.5,),
-                    Container(
+                    SizedBox(
                       width: width /3,
                       child: TextField(
                         onChanged: (String value) {
@@ -136,7 +135,7 @@ class _PitScouting extends State<PitScouting> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               height: height/3.5,
               //color: Colors.red[400],
               child: Center(
@@ -157,7 +156,7 @@ class _PitScouting extends State<PitScouting> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               height: height / 3.5,
               //color: Colors.red[300],
               child: Center(
@@ -179,7 +178,7 @@ class _PitScouting extends State<PitScouting> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               height: height / 3.5,
               //color: Colors.red[300],
               child: Center(
@@ -187,7 +186,7 @@ class _PitScouting extends State<PitScouting> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(entries[3],textScaleFactor: 1.5,),
-                    Container(
+                    SizedBox(
                       width: width /3,
                       child: TextField(
                         onChanged: (String value) {
@@ -201,7 +200,7 @@ class _PitScouting extends State<PitScouting> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               height: height / 3.5,
               //color: Colors.red[300],
               child: Center(
@@ -210,20 +209,19 @@ class _PitScouting extends State<PitScouting> {
                   children: <Widget>[
                     Text(entries[4],textScaleFactor: 1.5,),
                     Checkbox(
-                    value: fieldCapability,
-                    //color: Colors.amber[700],
-                    onChanged: (newValue) {
-                      setState(() {
-                        fieldCapability = newValue!;
-                      });
-                    },
-                  )
-                    
+                      value: fieldCapability,
+                      //color: Colors.amber[700],
+                      onChanged: (newValue) {
+                        setState(() {
+                          fieldCapability = newValue!;
+                        });
+                      },
+                    )
                   ],
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               height: height/3.5,
               //color: Colors.red[400],
               child: Center(
@@ -244,7 +242,7 @@ class _PitScouting extends State<PitScouting> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               height: height/3.5,
               //color: Colors.red[400],
               child: Center(
@@ -265,7 +263,7 @@ class _PitScouting extends State<PitScouting> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               height: height/3.5,
               //color: Colors.red[400],
               child: Center(
@@ -286,7 +284,7 @@ class _PitScouting extends State<PitScouting> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               height: height/3.5,
               //color: Colors.red[400],
               child: Center(

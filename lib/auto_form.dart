@@ -37,7 +37,7 @@ class _AutoForm extends State<AutoForm> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
+    double height = MediaQuery.of(context).size.height - 100;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 222, 222, 222),
@@ -51,7 +51,10 @@ class _AutoForm extends State<AutoForm> {
         actions:[
           IconButton(
             onPressed: (){
-              autoPath = "";
+              setState(() {
+                autoPath = "";
+              });
+              
             }, 
             icon: const Icon(Icons.delete_outlined)
           ),
@@ -92,9 +95,25 @@ class _AutoForm extends State<AutoForm> {
                   });
                   _submitSection();
                 },
-                child: const Text("Next"),
-              )
-            )
+                child: FittedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Submitting:  "),
+                      Text(autoPath)
+                    ],
+                  ),
+                )
+                
+                ,
+              ),
+            ),
+            // Positioned(
+            //   bottom: 100,
+            //   left: width/2,
+            //   child: Text("")
+            // )
+            //Text(autoPath)
           ]
         ),
         
@@ -105,7 +124,10 @@ class _AutoForm extends State<AutoForm> {
   }
 
   void autoPathWriter(String fieldElement){
-    autoPath += "$fieldElement ";
+    setState(() {
+      autoPath += "$fieldElement ";
+    });
+    
   }
 }
 

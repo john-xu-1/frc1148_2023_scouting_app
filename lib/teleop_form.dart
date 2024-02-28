@@ -274,7 +274,7 @@ class ScoreDisplay extends StatelessWidget{
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(lable, textScaleFactor: 1.5,),
+        Text(lable, textScaleFactor: 1,),
         SizedBox (width: width/20),
         FittedBox(child: Text("$points",textScaleFactor: 3.5, style: const TextStyle(color: colors.myOnPrimary))), 
       ],
