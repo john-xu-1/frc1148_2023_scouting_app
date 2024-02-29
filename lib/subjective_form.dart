@@ -44,7 +44,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
   Future<void> _submitSection() async {
     try {
 
-      final sheet = await SheetsHelper.sheetSetup("JohnTest");       
+      final sheet = await SheetsHelper.sheetSetup("App results");       
       
       final firstRow = [defensive, tippiness, robotBreak, tip];
       await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 13);

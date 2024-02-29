@@ -18,7 +18,7 @@ class _AutoForm extends State<AutoForm> {
   Future<void> _submitSection() async {
     try {
 
-      final sheet = await SheetsHelper.sheetSetup("JohnTest"); 
+      final sheet = await SheetsHelper.sheetSetup("App results"); 
 
       // Writing data
       final firstRow = [autoPath];
