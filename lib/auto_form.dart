@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'teleop_form.dart';
 import 'sheets_helper.dart';
+import 'color_scheme.dart';
 
 
 String autoPath = "";
@@ -22,7 +23,13 @@ class _AutoForm extends State<AutoForm> {
 
       // Writing data
       final firstRow = [autoPath];
-      await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
+      if (widget.teamName.contains("frc")){
+        await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
+      }
+      else{
+        await sheet!.values.insertRowByKey (id, firstRow, fromColumn: 2);
+      }
+      //await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
       // prints [index, letter, number, label]
       print(autoPath);
 
@@ -33,7 +40,7 @@ class _AutoForm extends State<AutoForm> {
     }
   }
 
-  
+  String id = "";
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +61,6 @@ class _AutoForm extends State<AutoForm> {
               setState(() {
                 autoPath = "";
               });
-              
             }, 
             icon: const Icon(Icons.delete_outlined)
           ),
@@ -63,6 +69,27 @@ class _AutoForm extends State<AutoForm> {
       body: Center(
         child: Stack(
           children: <Widget> [
+            Positioned(
+              width: width,
+              bottom: 100,
+              child: Row (
+                children: [
+                  const Text("Team change in case error: "),
+                  SizedBox(
+                    width: width /3,
+                    child: TextField(
+                      onChanged: (String value) {
+                        setState(() {
+                          id = value;
+                        });
+                      },
+                      cursorColor: colors.myOnSurface,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            
             //alliance rings
             TopLeftFieldElement(const Icon(Icons.adjust, color: Colors.orange,), 50, width / 20 * 10, height / 2 - (height / 2)  / 3 * 3 + 50, autoPathWriter, "alliance1"),
             TopLeftFieldElement(const Icon(Icons.adjust, color: Colors.orange,), 50, width / 20 * 10, height / 2 - (height / 2)  / 3 * 2 + 50, autoPathWriter, "alliance2"),

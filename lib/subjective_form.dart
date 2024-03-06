@@ -3,6 +3,7 @@ import 'entrance.dart';
 import 'sheets_helper.dart';
 import 'auto_form.dart' as af;
 import 'teleop_form.dart' as tf;
+import 'color_scheme.dart';
 
 
 
@@ -47,7 +48,13 @@ class _SubjectiveForm extends State<SubjectiveForm> {
       final sheet = await SheetsHelper.sheetSetup("App results");       
       
       final firstRow = [defensive, tippiness, robotBreak, tip];
-      await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 13);
+      if (widget.teamName.contains("frc")){
+        await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 13);
+      }
+      else{
+        await sheet!.values.insertRowByKey (id, firstRow, fromColumn: 13);
+      }
+      //await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 13);
 
 
 
@@ -58,7 +65,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
 
 
 
-  
+  String id = "";
   
 
   
@@ -80,6 +87,22 @@ class _SubjectiveForm extends State<SubjectiveForm> {
       body: Center(
         child: ListView(
           children: <Widget>[
+            Row (
+              children: [
+                const Text("Team change in case error: "),
+                SizedBox(
+                  width: width /3,
+                  child: TextField(
+                    onChanged: (String value) {
+                      setState(() {
+                        id = value;
+                      });
+                    },
+                    cursorColor: colors.myOnSurface,
+                  ),
+                ),
+              ],
+            ),
             Container(
               width: width,
               height: height/5,

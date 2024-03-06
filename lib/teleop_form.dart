@@ -41,11 +41,17 @@ class _TeleopForm extends State<TeleopForm> {
     try {
 
 
-      final sheet = await SheetsHelper.sheetSetup("App Results");
+      final sheet = await SheetsHelper.sheetSetup("App results");
 
       // Writing data
       final firstRow = [speakerPoints.value, speakerAmpedCounter.value, speakerNotAmpedCounter.value, ampPoints.value, trapPoints.value, missedS.value, missedA.value, missedT.value,tryParkTele,messUpParkTele];
-      await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 3);
+      if (widget.teamName.contains("frc")){
+        await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 3);
+      }
+      else{
+        await sheet!.values.insertRowByKey (id, firstRow, fromColumn: 3);
+      }
+      
       
 
     } catch (e) {
@@ -61,8 +67,21 @@ class _TeleopForm extends State<TeleopForm> {
       if (variable == speakerPoints && inc == 5){
         speakerAmpedCounter.value += 1;
       }
-      if (variable == speakerPoints && inc == 1){
+      else if (variable == speakerPoints && inc == -5){
+        if (speakerAmpedCounter.value - 1 >= 0){
+          speakerAmpedCounter.value -= 1;
+        }
+        
+      }
+      if (variable == speakerPoints && inc == 2){
         speakerNotAmpedCounter.value += 1;
+      }
+      else if (variable == speakerPoints && inc == -2)
+      {
+        if (speakerNotAmpedCounter.value - 1 >= 0){
+          speakerNotAmpedCounter.value -= 1;
+        }
+        
       }
       
     });
@@ -70,7 +89,7 @@ class _TeleopForm extends State<TeleopForm> {
 
 
   
-  
+  String id = "";
 
   @override
   Widget build(BuildContext context) {
@@ -80,15 +99,31 @@ class _TeleopForm extends State<TeleopForm> {
       appBar: AppBar(
         title: Column(
           children: [
-          const Text ("Teleop Phase",),
-          Text(widget.teamName),
+            const Text ("Teleop Phase",),
+            Text(widget.teamName),
+            
           ],
         ),
       ),
       body: Center(
         child: ListView(
-          children: <Widget>
-          [
+          children: <Widget> [
+            Row (
+              children: [
+                const Text("Team change in case error: "),
+                SizedBox(
+                  width: width /3,
+                  child: TextField(
+                    onChanged: (String value) {
+                      setState(() {
+                        id = value;
+                      });
+                    },
+                    cursorColor: colors.myOnSurface,
+                  ),
+                ),
+              ],
+            ),
             Row(
               children: [
                 Column (

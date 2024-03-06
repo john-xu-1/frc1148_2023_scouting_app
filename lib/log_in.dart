@@ -178,26 +178,29 @@ class _LogIn extends State<LogIn> {
                   setState(() {
                     results = updateResults();
                   });
-                  
-                  final String out = "q$mnum $results";
-                  if (id =='X'||(id == 'x') || (id =='Y')||(id == 'y') ){
-                    Navigator.push(
-                      context, 
-                      MaterialPageRoute
-                      (
-                        builder: (context) => LeadScouting(teamName: out)
-                      )
-                    );
+
+                  if (results != ""){
+                    final String out = "q$mnum $results";
+                    if (id =='X'||(id == 'x') || (id =='Y')||(id == 'y') ){
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute
+                        (
+                          builder: (context) => LeadScouting(teamName: out)
+                        )
+                      );
+                    }
+                    else{
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute
+                        (
+                          builder: (context) => AutoForm(teamName: out)
+                        )
+                      );
+                    }
                   }
-                  else{
-                    Navigator.push(
-                      context, 
-                      MaterialPageRoute
-                      (
-                        builder: (context) => AutoForm(teamName: out)
-                      )
-                    );
-                  }
+
               },
               child: const Icon(Icons.send),
             )
