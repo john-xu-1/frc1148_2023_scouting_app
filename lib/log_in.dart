@@ -75,6 +75,8 @@ class _LogIn extends State<LogIn> {
     scoutLists["f"] = F.split(', ').map((fList) => fList.trim()).toList();
   }
 
+  
+
   String updateResults() {
     //after the q number and identifier are input changes the identifier's value
     int index = int.parse(mnum);
@@ -97,10 +99,12 @@ class _LogIn extends State<LogIn> {
     else{
       if (index <= scoutLists[id.toLowerCase()]!.length) {
       result = scoutLists[id.toLowerCase()]![index - 1];
-    }
+      }
     }
     return result;
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -125,30 +129,24 @@ class _LogIn extends State<LogIn> {
       body: Center(
         child: Column(
           children: [
-            SizedBox(
-              height: height / 3.5,
-              //color: Colors.red[300],
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(entries[0],textScaleFactor: 1.5,),
-                    SizedBox(
-                      width: width /3,
-                      child: TextField(
-                        onChanged: (String value) {
-                          setState(() {
-                            id = value;
-                          });
-                        },
-                        cursorColor: colors.myOnSurface,
-                      ),
-                    ),
-                    
-                  ],
+            Column (
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Manual Team #: ",textScaleFactor: 1.5,),
+                SizedBox(
+                  width: width /3,
+                  child: TextField(
+                    onChanged: (String value) {
+                      setState(() {
+                        results = "frc$value";
+                      });
+                    },
+                    cursorColor: colors.myOnSurface,
+                  ),
                 ),
-              ),
+              ],
             ),
+            
             SizedBox(
               height: height/3.5,
               //color: Colors.red[400],
@@ -175,35 +173,33 @@ class _LogIn extends State<LogIn> {
             ),
             ElevatedButton(
               onPressed: () {
-                  setState(() {
-                    results = updateResults();
-                  });
+                
 
-                  if (results != ""){
-                    final String out = "q$mnum $results";
-                    if (id =='X'||(id == 'x') || (id =='Y')||(id == 'y') ){
-                      Navigator.push(
-                        context, 
-                        MaterialPageRoute
-                        (
-                          builder: (context) => LeadScouting(teamName: out)
-                        )
-                      );
-                    }
-                    else{
-                      Navigator.push(
-                        context, 
-                        MaterialPageRoute
-                        (
-                          builder: (context) => AutoForm(teamName: out)
-                        )
-                      );
-                    }
-                  }
+                final String out = "q$mnum $results";
+
+                if (results.toLowerCase() == 'frcx'|| (results.toLowerCase() =='frcy')){
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute
+                    (
+                      builder: (context) => LeadScouting(teamName: mnum)
+                    )
+                  );
+                }
+                else{
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute
+                    (
+                      builder: (context) => AutoForm(teamName: out)
+                    )
+                  );
+                }
 
               },
               child: const Icon(Icons.send),
-            )
+            ),
+            
           ],
         )
       ),

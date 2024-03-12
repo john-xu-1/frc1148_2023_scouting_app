@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'sheets_helper.dart';
 import 'entrance.dart';
+import 'color_scheme.dart';
 
 bool coopertition = false;
 
@@ -31,6 +32,8 @@ class _LeadScouting extends State<LeadScouting> {
     'Did the alliance press Coopertition button',
   ];
 
+  String out = "";
+
   
   Future<void> _submitForm() async {
     try {
@@ -38,15 +41,17 @@ class _LeadScouting extends State<LeadScouting> {
 
        // Writing data
       final firstRow = [coopertition, effectiveness1, notes1, effectiveness2, notes2, effectiveness3, notes3, relPsdEffectiveness1, relPsdEffectiveness2 ,relPsdEffectiveness3];
-      await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
+      await sheet!.values.insertRowByKey ("q${widget.teamName} $out", firstRow, fromColumn: 2);
 
       print(await sheet.values.row(1));
   }catch (e) {
       print('Error: $e');
     }
   }
+
+  String temp = "";
   
-   @override
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -55,7 +60,8 @@ class _LeadScouting extends State<LeadScouting> {
         title: Column(
           children: [
             const Text ("Lead Scouts",),
-            Text(widget.teamName),
+            const Text ("please click done when inputting teams", textScaleFactor: 0.75,),
+            Text (out),
           ],
         ),
         
@@ -70,6 +76,60 @@ class _LeadScouting extends State<LeadScouting> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: width /3.5,
+                        child: TextField(
+                          onChanged: (String value) {
+                            setState(() {
+                              temp = "frc$value";
+                            });
+                          },
+                          onEditingComplete: (){
+                            setState(() {
+                              out += "$temp, ";
+                            });
+                          },
+                          cursorColor: colors.myOnSurface,
+                        ),
+                      ),
+                      SizedBox(
+                        width: width /3.5,
+                        child: TextField(
+                          onChanged: (String value) {
+                            setState(() {
+                              temp = "frc$value";
+                            });
+                          },
+                          onEditingComplete: (){
+                            setState(() {
+                              out += "$temp, ";
+                            });
+                          },
+                          cursorColor: colors.myOnSurface,
+                        ),
+                      ),
+                      SizedBox(
+                        width: width /3.5,
+                        child: TextField(
+                          onChanged: (String value) {
+                            setState(() {
+                              temp = "frc$value";
+                            });
+                          },
+                          onEditingComplete: (){
+                            setState(() {
+                              out += temp;
+                            });
+                          },
+                          cursorColor: colors.myOnSurface,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 50,),
                   Text(entries[0], textScaleFactor: 1.5,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

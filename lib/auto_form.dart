@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'teleop_form.dart';
 import 'sheets_helper.dart';
-import 'color_scheme.dart';
+//import 'color_scheme.dart';
 
 
 String autoPath = "";
@@ -69,26 +69,6 @@ class _AutoForm extends State<AutoForm> {
       body: Center(
         child: Stack(
           children: <Widget> [
-            Positioned(
-              width: width,
-              bottom: 100,
-              child: Row (
-                children: [
-                  const Text("Team change in case error: "),
-                  SizedBox(
-                    width: width /3,
-                    child: TextField(
-                      onChanged: (String value) {
-                        setState(() {
-                          id = value;
-                        });
-                      },
-                      cursorColor: colors.myOnSurface,
-                    ),
-                  ),
-                ],
-              ),
-            ),
             
             //alliance rings
             TopLeftFieldElement(const Icon(Icons.adjust, color: Colors.orange,), 50, width / 20 * 10, height / 2 - (height / 2)  / 3 * 3 + 50, autoPathWriter, "alliance1"),
