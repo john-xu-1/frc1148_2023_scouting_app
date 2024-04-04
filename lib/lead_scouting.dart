@@ -218,8 +218,9 @@ class _LeadScouting extends State<LeadScouting> {
             const Divider(),
 
             ElevatedButton(
-              onPressed: () {
-                _submitForm();
+              onPressed: () async {
+                await _submitForm();
+                coopertition = false;
                 Navigator.push(
                   context, 
                   MaterialPageRoute

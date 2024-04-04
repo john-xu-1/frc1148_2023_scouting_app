@@ -335,8 +335,18 @@ class _PitScouting extends State<PitScouting> {
            
 
             ElevatedButton(
-              onPressed: () {
-                _submitForm(0,0);
+              onPressed: () async {
+                await _submitForm(0,0);
+
+                robotWeight="";
+                CapablityOne = false;
+                CapablityTwo = false;
+                bumperQuality = "";
+                fieldCapability = false;
+                climb = false;
+                trap = false;
+                ground=false;
+                source = false;
                 Navigator.push(
                   context, 
                   MaterialPageRoute
