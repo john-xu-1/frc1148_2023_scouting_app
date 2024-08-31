@@ -42,3 +42,10 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Personal
+pubspec.lock
+macos/Podfile.lock
+macos/Runner/AppDelegate.swift
+macos/Runner.xcodeproj/project.pbxproj
+macos/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
