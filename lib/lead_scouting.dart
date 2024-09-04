@@ -43,15 +43,17 @@ String robotFailure3 = "";
 String autoNotes3 = "";
 String activeNote3 = "";
 
+String selectedItem = "1, 2, 3";
+
 List<String> activeNotes = [accuracy1, accuracy2, accuracy3];
 
 enum ColorLabel {
   onetwothree('1, 2, 3', Colors.black),
-  onethreetwo('1, 3, 2', Colors.black),
-  twoonethree('2, 1, 3', Colors.black),
-  twothreeone('2, 3, 1', Colors.black),
-  threeonetwo('3, 1, 2', Colors.black),
-  threetwoone('3, 2, 1', Colors.black);
+  onethreetwo('1, 3, 2', Colors.red),
+  twoonethree('2, 1, 3', Colors.blue),
+  twothreeone('2, 3, 1', Colors.purple),
+  threeonetwo('3, 1, 2', Colors.green),
+  threetwoone('3, 2, 1', Colors.orange);
 
   const ColorLabel(this.label, this.color);
   final String label;
@@ -96,11 +98,17 @@ class _LeadScouting extends State<LeadScouting> {
     });
   }
 
+  void updateRelEff(String? newRanking) {
+    setState(() {
+      selectedItem = newRanking!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    String selectedItem = "1, 2, 3";
+    // String selectedItem = "1, 2, 3";
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -207,9 +215,7 @@ class _LeadScouting extends State<LeadScouting> {
               child: DropdownButtonFormField<String>(
                 value: selectedItem,
                 onChanged: (String? value) {
-                  setState(() {
-                    selectedItem = value!;
-                  });
+                  updateRelEff(value);
                 },
                 decoration: const InputDecoration(
                   labelText: 'Select an option',
