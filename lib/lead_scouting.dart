@@ -27,18 +27,23 @@ import 'entrance.dart';
   String trends1 = "";
   String robotFailure1 = "";
   String autoNotes1 = "";
+  String activeNote1 = "";
 
   String accuracy2 = "";
   String fieldAwareness2 = "";
   String trends2 = "";
   String robotFailure2 = "";
   String autoNotes2 = "";
+  String activeNote2 = "";
 
   String accuracy3 = "";
   String fieldAwareness3 = "";
   String trends3 = "";
   String robotFailure3 = "";
   String autoNotes3 = "";
+  String activeNote3 = "";
+
+  List<String> activeNotes = [accuracy1, accuracy2, accuracy3];
   
 
 class LeadScouting extends StatefulWidget {
@@ -174,7 +179,7 @@ class _LeadScouting extends State<LeadScouting> {
                         width: width / 3.5, // Adjust the width as needed
                         child: TextField(
                           onChanged: (String value) {
-                            notes1 = value;
+                            accuracy1 = value;
                           },
                           maxLines: null, // Setting maxLines to null allows multiple lines
 
@@ -184,7 +189,7 @@ class _LeadScouting extends State<LeadScouting> {
                         width: width / 3.5, // Adjust the width as needed
                         child: TextField(
                           onChanged: (String value) {
-                            notes2 = value;
+                            accuracy2 = value;
                           },
                           maxLines: null, // Setting maxLines to null allows multiple lines
                         ),
@@ -193,7 +198,7 @@ class _LeadScouting extends State<LeadScouting> {
                         width: width / 3.5, // Adjust the width as needed
                         child: TextField(
                           onChanged: (String value) {
-                            notes3 = value;
+                            accuracy3 = value;
                           },
                           maxLines: null, // Setting maxLines to null allows multiple lines
                         ),
@@ -206,34 +211,10 @@ class _LeadScouting extends State<LeadScouting> {
           ),
 
             const Divider(),
-            Container(
-              width: width,
-              height: height/5,
-              //color: Colors.red[300],
-              alignment: AlignmentDirectional.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text("Coopertition?",textScaleFactor: 1.5,),
-                  Checkbox(
-                    value: coopertition,
-                    //color: Colors.red[700],
-                    onChanged: (newValue) {
-                      setState(() {
-                        coopertition = newValue!;
-                      });
-                    },
-                  ),
-                ]
-              ),
-            ),
-            const Divider(),
 
             ElevatedButton(
               onPressed: () async {
                 await _submitForm();
-                coopertition = false;
                 Navigator.push(
                   context, 
                   MaterialPageRoute
