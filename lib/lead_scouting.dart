@@ -16,6 +16,31 @@ import 'entrance.dart';
 // String notes2 = "";
 // String notes3 = "";
 
+  PrimitiveWrapper effectiveness1 = PrimitiveWrapper(0); 
+  PrimitiveWrapper effectiveness2 = PrimitiveWrapper(0); 
+  PrimitiveWrapper effectiveness3 = PrimitiveWrapper(0);
+
+  String relEffectiveness = "";
+
+  String accuracy1 = "";
+  String fieldAwareness1 = "";
+  String trends1 = "";
+  String robotFailure1 = "";
+  String autoNotes1 = "";
+
+  String accuracy2 = "";
+  String fieldAwareness2 = "";
+  String trends2 = "";
+  String robotFailure2 = "";
+  String autoNotes2 = "";
+
+  String accuracy3 = "";
+  String fieldAwareness3 = "";
+  String trends3 = "";
+  String robotFailure3 = "";
+  String autoNotes3 = "";
+  
+
 class LeadScouting extends StatefulWidget {
   const LeadScouting({super.key, required this.teamName});
   final String teamName;
@@ -26,9 +51,8 @@ class LeadScouting extends StatefulWidget {
 class _LeadScouting extends State<LeadScouting> {
   final List<String> entries = <String>[
     'Enter Robot effectivness 5 is highest (1-5)',
-    'Enter relative effectivness 1 is highest (1-3)',
-    'Enter Notes on robot (strengths weaknesses ect.)',
-    'Did the alliance press Coopertition button',
+    'Select relative effectivness 1 is highest (1-3)',
+    'Enter Notes on robot (select Category)',
   ];
 
   
@@ -45,6 +69,16 @@ class _LeadScouting extends State<LeadScouting> {
       print('Error: $e');
     }
   }
+
+  void update(PrimitiveWrapper variable, int inc){
+    setState(() {
+      if ((variable.value + inc) >= 1 && (variable.value + inc) <= 5){
+        variable.value += inc;
+      }
+      
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -75,28 +109,33 @@ class _LeadScouting extends State<LeadScouting> {
                     children: <Widget>[
                       SizedBox(
                         width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            effectiveness1 = value;
-                            print("$value");
-                          },
-                        ),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CounterButton(update, effectiveness1, 1, const Text('+',textScaleFactor: 2,)),
+                              CounterButton(update, effectiveness1, -1, const Text('-',textScaleFactor: 2.5,)),
+                            ]
+                          )
                       ),
                       SizedBox(
                         width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            effectiveness2 = value;
-                          },
-                        ),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CounterButton(update, effectiveness2, 1, const Text('+',textScaleFactor: 2,)),
+                              CounterButton(update, effectiveness2, -1, const Text('-',textScaleFactor: 2.5,)),
+                            ]
+                          )
                       ),
                       SizedBox(
                         width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            effectiveness3 = value;
-                          },
-                        ),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CounterButton(update, effectiveness3, 1, const Text('+',textScaleFactor: 2,)),
+                              CounterButton(update, effectiveness3, -1, const Text('-',textScaleFactor: 2.5,)),
+                            ]
+                          )
                       ),
                     ],
                   ),
@@ -114,32 +153,7 @@ class _LeadScouting extends State<LeadScouting> {
                   Text(entries[1], textScaleFactor: 1.5,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            relPsdEffectiveness1 = value;
-                          },
-                        ),
-                      ),
-                      Container(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            relPsdEffectiveness2 = value;
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            relPsdEffectiveness3 = value;
-                          },
-                        ),
-                      ),
-                    ],
+                    //will do dropdown here
                   ),
                 ],
               ),
@@ -235,6 +249,30 @@ class _LeadScouting extends State<LeadScouting> {
       ),
     );
   }
+}
+
+class CounterButton extends StatelessWidget{
+  final Function func;
+  final PrimitiveWrapper prim;
+  final int inc;
+  final Widget child;
+  const CounterButton(this.func, this.prim, this.inc, this.child, {super.key});
+
+  @override
+  Widget build (BuildContext context){
+    return IconButton(
+      onPressed: () {
+        func (prim, inc);
+      },
+      icon: child
+    );
+  }
+  
+}
+
+class PrimitiveWrapper {
+  int value = 0;
+  PrimitiveWrapper(this.value);
 }
 //    @override
 //   Widget build(BuildContext context) {
