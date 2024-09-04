@@ -16,35 +16,47 @@ import 'entrance.dart';
 // String notes2 = "";
 // String notes3 = "";
 
-  PrimitiveWrapper effectiveness1 = PrimitiveWrapper(0); 
-  PrimitiveWrapper effectiveness2 = PrimitiveWrapper(0); 
-  PrimitiveWrapper effectiveness3 = PrimitiveWrapper(0);
+PrimitiveWrapper effectiveness1 = PrimitiveWrapper(0);
+PrimitiveWrapper effectiveness2 = PrimitiveWrapper(0);
+PrimitiveWrapper effectiveness3 = PrimitiveWrapper(0);
 
-  String relEffectiveness = "";
+String relEffectiveness = "";
 
-  String accuracy1 = "";
-  String fieldAwareness1 = "";
-  String trends1 = "";
-  String robotFailure1 = "";
-  String autoNotes1 = "";
-  String activeNote1 = "";
+String accuracy1 = "";
+String fieldAwareness1 = "";
+String trends1 = "";
+String robotFailure1 = "";
+String autoNotes1 = "";
+String activeNote1 = "";
 
-  String accuracy2 = "";
-  String fieldAwareness2 = "";
-  String trends2 = "";
-  String robotFailure2 = "";
-  String autoNotes2 = "";
-  String activeNote2 = "";
+String accuracy2 = "";
+String fieldAwareness2 = "";
+String trends2 = "";
+String robotFailure2 = "";
+String autoNotes2 = "";
+String activeNote2 = "";
 
-  String accuracy3 = "";
-  String fieldAwareness3 = "";
-  String trends3 = "";
-  String robotFailure3 = "";
-  String autoNotes3 = "";
-  String activeNote3 = "";
+String accuracy3 = "";
+String fieldAwareness3 = "";
+String trends3 = "";
+String robotFailure3 = "";
+String autoNotes3 = "";
+String activeNote3 = "";
 
-  List<String> activeNotes = [accuracy1, accuracy2, accuracy3];
-  
+List<String> activeNotes = [accuracy1, accuracy2, accuracy3];
+
+enum ColorLabel {
+  onetwothree('1, 2, 3', Colors.black),
+  onethreetwo('1, 3, 2', Colors.black),
+  twoonethree('2, 1, 3', Colors.black),
+  twothreeone('2, 3, 1', Colors.black),
+  threeonetwo('3, 1, 2', Colors.black),
+  threetwoone('3, 2, 1', Colors.black);
+
+  const ColorLabel(this.label, this.color);
+  final String label;
+  final Color color;
+}
 
 class LeadScouting extends StatefulWidget {
   const LeadScouting({super.key, required this.teamName});
@@ -60,27 +72,27 @@ class _LeadScouting extends State<LeadScouting> {
     'Enter Notes on robot (select Category)',
   ];
 
-  
   Future<void> _submitForm() async {
     try {
-      final sheet = await SheetsHelper.sheetSetup("Scouting Lead Notes"); // Replace with your sheet name    
+      final sheet = await SheetsHelper.sheetSetup(
+          "Scouting Lead Notes"); // Replace with your sheet name
 
-       // Writing data
+      // Writing data
       final firstRow = [];
-      await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
+      await sheet!.values
+          .insertRowByKey(widget.teamName, firstRow, fromColumn: 2);
 
       print(await sheet.values.row(1));
-  }catch (e) {
+    } catch (e) {
       print('Error: $e');
     }
   }
 
-  void update(PrimitiveWrapper variable, int inc){
+  void update(PrimitiveWrapper variable, int inc) {
     setState(() {
-      if ((variable.value + inc) >= 1 && (variable.value + inc) <= 5){
+      if ((variable.value + inc) >= 1 && (variable.value + inc) <= 5) {
         variable.value += inc;
       }
-      
     });
   }
 
@@ -88,90 +100,153 @@ class _LeadScouting extends State<LeadScouting> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    String selectedItem = "1, 2, 3";
     return Scaffold(
-      appBar: AppBar( 
+      appBar: AppBar(
         title: Column(
           children: [
-            const Text ("Lead Scouts",),
+            const Text(
+              "Lead Scouts",
+            ),
             Text(widget.teamName),
           ],
         ),
-        
         elevation: 21,
       ),
       body: Center(
-        child: ListView(
-          children: <Widget>[
-            SizedBox(
+          child: ListView(
+        children: <Widget>[
+          SizedBox(
             height: height / 3.5,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(entries[0], textScaleFactor: 1.5,),
+                  Text(
+                    entries[0],
+                    textScaleFactor: 1.5,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CounterButton(update, effectiveness1, 1, const Text('+',textScaleFactor: 2,)),
-                              CounterButton(update, effectiveness1, -1, const Text('-',textScaleFactor: 2.5,)),
-                            ]
-                          )
-                      ),
+                          width: width / 3.5, // Adjust the width as needed
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CounterButton(
+                                    update,
+                                    effectiveness1,
+                                    1,
+                                    const Text(
+                                      '+',
+                                      textScaleFactor: 2,
+                                    )),
+                                CounterButton(
+                                    update,
+                                    effectiveness1,
+                                    -1,
+                                    const Text(
+                                      '-',
+                                      textScaleFactor: 2.5,
+                                    )),
+                              ])),
                       SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CounterButton(update, effectiveness2, 1, const Text('+',textScaleFactor: 2,)),
-                              CounterButton(update, effectiveness2, -1, const Text('-',textScaleFactor: 2.5,)),
-                            ]
-                          )
-                      ),
+                          width: width / 3.5, // Adjust the width as needed
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CounterButton(
+                                    update,
+                                    effectiveness2,
+                                    1,
+                                    const Text(
+                                      '+',
+                                      textScaleFactor: 2,
+                                    )),
+                                CounterButton(
+                                    update,
+                                    effectiveness2,
+                                    -1,
+                                    const Text(
+                                      '-',
+                                      textScaleFactor: 2.5,
+                                    )),
+                              ])),
                       SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CounterButton(update, effectiveness3, 1, const Text('+',textScaleFactor: 2,)),
-                              CounterButton(update, effectiveness3, -1, const Text('-',textScaleFactor: 2.5,)),
-                            ]
-                          )
-                      ),
+                          width: width / 3.5, // Adjust the width as needed
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CounterButton(
+                                    update,
+                                    effectiveness3,
+                                    1,
+                                    const Text(
+                                      '+',
+                                      textScaleFactor: 2,
+                                    )),
+                                CounterButton(
+                                    update,
+                                    effectiveness3,
+                                    -1,
+                                    const Text(
+                                      '-',
+                                      textScaleFactor: 2.5,
+                                    )),
+                              ])),
                     ],
                   ),
                 ],
               ),
             ),
           ),
-
           SizedBox(
             height: height / 3.5,
             child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(entries[1], textScaleFactor: 1.5,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //will do dropdown here
-                  ),
-                ],
+              child: DropdownButtonFormField<String>(
+                value: selectedItem,
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedItem = value!;
+                  });
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Select an option',
+                  border: OutlineInputBorder(),
+                ),
+                items: [
+                  '1, 2, 3',
+                  '1, 3, 2',
+                  '2, 1, 3',
+                  '2, 3, 1',
+                  '3, 1, 2',
+                  '3, 2, 1'
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.star),
+                        const SizedBox(width: 10),
+                        Text(value),
+                      ],
+                    ),
+                  );
+                }).toList(),
               ),
             ),
           ),
-
           SizedBox(
             height: height / 3.5,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(entries[2], textScaleFactor: 1.5,),
+                  Text(
+                    entries[2],
+                    textScaleFactor: 1.5,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -181,8 +256,8 @@ class _LeadScouting extends State<LeadScouting> {
                           onChanged: (String value) {
                             accuracy1 = value;
                           },
-                          maxLines: null, // Setting maxLines to null allows multiple lines
-
+                          maxLines:
+                              null, // Setting maxLines to null allows multiple lines
                         ),
                       ),
                       SizedBox(
@@ -191,7 +266,8 @@ class _LeadScouting extends State<LeadScouting> {
                           onChanged: (String value) {
                             accuracy2 = value;
                           },
-                          maxLines: null, // Setting maxLines to null allows multiple lines
+                          maxLines:
+                              null, // Setting maxLines to null allows multiple lines
                         ),
                       ),
                       SizedBox(
@@ -200,7 +276,8 @@ class _LeadScouting extends State<LeadScouting> {
                           onChanged: (String value) {
                             accuracy3 = value;
                           },
-                          maxLines: null, // Setting maxLines to null allows multiple lines
+                          maxLines:
+                              null, // Setting maxLines to null allows multiple lines
                         ),
                       ),
                     ],
@@ -209,30 +286,22 @@ class _LeadScouting extends State<LeadScouting> {
               ),
             ),
           ),
-
-            const Divider(),
-
-            ElevatedButton(
-              onPressed: () async {
-                await _submitForm();
-                Navigator.push(
-                  context, 
-                  MaterialPageRoute
-                  (
-                    builder: (context) => const Entrance()
-                  )
-                );
-              },
-              child: const Icon(Icons.send),
-            )
-          ],
-        )
-      ),
+          const Divider(),
+          ElevatedButton(
+            onPressed: () async {
+              await _submitForm();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Entrance()));
+            },
+            child: const Icon(Icons.send),
+          )
+        ],
+      )),
     );
   }
 }
 
-class CounterButton extends StatelessWidget{
+class CounterButton extends StatelessWidget {
   final Function func;
   final PrimitiveWrapper prim;
   final int inc;
@@ -240,15 +309,13 @@ class CounterButton extends StatelessWidget{
   const CounterButton(this.func, this.prim, this.inc, this.child, {super.key});
 
   @override
-  Widget build (BuildContext context){
+  Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {
-        func (prim, inc);
-      },
-      icon: child
-    );
+        onPressed: () {
+          func(prim, inc);
+        },
+        icon: child);
   }
-  
 }
 
 class PrimitiveWrapper {
@@ -260,14 +327,14 @@ class PrimitiveWrapper {
 //     double height = MediaQuery.of(context).size.height;
 //     double width = MediaQuery.of(context).size.width;
 //     return Scaffold(
-//       appBar: AppBar( 
+//       appBar: AppBar(
 //         title: Column(
 //           children: [
 //             const Text ("Lead Scouts",),
 //             Text(widget.teamName),
 //           ],
 //         ),
-        
+
 //         elevation: 21,
 //       ),
 //       body: Center(
@@ -431,7 +498,7 @@ class PrimitiveWrapper {
 //                 await _submitForm();
 //                 coopertition = false;
 //                 Navigator.push(
-//                   context, 
+//                   context,
 //                   MaterialPageRoute
 //                   (
 //                     builder: (context) => const Entrance()
