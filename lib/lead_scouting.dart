@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'sheets_helper.dart';
 import 'entrance.dart';
 
-bool coopertition = false;
+// bool coopertition = false;
 
-String effectiveness1 = "";
-String effectiveness2 = "";
-String effectiveness3 = "";
+// String effectiveness1 = "";
+// String effectiveness2 = "";
+// String effectiveness3 = "";
 
-String relPsdEffectiveness1 = "";
-String relPsdEffectiveness2 = "";
-String relPsdEffectiveness3 = "";
+// String relPsdEffectiveness1 = "";
+// String relPsdEffectiveness2 = "";
+// String relPsdEffectiveness3 = "";
 
-String notes1 = "";
-String notes2 = "";
-String notes3 = "";
+// String notes1 = "";
+// String notes2 = "";
+// String notes3 = "";
 
 class LeadScouting extends StatefulWidget {
   const LeadScouting({super.key, required this.teamName});
@@ -37,7 +37,7 @@ class _LeadScouting extends State<LeadScouting> {
       final sheet = await SheetsHelper.sheetSetup("Scouting Lead Notes"); // Replace with your sheet name    
 
        // Writing data
-      final firstRow = [coopertition, effectiveness1, notes1, effectiveness2, notes2, effectiveness3, notes3, relPsdEffectiveness1, relPsdEffectiveness2 ,relPsdEffectiveness3];
+      final firstRow = [];
       await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
 
       print(await sheet.values.row(1));
@@ -45,8 +45,7 @@ class _LeadScouting extends State<LeadScouting> {
       print('Error: $e');
     }
   }
-  
-   @override
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -237,3 +236,194 @@ class _LeadScouting extends State<LeadScouting> {
     );
   }
 }
+//    @override
+//   Widget build(BuildContext context) {
+//     double height = MediaQuery.of(context).size.height;
+//     double width = MediaQuery.of(context).size.width;
+//     return Scaffold(
+//       appBar: AppBar( 
+//         title: Column(
+//           children: [
+//             const Text ("Lead Scouts",),
+//             Text(widget.teamName),
+//           ],
+//         ),
+        
+//         elevation: 21,
+//       ),
+//       body: Center(
+//         child: ListView(
+//           children: <Widget>[
+//             SizedBox(
+//             height: height / 3.5,
+//             child: Center(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: <Widget>[
+//                   Text(entries[0], textScaleFactor: 1.5,),
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                     children: <Widget>[
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             effectiveness1 = value;
+//                             print("$value");
+//                           },
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             effectiveness2 = value;
+//                           },
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             effectiveness3 = value;
+//                           },
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+
+//           SizedBox(
+//             height: height / 3.5,
+//             child: Center(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: <Widget>[
+//                   Text(entries[1], textScaleFactor: 1.5,),
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                     children: <Widget>[
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             relPsdEffectiveness1 = value;
+//                           },
+//                         ),
+//                       ),
+//                       Container(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             relPsdEffectiveness2 = value;
+//                           },
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             relPsdEffectiveness3 = value;
+//                           },
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+
+//           SizedBox(
+//             height: height / 3.5,
+//             child: Center(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: <Widget>[
+//                   Text(entries[2], textScaleFactor: 1.5,),
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                     children: <Widget>[
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             notes1 = value;
+//                           },
+//                           maxLines: null, // Setting maxLines to null allows multiple lines
+
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             notes2 = value;
+//                           },
+//                           maxLines: null, // Setting maxLines to null allows multiple lines
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             notes3 = value;
+//                           },
+//                           maxLines: null, // Setting maxLines to null allows multiple lines
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+
+//             const Divider(),
+//             Container(
+//               width: width,
+//               height: height/5,
+//               //color: Colors.red[300],
+//               alignment: AlignmentDirectional.center,
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 crossAxisAlignment: CrossAxisAlignment.center,
+//                 children: [
+//                   const Text("Coopertition?",textScaleFactor: 1.5,),
+//                   Checkbox(
+//                     value: coopertition,
+//                     //color: Colors.red[700],
+//                     onChanged: (newValue) {
+//                       setState(() {
+//                         coopertition = newValue!;
+//                       });
+//                     },
+//                   ),
+//                 ]
+//               ),
+//             ),
+//             const Divider(),
+
+//             ElevatedButton(
+//               onPressed: () async {
+//                 await _submitForm();
+//                 coopertition = false;
+//                 Navigator.push(
+//                   context, 
+//                   MaterialPageRoute
+//                   (
+//                     builder: (context) => const Entrance()
+//                   )
+//                 );
+//               },
+//               child: const Icon(Icons.send),
+//             )
+//           ],
+//         )
+//       ),
+//     );
+//   }
+// }
