@@ -2,20 +2,6 @@ import 'package:flutter/material.dart';
 import 'sheets_helper.dart';
 import 'entrance.dart';
 
-// bool coopertition = false;
-
-// String effectiveness1 = "";
-// String effectiveness2 = "";
-// String effectiveness3 = "";
-
-// String relPsdEffectiveness1 = "";
-// String relPsdEffectiveness2 = "";
-// String relPsdEffectiveness3 = "";
-
-// String notes1 = "";
-// String notes2 = "";
-// String notes3 = "";
-
 PrimitiveWrapper effectiveness1 = PrimitiveWrapper(0);
 PrimitiveWrapper effectiveness2 = PrimitiveWrapper(0);
 PrimitiveWrapper effectiveness3 = PrimitiveWrapper(0);
@@ -27,38 +13,60 @@ String fieldAwareness1 = "";
 String trends1 = "";
 String robotFailure1 = "";
 String autoNotes1 = "";
-String activeNote1 = "";
+TextEditingController activeNote1 = TextEditingController();
 
 String accuracy2 = "";
 String fieldAwareness2 = "";
 String trends2 = "";
 String robotFailure2 = "";
 String autoNotes2 = "";
-String activeNote2 = "";
+TextEditingController activeNote2 = TextEditingController();
 
 String accuracy3 = "";
 String fieldAwareness3 = "";
 String trends3 = "";
 String robotFailure3 = "";
 String autoNotes3 = "";
-String activeNote3 = "";
+TextEditingController activeNote3 = TextEditingController();
+
+List<List<String>> noteMatrix = [
+  [accuracy1, accuracy2, accuracy3],
+  [fieldAwareness1, fieldAwareness2, fieldAwareness3],
+  [trends1, trends2, trends3],
+  [robotFailure1, robotFailure2, robotFailure3],
+  [autoNotes1, autoNotes2, autoNotes3]
+];
+
+List<TextEditingController> activeNoteControllers = [
+  activeNote1,
+  activeNote2,
+  activeNote3
+];
+
+List<int> activeNoteType = [0, 0, 0];
+
+var nameToInt = {
+  "Accuracy": 0,
+  "Field Awareness": 1,
+  "Trends": 2,
+  "Robot Failures": 3,
+  "Auto Notes": 4,
+};
 
 String selectedItem = "1, 2, 3";
 
-List<String> activeNotes = [accuracy1, accuracy2, accuracy3];
+// enum ColorLabel {
+//   onetwothree('1, 2, 3', Colors.black),
+//   onethreetwo('1, 3, 2', Colors.red),
+//   twoonethree('2, 1, 3', Colors.blue),
+//   twothreeone('2, 3, 1', Colors.purple),
+//   threeonetwo('3, 1, 2', Colors.green),
+//   threetwoone('3, 2, 1', Colors.orange);
 
-enum ColorLabel {
-  onetwothree('1, 2, 3', Colors.black),
-  onethreetwo('1, 3, 2', Colors.red),
-  twoonethree('2, 1, 3', Colors.blue),
-  twothreeone('2, 3, 1', Colors.purple),
-  threeonetwo('3, 1, 2', Colors.green),
-  threetwoone('3, 2, 1', Colors.orange);
-
-  const ColorLabel(this.label, this.color);
-  final String label;
-  final Color color;
-}
+//   const ColorLabel(this.label, this.color);
+//   final String label;
+//   final Color color;
+// }
 
 class LeadScouting extends StatefulWidget {
   const LeadScouting({super.key, required this.teamName});
@@ -104,11 +112,15 @@ class _LeadScouting extends State<LeadScouting> {
     });
   }
 
+  void updateSubjectiveNotes(int noteType, int teamIndex) {
+    activeNoteType[teamIndex] = noteType;
+    activeNoteControllers[teamIndex].text = noteMatrix[noteType][teamIndex];
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    // String selectedItem = "1, 2, 3";
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -254,40 +266,156 @@ class _LeadScouting extends State<LeadScouting> {
                     textScaleFactor: 1.5,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            accuracy1 = value;
-                          },
-                          maxLines:
-                              null, // Setting maxLines to null allows multiple lines
-                        ),
-                      ),
-                      SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            accuracy2 = value;
-                          },
-                          maxLines:
-                              null, // Setting maxLines to null allows multiple lines
-                        ),
-                      ),
-                      SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            accuracy3 = value;
-                          },
-                          maxLines:
-                              null, // Setting maxLines to null allows multiple lines
-                        ),
-                      ),
-                    ],
-                  ),
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              SizedBox(
+                                width: width / 3.5,
+                                child: DropdownButtonFormField<String>(
+                                  value: "Accuracy",
+                                  onChanged: (String? newVal) {
+                                    updateSubjectiveNotes(
+                                        nameToInt[newVal]!, 0);
+                                  },
+                                  decoration: const InputDecoration(
+                                    labelText: "Select an option",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  items: [
+                                    "Accuracy",
+                                    "Field Awareness",
+                                    "Trends",
+                                    "Robot Failures",
+                                    "Auto Notes",
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.star),
+                                          const SizedBox(width: 10),
+                                          Text(value),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                              SizedBox(
+                                width:
+                                    width / 3.5, // Adjust the width as needed
+                                child: TextField(
+                                  controller: activeNote1,
+                                  onChanged: (String value) {
+                                    noteMatrix[activeNoteType[0]][0] = value;
+                                  },
+                                  maxLines:
+                                      null, // Setting maxLines to null allows multiple lines
+                                ),
+                              ),
+                            ]),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              SizedBox(
+                                width: width / 3.5,
+                                child: DropdownButtonFormField<String>(
+                                  value: "Accuracy",
+                                  onChanged: (String? newVal) {
+                                    updateSubjectiveNotes(
+                                        nameToInt[newVal]!, 1);
+                                  },
+                                  decoration: const InputDecoration(
+                                    labelText: "Select an option",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  items: [
+                                    'Accuracy',
+                                    'Field Awareness',
+                                    'Trends',
+                                    'Robot Failures',
+                                    'Auto Notes'
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.star),
+                                          const SizedBox(width: 10),
+                                          Text(value),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                              SizedBox(
+                                width:
+                                    width / 3.5, // Adjust the width as needed
+                                child: TextField(
+                                  controller: activeNote2,
+                                  onChanged: (String value) {
+                                    noteMatrix[activeNoteType[1]][1] = value;
+                                  },
+                                  maxLines:
+                                      null, // Setting maxLines to null allows multiple lines
+                                ),
+                              ),
+                            ]),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              SizedBox(
+                                width: width / 3.5,
+                                child: DropdownButtonFormField<String>(
+                                  value: "Accuracy",
+                                  onChanged: (String? newVal) {
+                                    updateSubjectiveNotes(
+                                        nameToInt[newVal]!, 2);
+                                  },
+                                  decoration: const InputDecoration(
+                                    labelText: "Select option",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  items: [
+                                    'Accuracy',
+                                    'Field Awareness',
+                                    'Trends',
+                                    'Robot Failures',
+                                    'Auto Notes'
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.star),
+                                          const SizedBox(width: 10),
+                                          Text(value),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                              SizedBox(
+                                width:
+                                    width / 3.5, // Adjust the width as needed
+                                child: TextField(
+                                  controller: activeNote3,
+                                  onChanged: (String value) {
+                                    noteMatrix[activeNoteType[2]][2] = value;
+                                  },
+                                  maxLines:
+                                      null, // Setting maxLines to null allows multiple lines
+                                ),
+                              ),
+                            ]),
+                      ])
                 ],
               ),
             ),
