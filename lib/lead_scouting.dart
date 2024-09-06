@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'sheets_helper.dart';
 import 'entrance.dart';
+import 'color_scheme.dart';
 
 PrimitiveWrapper effectiveness1 = PrimitiveWrapper(0);
 PrimitiveWrapper effectiveness2 = PrimitiveWrapper(0);
@@ -77,9 +78,9 @@ class LeadScouting extends StatefulWidget {
 
 class _LeadScouting extends State<LeadScouting> {
   final List<String> entries = <String>[
-    'Enter Robot effectivness 5 is highest (1-5)',
-    'Select relative effectivness 1 is highest (1-3)',
-    'Enter Notes on robot (select Category)',
+    'Enter robot effectiveness: 5 is highest (1-5)',
+    'Select relative effectiveness: 1 is highest (1-3)',
+    'Enter notes on robot (select category)',
   ];
 
   Future<void> _submitForm() async {
@@ -154,6 +155,8 @@ class _LeadScouting extends State<LeadScouting> {
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                ScoreDisplay(
+                                    effectiveness1.value, ("Effectiveness: ")),
                                 CounterButton(
                                     update,
                                     effectiveness1,
@@ -176,6 +179,8 @@ class _LeadScouting extends State<LeadScouting> {
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                ScoreDisplay(
+                                    effectiveness2.value, ("Effectiveness: ")),
                                 CounterButton(
                                     update,
                                     effectiveness2,
@@ -198,6 +203,8 @@ class _LeadScouting extends State<LeadScouting> {
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                ScoreDisplay(
+                                    effectiveness3.value, ("Effectiveness: ")),
                                 CounterButton(
                                     update,
                                     effectiveness3,
@@ -297,7 +304,9 @@ class _LeadScouting extends State<LeadScouting> {
                                         children: [
                                           const Icon(Icons.star),
                                           const SizedBox(width: 10),
-                                          Text(value),
+                                          Text(
+                                            value,
+                                          ),
                                         ],
                                       ),
                                     );
@@ -449,6 +458,32 @@ class CounterButton extends StatelessWidget {
           func(prim, inc);
         },
         icon: child);
+  }
+}
+
+class ScoreDisplay extends StatelessWidget {
+  final int points;
+  final String lable;
+  const ScoreDisplay(this.points, this.lable, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          lable,
+          textScaleFactor: 2.5,
+        ),
+        SizedBox(width: width / 40),
+        FittedBox(
+            child: Text("$points",
+                textScaleFactor: 3.5,
+                style: const TextStyle(color: colors.myOnPrimary))),
+      ],
+    );
   }
 }
 
