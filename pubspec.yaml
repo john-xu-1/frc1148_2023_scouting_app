@@ -69,6 +69,8 @@ flutter:
 
   assets:
     - assets/ring.png
+    - assets/blue_field.png
+    - assets/red_field.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -5,6 +5,7 @@ import 'pit_scouting.dart';
 import 'package:frc1148_2023_scouting_app/color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'match_list.dart';
+import 'draw_area.dart';
 
 
 class Entrance extends StatefulWidget {
@@ -213,6 +214,39 @@ class _Entrance extends State<Entrance> {
                     color: Colors.black,
                   ),
                   const Text("Match List"),
+                  
+                  
+                ],
+              )
+            ),
+
+            Container(
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(60.0),
+                ),
+                //color: Color.fromARGB(20, 62, 62, 62)
+                color: colors.myOnBackground
+              ),
+              //color: Colors.grey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  IconButton(
+                    iconSize: 100,
+                    onPressed: (){
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute
+                        (
+                          builder: (context) => const DrawArea()
+                        )
+                      );
+                    },  
+                    icon: const Icon(Icons.question_answer),
+                    color: Colors.black,
+                  ),
+                  const Text("Tracing Test"),
                   
                   
                 ],
