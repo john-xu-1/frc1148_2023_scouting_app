@@ -252,8 +252,6 @@ class _LeadScouting extends State<LeadScouting> {
                     value: value,
                     child: Row(
                       children: [
-                        const Icon(Icons.star),
-                        const SizedBox(width: 10),
                         Text(value),
                       ],
                     ),
@@ -302,11 +300,9 @@ class _LeadScouting extends State<LeadScouting> {
                                       value: value,
                                       child: Row(
                                         children: [
-                                          const Icon(Icons.star),
-                                          const SizedBox(width: 10),
-                                          Text(
-                                            value,
-                                          ),
+                                          //const Icon(Icons.star),
+                                          //const SizedBox(width: 10),
+                                          Text(value, textScaleFactor: 0.6),
                                         ],
                                       ),
                                     );
@@ -353,9 +349,9 @@ class _LeadScouting extends State<LeadScouting> {
                                       value: value,
                                       child: Row(
                                         children: [
-                                          const Icon(Icons.star),
-                                          const SizedBox(width: 10),
-                                          Text(value),
+                                          // const Icon(Icons.star),
+                                          // const SizedBox(width: 10),
+                                          Text(value, textScaleFactor: 0.6,),
                                         ],
                                       ),
                                     );
@@ -402,9 +398,9 @@ class _LeadScouting extends State<LeadScouting> {
                                       value: value,
                                       child: Row(
                                         children: [
-                                          const Icon(Icons.star),
-                                          const SizedBox(width: 10),
-                                          Text(value),
+                                          // const Icon(Icons.star),
+                                          // const SizedBox(width: 10),
+                                          Text(value, textScaleFactor: 0.6,),
                                         ],
                                       ),
                                     );
