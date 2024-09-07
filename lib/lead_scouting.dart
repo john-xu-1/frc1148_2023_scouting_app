@@ -337,7 +337,7 @@ class _LeadScouting extends State<LeadScouting> {
                                         children: [
                                           //const Icon(Icons.star),
                                           //const SizedBox(width: 10),
-                                          Text(value, textScaleFactor: 0.6),
+                                          Text(value, textScaleFactor: 0.5),
                                         ],
                                       ),
                                     );
@@ -389,7 +389,7 @@ class _LeadScouting extends State<LeadScouting> {
                                           // const SizedBox(width: 10),
                                           Text(
                                             value,
-                                            textScaleFactor: 0.6,
+                                            textScaleFactor: 0.5,
                                           ),
                                         ],
                                       ),
@@ -442,7 +442,7 @@ class _LeadScouting extends State<LeadScouting> {
                                           // const SizedBox(width: 10),
                                           Text(
                                             value,
-                                            textScaleFactor: 0.6,
+                                            textScaleFactor: 0.5,
                                           ),
                                         ],
                                       ),
