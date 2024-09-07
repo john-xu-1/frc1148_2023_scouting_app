@@ -91,7 +91,7 @@ class _LeadScouting extends State<LeadScouting> {
   Future<void> _submitForm() async {
     try {
       final sheet = await SheetsHelper.sheetSetup(
-          "Notes Org"); // Replace with your sheet name
+          "NotesOrg"); // Replace with your sheet name
 
       // Writing data
       final firstRow = [
@@ -100,7 +100,8 @@ class _LeadScouting extends State<LeadScouting> {
         capabilities1,
         robotFailure1,
         trends1,
-        autoNotes1
+        autoNotes1,
+        effectiveness1
       ];
       final secondRow = [
         fieldAwareness2,
@@ -108,7 +109,8 @@ class _LeadScouting extends State<LeadScouting> {
         capabilities2,
         robotFailure2,
         trends2,
-        autoNotes2
+        autoNotes2,
+        effectiveness2
       ];
       final thirdRow = [
         fieldAwareness3,
@@ -116,7 +118,8 @@ class _LeadScouting extends State<LeadScouting> {
         capabilities3,
         robotFailure3,
         trends3,
-        autoNotes3
+        autoNotes3,
+        effectiveness3
       ];
       await sheet!.values.insertRowByKey(
           widget.teamName, [firstRow, secondRow, thirdRow],
