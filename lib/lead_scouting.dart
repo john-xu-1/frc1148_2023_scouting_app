@@ -3,9 +3,9 @@ import 'sheets_helper.dart';
 import 'entrance.dart';
 import 'color_scheme.dart';
 
-PrimitiveWrapper effectiveness1 = PrimitiveWrapper(0);
-PrimitiveWrapper effectiveness2 = PrimitiveWrapper(0);
-PrimitiveWrapper effectiveness3 = PrimitiveWrapper(0);
+PrimitiveWrapper effectiveness1 = PrimitiveWrapper(1);
+PrimitiveWrapper effectiveness2 = PrimitiveWrapper(1);
+PrimitiveWrapper effectiveness3 = PrimitiveWrapper(1);
 
 String relEffectiveness = "";
 
@@ -475,12 +475,12 @@ class ScoreDisplay extends StatelessWidget {
       children: [
         Text(
           lable,
-          textScaleFactor: 2.5,
+          textScaleFactor: 0.9,
         ),
         SizedBox(width: width / 40),
         FittedBox(
             child: Text("$points",
-                textScaleFactor: 3.5,
+                textScaleFactor: 1.4,
                 style: const TextStyle(color: colors.myOnPrimary))),
       ],
     );
