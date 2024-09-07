@@ -11,6 +11,7 @@ String relEffectiveness = "";
 
 String accuracy1 = "";
 String fieldAwareness1 = "";
+String capabilities1 = "";
 String trends1 = "";
 String robotFailure1 = "";
 String autoNotes1 = "";
@@ -18,6 +19,7 @@ TextEditingController activeNote1 = TextEditingController();
 
 String accuracy2 = "";
 String fieldAwareness2 = "";
+String capabilities2 = "";
 String trends2 = "";
 String robotFailure2 = "";
 String autoNotes2 = "";
@@ -25,6 +27,7 @@ TextEditingController activeNote2 = TextEditingController();
 
 String accuracy3 = "";
 String fieldAwareness3 = "";
+String capabilities3 = "";
 String trends3 = "";
 String robotFailure3 = "";
 String autoNotes3 = "";
@@ -33,6 +36,7 @@ TextEditingController activeNote3 = TextEditingController();
 List<List<String>> noteMatrix = [
   [accuracy1, accuracy2, accuracy3],
   [fieldAwareness1, fieldAwareness2, fieldAwareness3],
+  [capabilities1, capabilities2, capabilities3],
   [trends1, trends2, trends3],
   [robotFailure1, robotFailure2, robotFailure3],
   [autoNotes1, autoNotes2, autoNotes3]
@@ -49,9 +53,10 @@ List<int> activeNoteType = [0, 0, 0];
 var nameToInt = {
   "Accuracy": 0,
   "Field Awareness": 1,
-  "Trends": 2,
-  "Robot Failures": 3,
-  "Auto Notes": 4,
+  "Capabilities": 2,
+  "Trends": 3,
+  "Robot Failures": 4,
+  "Auto Notes": 5,
 };
 
 String selectedItem = "1, 2, 3";
@@ -86,14 +91,40 @@ class _LeadScouting extends State<LeadScouting> {
   Future<void> _submitForm() async {
     try {
       final sheet = await SheetsHelper.sheetSetup(
-          "Scouting Lead Notes"); // Replace with your sheet name
+          "Notes Org"); // Replace with your sheet name
 
       // Writing data
-      final firstRow = [];
-      await sheet!.values
-          .insertRowByKey(widget.teamName, firstRow, fromColumn: 2);
+      final firstRow = [
+        fieldAwareness1,
+        accuracy1,
+        capabilities1,
+        robotFailure1,
+        trends1,
+        autoNotes1
+      ];
+      final secondRow = [
+        fieldAwareness2,
+        accuracy2,
+        capabilities2,
+        robotFailure2,
+        trends2,
+        autoNotes2
+      ];
+      final thirdRow = [
+        fieldAwareness3,
+        accuracy3,
+        capabilities3,
+        robotFailure3,
+        trends3,
+        autoNotes3
+      ];
+      await sheet!.values.insertRowByKey(
+          widget.teamName, [firstRow, secondRow, thirdRow],
+          fromColumn: 2);
 
       print(await sheet.values.row(1));
+      print(await sheet.values.row(2));
+      print(await sheet.values.row(3));
     } catch (e) {
       print('Error: $e');
     }
@@ -291,6 +322,7 @@ class _LeadScouting extends State<LeadScouting> {
                                   items: [
                                     "Accuracy",
                                     "Field Awareness",
+                                    "Capabilities",
                                     "Trends",
                                     "Robot Failures",
                                     "Auto Notes",
@@ -340,6 +372,7 @@ class _LeadScouting extends State<LeadScouting> {
                                   items: [
                                     'Accuracy',
                                     'Field Awareness',
+                                    "Capabilities",
                                     'Trends',
                                     'Robot Failures',
                                     'Auto Notes'
@@ -351,7 +384,10 @@ class _LeadScouting extends State<LeadScouting> {
                                         children: [
                                           // const Icon(Icons.star),
                                           // const SizedBox(width: 10),
-                                          Text(value, textScaleFactor: 0.6,),
+                                          Text(
+                                            value,
+                                            textScaleFactor: 0.6,
+                                          ),
                                         ],
                                       ),
                                     );
@@ -389,6 +425,7 @@ class _LeadScouting extends State<LeadScouting> {
                                   items: [
                                     'Accuracy',
                                     'Field Awareness',
+                                    "Capabilities",
                                     'Trends',
                                     'Robot Failures',
                                     'Auto Notes'
@@ -400,7 +437,10 @@ class _LeadScouting extends State<LeadScouting> {
                                         children: [
                                           // const Icon(Icons.star),
                                           // const SizedBox(width: 10),
-                                          Text(value, textScaleFactor: 0.6,),
+                                          Text(
+                                            value,
+                                            textScaleFactor: 0.6,
+                                          ),
                                         ],
                                       ),
                                     );
