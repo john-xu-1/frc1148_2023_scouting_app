@@ -3,9 +3,9 @@ import 'sheets_helper.dart';
 import 'entrance.dart';
 import 'color_scheme.dart';
 
-PrimitiveWrapper effectiveness1 = PrimitiveWrapper(1);
-PrimitiveWrapper effectiveness2 = PrimitiveWrapper(1);
-PrimitiveWrapper effectiveness3 = PrimitiveWrapper(1);
+PrimitiveWrapper effectiveness1 = PrimitiveWrapper(0);
+PrimitiveWrapper effectiveness2 = PrimitiveWrapper(0);
+PrimitiveWrapper effectiveness3 = PrimitiveWrapper(0);
 
 String relEffectiveness = "";
 
@@ -121,13 +121,25 @@ class _LeadScouting extends State<LeadScouting> {
         autoNotes3,
         effectiveness3
       ];
-      await sheet!.values.insertRowByKey(
-          widget.teamName, [firstRow, secondRow, thirdRow],
-          fromColumn: 2);
+      
+      String match = widget.teamName.substring(0,4);
+      String teams = widget.teamName.substring(4);
+      List <String> teamNames  =  teams.split(', ');
+      //q5 frc555, frc777, frc888
+      
+      List<List<dynamic>> rows = [
+        firstRow,
+        secondRow,
+        thirdRow
+      ];
 
-      print(await sheet.values.row(1));
-      print(await sheet.values.row(2));
-      print(await sheet.values.row(3));
+      for (int i =0; i< 3;i++){
+        await sheet!.values.insertRowByKey(match + teamNames[i], rows[i],fromColumn: 2 );
+      }
+      // await sheet!.values.insertRowByKey(
+      //   widget.teamName, [firstRow, secondRow, thirdRow],fromColumn: 2
+      // );
+
     } catch (e) {
       print('Error: $e');
     }
