@@ -59,7 +59,7 @@ var nameToInt = {
   "Auto Notes": 5,
 };
 
-String selectedItem = "1, 2, 3";
+//String selectedItem = "1, 2, 3";
 
 // enum ColorLabel {
 //   onetwothree('1, 2, 3', Colors.black),
@@ -92,6 +92,10 @@ class _LeadScouting extends State<LeadScouting> {
     try {
       final sheet = await SheetsHelper.sheetSetup(
           "NotesOrg"); // Replace with your sheet name
+      
+      List<String>relEffectivenessList = relEffectiveness.split(', ');
+      print(relEffectiveness);
+      print (relEffectivenessList);
 
       // Writing data
       final firstRow = [
@@ -101,7 +105,8 @@ class _LeadScouting extends State<LeadScouting> {
         noteMatrix[3][0],
         noteMatrix[4][0],
         noteMatrix[5][0],
-        effectiveness1.value
+        effectiveness1.value,
+        relEffectivenessList[0]
       ];
       final secondRow = [
         noteMatrix[0][1],
@@ -110,7 +115,8 @@ class _LeadScouting extends State<LeadScouting> {
         noteMatrix[3][1],
         noteMatrix[4][1],
         noteMatrix[5][1],
-        effectiveness2.value
+        effectiveness2.value,
+        relEffectivenessList[1]
       ];
       final thirdRow = [
         noteMatrix[0][2],
@@ -119,14 +125,16 @@ class _LeadScouting extends State<LeadScouting> {
         noteMatrix[3][2],
         noteMatrix[4][2],
         noteMatrix[5][2],
-        effectiveness3.value
+        effectiveness3.value,
+        relEffectivenessList[2]
       ];
       
       String match = widget.teamName.substring(0,3);
       String teams = widget.teamName.substring(4);
       List <String> teamNames  =  teams.split(', ');
-      //q5 frc555, frc777, frc888
       
+      //q5 frc555, frc777, frc888
+
       List<List<dynamic>> rows = [
         firstRow,
         secondRow,
@@ -155,7 +163,7 @@ class _LeadScouting extends State<LeadScouting> {
 
   void updateRelEff(String? newRanking) {
     setState(() {
-      selectedItem = newRanking!;
+      relEffectiveness = newRanking!;
     });
   }
 
@@ -278,7 +286,7 @@ class _LeadScouting extends State<LeadScouting> {
             height: height / 3.5,
             child: Center(
               child: DropdownButtonFormField<String>(
-                value: selectedItem,
+                value: "1, 2, 3",
                 onChanged: (String? value) {
                   updateRelEff(value);
                 },
