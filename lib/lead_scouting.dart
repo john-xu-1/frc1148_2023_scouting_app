@@ -9,37 +9,37 @@ PrimitiveWrapper effectiveness3 = PrimitiveWrapper(0);
 
 String relEffectiveness = "";
 
-String accuracy1 = "";
-String fieldAwareness1 = "";
-String capabilities1 = "";
-String trends1 = "";
-String robotFailure1 = "";
-String autoNotes1 = "";
+// String accuracy1 = "";
+// String fieldAwareness1 = "";
+// String capabilities1 = "";
+// String trends1 = "";
+// String robotFailure1 = "";
+// String autoNotes1 = "";
 TextEditingController activeNote1 = TextEditingController();
 
-String accuracy2 = "";
-String fieldAwareness2 = "";
-String capabilities2 = "";
-String trends2 = "";
-String robotFailure2 = "";
-String autoNotes2 = "";
+// String accuracy2 = "";
+// String fieldAwareness2 = "";
+// String capabilities2 = "";
+// String trends2 = "";
+// String robotFailure2 = "";
+// String autoNotes2 = "";
 TextEditingController activeNote2 = TextEditingController();
 
-String accuracy3 = "";
-String fieldAwareness3 = "";
-String capabilities3 = "";
-String trends3 = "";
-String robotFailure3 = "";
-String autoNotes3 = "";
+// String accuracy3 = "";
+// String fieldAwareness3 = "";
+// String capabilities3 = "";
+// String trends3 = "";
+// String robotFailure3 = "";
+// String autoNotes3 = "";
 TextEditingController activeNote3 = TextEditingController();
 
 List<List<String>> noteMatrix = [
-  [accuracy1, accuracy2, accuracy3],
-  [fieldAwareness1, fieldAwareness2, fieldAwareness3],
-  [capabilities1, capabilities2, capabilities3],
-  [trends1, trends2, trends3],
-  [robotFailure1, robotFailure2, robotFailure3],
-  [autoNotes1, autoNotes2, autoNotes3]
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""]
 ];
 
 List<TextEditingController> activeNoteControllers = [
@@ -51,11 +51,11 @@ List<TextEditingController> activeNoteControllers = [
 List<int> activeNoteType = [0, 0, 0];
 
 var nameToInt = {
-  "Accuracy": 0,
-  "Field Awareness": 1,
+  "Field Awareness": 0,
+  "Accuracy": 1,
   "Capabilities": 2,
-  "Trends": 3,
-  "Robot Failures": 4,
+  "Robot Failures": 3,
+  "Trends": 4,
   "Auto Notes": 5,
 };
 
@@ -95,34 +95,34 @@ class _LeadScouting extends State<LeadScouting> {
 
       // Writing data
       final firstRow = [
-        fieldAwareness1,
-        accuracy1,
-        capabilities1,
-        robotFailure1,
-        trends1,
-        autoNotes1,
-        effectiveness1
+        noteMatrix[0][0],
+        noteMatrix[1][0],
+        noteMatrix[2][0],
+        noteMatrix[3][0],
+        noteMatrix[4][0],
+        noteMatrix[5][0],
+        effectiveness1.value
       ];
       final secondRow = [
-        fieldAwareness2,
-        accuracy2,
-        capabilities2,
-        robotFailure2,
-        trends2,
-        autoNotes2,
-        effectiveness2
+        noteMatrix[0][1],
+        noteMatrix[1][1],
+        noteMatrix[2][1],
+        noteMatrix[3][1],
+        noteMatrix[4][1],
+        noteMatrix[5][1],
+        effectiveness2.value
       ];
       final thirdRow = [
-        fieldAwareness3,
-        accuracy3,
-        capabilities3,
-        robotFailure3,
-        trends3,
-        autoNotes3,
-        effectiveness3
+        noteMatrix[0][2],
+        noteMatrix[1][2],
+        noteMatrix[2][2],
+        noteMatrix[3][2],
+        noteMatrix[4][2],
+        noteMatrix[5][2],
+        effectiveness3.value
       ];
       
-      String match = widget.teamName.substring(0,4);
+      String match = widget.teamName.substring(0,3);
       String teams = widget.teamName.substring(4);
       List <String> teamNames  =  teams.split(', ');
       //q5 frc555, frc777, frc888
@@ -325,7 +325,7 @@ class _LeadScouting extends State<LeadScouting> {
                               SizedBox(
                                 width: width / 3.5,
                                 child: DropdownButtonFormField<String>(
-                                  value: "Accuracy",
+                                  value: "Field Awareness",
                                   onChanged: (String? newVal) {
                                     updateSubjectiveNotes(
                                         nameToInt[newVal]!, 0);
@@ -335,11 +335,11 @@ class _LeadScouting extends State<LeadScouting> {
                                     border: OutlineInputBorder(),
                                   ),
                                   items: [
-                                    "Accuracy",
                                     "Field Awareness",
+                                    "Accuracy",
                                     "Capabilities",
-                                    "Trends",
                                     "Robot Failures",
+                                    "Trends",
                                     "Auto Notes",
                                   ].map<DropdownMenuItem<String>>(
                                       (String value) {
@@ -375,7 +375,7 @@ class _LeadScouting extends State<LeadScouting> {
                               SizedBox(
                                 width: width / 3.5,
                                 child: DropdownButtonFormField<String>(
-                                  value: "Accuracy",
+                                  value: "Field Awareness",
                                   onChanged: (String? newVal) {
                                     updateSubjectiveNotes(
                                         nameToInt[newVal]!, 1);
@@ -385,12 +385,12 @@ class _LeadScouting extends State<LeadScouting> {
                                     border: OutlineInputBorder(),
                                   ),
                                   items: [
-                                    'Accuracy',
-                                    'Field Awareness',
+                                    "Field Awareness",
+                                    "Accuracy",
                                     "Capabilities",
-                                    'Trends',
-                                    'Robot Failures',
-                                    'Auto Notes'
+                                    "Robot Failures",
+                                    "Trends",
+                                    "Auto Notes",
                                   ].map<DropdownMenuItem<String>>(
                                       (String value) {
                                     return DropdownMenuItem<String>(
@@ -428,7 +428,7 @@ class _LeadScouting extends State<LeadScouting> {
                               SizedBox(
                                 width: width / 3.5,
                                 child: DropdownButtonFormField<String>(
-                                  value: "Accuracy",
+                                  value: "Field Awareness",
                                   onChanged: (String? newVal) {
                                     updateSubjectiveNotes(
                                         nameToInt[newVal]!, 2);
@@ -438,12 +438,12 @@ class _LeadScouting extends State<LeadScouting> {
                                     border: OutlineInputBorder(),
                                   ),
                                   items: [
-                                    'Accuracy',
-                                    'Field Awareness',
+                                    "Field Awareness",
+                                    "Accuracy",
                                     "Capabilities",
-                                    'Trends',
-                                    'Robot Failures',
-                                    'Auto Notes'
+                                    "Robot Failures",
+                                    "Trends",
+                                    "Auto Notes",
                                   ].map<DropdownMenuItem<String>>(
                                       (String value) {
                                     return DropdownMenuItem<String>(
