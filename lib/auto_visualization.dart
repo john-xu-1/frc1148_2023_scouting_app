@@ -59,7 +59,22 @@ class _AutoVisualization extends State<AutoVisualization> {
   }
 
   @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold();
+  // }
+
   Widget build(BuildContext context) {
-    return Scaffold();
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    fetchTeamFromSheets();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Auto visualization",
+          textScaleFactor: 1.5,
+        ),
+        elevation: 21,
+      ),
+    );
   }
 }
