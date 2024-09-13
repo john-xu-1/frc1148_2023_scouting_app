@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/scouting_form.dart';
 import 'package:frc1148_2023_scouting_app/sheets_helper.dart';
@@ -45,6 +47,45 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
       dataSet = (await sheet!.values.rowByKey(widget.teamID))!;
       dataSet = dataSet.sublist(0);
       setState(() {}); //referesh after successful fetch
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  //HashMap<String, List<int>> rutro = HashMap();
+  Map<String, Map<String, List<int>>> rutro = {};
+
+
+  Future<void> _updateGraphs() async {
+    try {
+
+      final sheet = await SheetsHelper.sheetSetup("App results");
+
+      final rows = await sheet!.values.allRows();
+      
+      final allMetricsName = rows[0].sublist(2);
+      print (allMetricsName);
+
+      for (int i = 1; i < rows.length; i++){
+        int spaceLoc = rows[i][0].indexOf(" ");
+        String teamNumber = rows[i][0].substring(spaceLoc+1);
+        String matchNumber = rows[i][0].substring(1, spaceLoc);
+
+
+        if (teamNumber == widget.teamID){
+          final allMetricsInAMatch = rows[i];
+          for (int j = 0; j < allMetricsInAMatch.length; j++){
+            List<int> coordinate = [int.parse(matchNumber), int.parse(allMetricsInAMatch[j])];
+            Map<String, List<int>> metricWithData = {allMetricsName[j]: coordinate};
+            rutro.putIfAbsent(teamNumber, metricWithData as Map<String, List<int>> Function());
+          }
+          
+        }
+      }
+
+      // dataSet = (await sheet!.values.rowByKey(widget.teamID))!;
+      // dataSet = dataSet.sublist(0);
+      setState(() {}); 
     } catch (e) {
       print('Error: $e');
     }
