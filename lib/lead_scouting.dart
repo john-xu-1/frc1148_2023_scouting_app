@@ -153,6 +153,24 @@ class _LeadScouting extends State<LeadScouting> {
     }
   }
 
+  void reset (){
+    effectiveness1 = PrimitiveWrapper(1);
+    effectiveness2 = PrimitiveWrapper(1);
+    effectiveness3 = PrimitiveWrapper(1);
+    relEffectiveness ="";
+    activeNote1.clear();
+    activeNote1.clear();
+    activeNote1.clear();
+    noteMatrix = [
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""]
+  ];
+  }
+
   void update(PrimitiveWrapper variable, int inc) {
     setState(() {
       if ((variable.value + inc) >= 1 && (variable.value + inc) <= 5) {
@@ -335,8 +353,7 @@ class _LeadScouting extends State<LeadScouting> {
                                 child: DropdownButtonFormField<String>(
                                   value: "Field Awareness",
                                   onChanged: (String? newVal) {
-                                    updateSubjectiveNotes(
-                                        nameToInt[newVal]!, 0);
+                                    updateSubjectiveNotes(nameToInt[newVal]!, 0);
                                   },
                                   decoration: const InputDecoration(
                                     labelText: "Select an option",
@@ -492,6 +509,7 @@ class _LeadScouting extends State<LeadScouting> {
           ElevatedButton(
             onPressed: () async {
               await _submitForm();
+              reset();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const Entrance()));
             },
