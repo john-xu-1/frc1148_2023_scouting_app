@@ -9,9 +9,34 @@ class AutoVisualization extends StatefulWidget {
   State<AutoVisualization> createState() => _AutoVisualization();
 }
 
+@override
+void initState() {
+  fetchTeamFromSheets();
+}
+
+Future<String> _fetchForm(column, row) async {
+  try {
+    final sheet = await SheetsHelper.sheetSetup(
+        'Tracing'); // Replace with your sheet name
+
+    // Writing data
+    final cell = await sheet?.cells.cell(column: column, row: row);
+    return (cell!.value);
+  } catch (e) {
+    print('Error: $e');
+    return "";
+  }
+}
+
+String coordData = "";
+
+void fetchTeamFromSheets() async {
+  coordData = (await _fetchForm(2, 1));
+}
+
 class _AutoVisualization extends State<AutoVisualization> {
   List<List<double>> grabCoords() {
-    String rawData = "123,456 109,213 412,11 10,500 142,958";
+    String rawData = coordData;
     List<String> stringCoords = rawData.split(" ");
     List<List<double>> coordinates = stringCoords
         .map((coord) =>
