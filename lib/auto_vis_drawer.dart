@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'sheets_helper.dart';
-
 
 class AutoVisualization extends StatefulWidget {
   const AutoVisualization({super.key});
@@ -46,14 +44,14 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
           double dy = double.parse(values[1]);
           coordinates.add(Offset(dx, dy));
         } else {
-          print("Invalid coordinate format: $coord");
+          print("Invalid coordinate format: $coord\n");
         }
       } catch (e) {
-        print("Error parsing coordinate: $coord, Error: $e");
+        print("Error parsing coordinate: $coord, Error: $e\n");
       }
     }
     for (var coord in coordinates) {
-      print("(${coord.dx}, ${coord.dy})");
+      print("(${coord.dx}, ${coord.dy})\n");
     }
     return coordinates;
   }
@@ -61,15 +59,16 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
   // Updated fetchTeamFromSheets function
   Future<void> fetchTeamFromSheets() async {
     try {
-      print('Fetching data from Google Sheets...');
+      print('Fetching data from Google Sheets...\n');
       final sheet = await SheetsHelper.sheetSetup('Tracing');
       final rows = await sheet?.cells.allRows();
       if (rows != null) {
-        print('Data fetched successfully. Parsing data...');
+        print('Data fetched successfully. Parsing data...\n');
         for (var row in rows) {
-          String match = row[0].value;
+          String match = row[9].value;
           String coordinates = row[1].value;
-          print('Match: $match, Coordinates: $coordinates'); // Debug line
+          // String team = row[10].value;
+          print('Match: $match, Coordinates: $coordinates\n'); // Debug line
           List<Offset> points = parseAndConvertCoordinates(coordinates);
           if (!matchCoordinates.containsKey(match)) {
             matchCoordinates[match] = [];
@@ -78,12 +77,17 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
           if (!matchNumbers.contains(match)) {
             matchNumbers.add(match);
           }
+          // matchCoordinates[team]!.addAll(points);
+          // if (!matchNumbers.contains(team)) {
+          //   matchNumbers.add(team);
+          // }
         }
-        print('Data parsing complete.');
+        print('Data parsing complete.\n');
+        print('Available matches: $matchNumbers\n'); // Debug line
         setState(() {});
       }
     } catch (e) {
-      print('Error: $e');
+      print('Error: $e\n');
     }
   }
 
@@ -106,49 +110,81 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
               ),
               onSubmitted: (String value) {
                 setState(() {
-                  selectedMatch = value;
-                  print('Selected match: $selectedMatch'); // Debug line
+                  selectedMatch = value.trim();
+                  print('Selected match: $selectedMatch\n'); // Debug line
+                  if (matchCoordinates.containsKey(selectedMatch)) {
+                    print('Match found: $selectedMatch\n'); // Debug line
+                  } else {
+                    print('Match not found: $selectedMatch\n'); // Debug line
+                  }
                 });
               },
             ),
           ),
           Expanded(
             child: selectedMatch.isNotEmpty
-                ? LineChart(LineChartData(
-                    lineBarsData: _buildLineBarsData(),
-                  ))
+                ? CustomPaint(
+                    size: Size(370, 370),
+                    painter: RobotPathPainter(matchCoordinates[selectedMatch]!),
+                  )
                 : Center(child: Text('Enter a match number to view the graph')),
           ),
         ],
       ),
     );
   }
+}
 
-  // Builds the line chart data for the selected match
-  List<LineChartBarData> _buildLineBarsData() {
-    List<LineChartBarData> lineBarsData = [];
-    if (matchCoordinates.containsKey(selectedMatch)) {
-      List<Offset> points = matchCoordinates[selectedMatch]!;
-      print('Building line chart data for match: $selectedMatch'); // Debug line
-      for (int i = 0; i < points.length; i += 6) {
-        List<FlSpot> spots = [];
+class RobotPathPainter extends CustomPainter {
+  final List<Offset> points;
+  final List<Color> robotColors = [
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.orange,
+    Colors.purple,
+    Colors.brown,
+  ];
+
+  RobotPathPainter(this.points);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 1.0;
+
+    // Draw grid
+    // for (int i = 0; i <= 370; i += 10) {
+    //   canvas.drawLine(
+    //       Offset(i.toDouble(), 0), Offset(i.toDouble(), 370), paint);
+    //   canvas.drawLine(
+    //       Offset(0, i.toDouble()), Offset(370, i.toDouble()), paint);
+    // }
+
+    // Draw robot paths
+    int colorIndex = 0;
+    for (int i = 0; i < points.length; i += 6) {
+      final pathPaint = Paint()
+        ..color = robotColors[colorIndex % robotColors.length]
+        ..strokeWidth = 2.0
+        ..style = PaintingStyle.stroke;
+
+      final path = Path();
+      if (points.isNotEmpty) {
+        path.moveTo(points[i].dx, points[i].dy);
         for (int j = i; j < i + 6 && j < points.length; j++) {
-          spots.add(FlSpot(points[j].dx, points[j].dy));
+          path.lineTo(points[j].dx, points[j].dy);
         }
-        lineBarsData.add(LineChartBarData(
-          spots: spots,
-          isCurved: true,
-          color: Colors.blue, // Use single color for each robot
-          barWidth: 2,
-          isStrokeCapRound: true,
-          dotData: FlDotData(show: true),
-        ));
-        print('Added line for robot with points: $spots'); // Debug line
       }
-    } else {
-      print('No data found for match: $selectedMatch'); // Debug line
+      canvas.drawPath(path, pathPaint);
+      colorIndex++;
     }
-    return lineBarsData;
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }
 
