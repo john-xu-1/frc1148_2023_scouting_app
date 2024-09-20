@@ -150,10 +150,10 @@ class RobotPathPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 1.0;
-
+    // final paint = Paint()
+    //   ..color = Colors.black
+    //   ..strokeWidth = 1.0;
+    // 
     // Draw grid
     // for (int i = 0; i <= 370; i += 10) {
     //   canvas.drawLine(
