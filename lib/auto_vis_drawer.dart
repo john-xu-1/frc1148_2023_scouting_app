@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'sheets_helper.dart';
 
+  
+
 class AutoVisualization extends StatefulWidget {
   const AutoVisualization({super.key});
 
@@ -138,12 +140,19 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
             ),
           Expanded(
             child: selectedMatch.isNotEmpty && matchCoordinates.containsKey(selectedMatch)
-                ? CustomPaint(
-                    size: Size(370, 370),
-                    painter: RobotPathPainter(
-                      splitRobotPaths(matchCoordinates[selectedMatch]!),
+                ? DecoratedBox(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(image: AssetImage('assets/blue_field.png'), fit: BoxFit.cover),
                     ),
-                  )
+                    child: Container(
+                      child: CustomPaint(
+                        size: Size(370, 370),
+                        painter: RobotPathPainter(
+                          splitRobotPaths(matchCoordinates[selectedMatch]!),
+                        ),
+                      ),
+                    ),
+                )
                 : Center(child: Text('Enter a match number to view the graph')),
           ),
         ],
@@ -170,9 +179,9 @@ class RobotPathPainter extends CustomPainter {
     // final paint = Paint()
     //   ..color = Colors.black
     //   ..strokeWidth = 1.0;
-
+    // Load the image as a ui.Image
+    
     // // Draw grid
-    // ed030e70e6fb0c4e2657591adc60eab3244e5653
     // for (int i = 0; i <= 370; i += 10) {
     //   canvas.drawLine(Offset(i.toDouble(), 0), Offset(i.toDouble(), 370), paint);
     //   canvas.drawLine(Offset(0, i.toDouble()), Offset(370, i.toDouble()), paint);
