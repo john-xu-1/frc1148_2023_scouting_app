@@ -21,10 +21,11 @@ class RobotPathGraph extends StatefulWidget {
 }
 
 class _RobotPathGraphState extends State<RobotPathGraph> {
-  Map<String, List<Offset>> matchCoordinates = {};
+  Map<String, List<Map<String, dynamic>>> matchCoordinates = {};
   String selectedMatch = '';
   List<String> matchNumbers = [];
   TextEditingController matchController = TextEditingController();
+  String errorMessage = '';
 
   @override
   void initState() {
@@ -33,15 +34,19 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
   }
 
   // Function to parse coordinates string and convert to List<Offset>
-  List<Offset> parseAndConvertCoordinates(String rawData) {
+  List<Offset> parseAndConvertCoordinates(String rawData, bool isRed) {
     List<String> stringCoords = rawData.split(" ");
     List<Offset> coordinates = [];
+
     for (var coord in stringCoords) {
       try {
         List<String> values = coord.split(",");
         if (values.length == 2) {
-          double dx = double.parse(values[0]);
-          double dy = double.parse(values[1]);
+          double dx = double.parse(values[0]).roundToDouble();
+          double dy = double.parse(values[1]).roundToDouble();
+          if (isRed) {
+            dx = 370 - dx;
+          }
           coordinates.add(Offset(dx, dy));
         } else {
           print("Invalid coordinate format: $coord\n");
@@ -49,9 +54,6 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
       } catch (e) {
         print("Error parsing coordinate: $coord, Error: $e\n");
       }
-    }
-    for (var coord in coordinates) {
-      print("(${coord.dx}, ${coord.dy})\n");
     }
     return coordinates;
   }
@@ -67,20 +69,15 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
         for (var row in rows) {
           String match = row[9].value;
           String coordinates = row[1].value;
-          // String team = row[10].value;
-          print('Match: $match, Coordinates: $coordinates\n'); // Debug line
-          List<Offset> points = parseAndConvertCoordinates(coordinates);
+          bool isRed = row[13].value == 'true'; // Assuming the value is a string 'true' or 'false'
+          print('Match: $match, Coordinates: $coordinates, IsRed: $isRed\n'); // Debug line
           if (!matchCoordinates.containsKey(match)) {
             matchCoordinates[match] = [];
           }
-          matchCoordinates[match]!.addAll(points);
+          matchCoordinates[match]!.add({'coordinates': coordinates, 'isRed': isRed});
           if (!matchNumbers.contains(match)) {
             matchNumbers.add(match);
           }
-          // matchCoordinates[team]!.addAll(points);
-          // if (!matchNumbers.contains(team)) {
-          //   matchNumbers.add(team);
-          // }
         }
         print('Data parsing complete.\n');
         print('Available matches: $matchNumbers\n'); // Debug line
@@ -89,6 +86,17 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
     } catch (e) {
       print('Error: $e\n');
     }
+  }
+
+  // Helper function to split robot paths
+  List<List<Offset>> splitRobotPaths(List<Map<String, dynamic>> rawCoordinates) {
+    List<List<Offset>> robotPaths = List.generate(6, (_) => []);
+    for (int i = 0; i < rawCoordinates.length; i++) {
+      Map<String, dynamic> data = rawCoordinates[i];
+      List<Offset> coordinates = parseAndConvertCoordinates(data['coordinates'], data['isRed']);
+      robotPaths[i % 6].addAll(coordinates);
+    }
+    return robotPaths;
   }
 
   @override
@@ -111,21 +119,30 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
               onSubmitted: (String value) {
                 setState(() {
                   selectedMatch = value.trim();
-                  print('Selected match: $selectedMatch\n'); // Debug line
                   if (matchCoordinates.containsKey(selectedMatch)) {
-                    print('Match found: $selectedMatch\n'); // Debug line
+                    errorMessage = '';
                   } else {
-                    print('Match not found: $selectedMatch\n'); // Debug line
+                    errorMessage = 'Match not found: $selectedMatch';
                   }
                 });
               },
             ),
           ),
+          if (errorMessage.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                errorMessage,
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
           Expanded(
-            child: selectedMatch.isNotEmpty
+            child: selectedMatch.isNotEmpty && matchCoordinates.containsKey(selectedMatch)
                 ? CustomPaint(
                     size: Size(370, 370),
-                    painter: RobotPathPainter(matchCoordinates[selectedMatch]!),
+                    painter: RobotPathPainter(
+                      splitRobotPaths(matchCoordinates[selectedMatch]!),
+                    ),
                   )
                 : Center(child: Text('Enter a match number to view the graph')),
           ),
@@ -136,7 +153,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
 }
 
 class RobotPathPainter extends CustomPainter {
-  final List<Offset> points;
+  final List<List<Offset>> robotPaths;
   final List<Color> robotColors = [
     Colors.red,
     Colors.blue,
@@ -146,39 +163,37 @@ class RobotPathPainter extends CustomPainter {
     Colors.brown,
   ];
 
-  RobotPathPainter(this.points);
+  RobotPathPainter(this.robotPaths);
 
   @override
   void paint(Canvas canvas, Size size) {
     // final paint = Paint()
     //   ..color = Colors.black
     //   ..strokeWidth = 1.0;
-    // 
-    // Draw grid
+
+    // // Draw grid
+    // ed030e70e6fb0c4e2657591adc60eab3244e5653
     // for (int i = 0; i <= 370; i += 10) {
-    //   canvas.drawLine(
-    //       Offset(i.toDouble(), 0), Offset(i.toDouble(), 370), paint);
-    //   canvas.drawLine(
-    //       Offset(0, i.toDouble()), Offset(370, i.toDouble()), paint);
+    //   canvas.drawLine(Offset(i.toDouble(), 0), Offset(i.toDouble(), 370), paint);
+    //   canvas.drawLine(Offset(0, i.toDouble()), Offset(370, i.toDouble()), paint);
     // }
 
     // Draw robot paths
-    int colorIndex = 0;
-    for (int i = 0; i < points.length; i += 6) {
+    for (int i = 0; i < robotPaths.length; i++) {
       final pathPaint = Paint()
-        ..color = robotColors[colorIndex % robotColors.length]
+        ..color = robotColors[i % robotColors.length]
         ..strokeWidth = 2.0
         ..style = PaintingStyle.stroke;
 
       final path = Path();
+      final points = robotPaths[i];
       if (points.isNotEmpty) {
-        path.moveTo(points[i].dx, points[i].dy);
-        for (int j = i; j < i + 6 && j < points.length; j++) {
-          path.lineTo(points[j].dx, points[j].dy);
+        path.moveTo(points[0].dx, points[0].dy);
+        for (var point in points) {
+          path.lineTo(point.dx, point.dy);
         }
       }
       canvas.drawPath(path, pathPaint);
-      colorIndex++;
     }
   }
 
