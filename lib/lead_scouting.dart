@@ -1,20 +1,78 @@
 import 'package:flutter/material.dart';
 import 'sheets_helper.dart';
 import 'entrance.dart';
+import 'color_scheme.dart';
 
-bool coopertition = false;
+PrimitiveWrapper effectiveness1 = PrimitiveWrapper(0);
+PrimitiveWrapper effectiveness2 = PrimitiveWrapper(0);
+PrimitiveWrapper effectiveness3 = PrimitiveWrapper(0);
 
-String effectiveness1 = "";
-String effectiveness2 = "";
-String effectiveness3 = "";
+String relEffectiveness = "";
 
-String relPsdEffectiveness1 = "";
-String relPsdEffectiveness2 = "";
-String relPsdEffectiveness3 = "";
+// String accuracy1 = "";
+// String fieldAwareness1 = "";
+// String capabilities1 = "";
+// String trends1 = "";
+// String robotFailure1 = "";
+// String autoNotes1 = "";
+TextEditingController activeNote1 = TextEditingController();
 
-String notes1 = "";
-String notes2 = "";
-String notes3 = "";
+// String accuracy2 = "";
+// String fieldAwareness2 = "";
+// String capabilities2 = "";
+// String trends2 = "";
+// String robotFailure2 = "";
+// String autoNotes2 = "";
+TextEditingController activeNote2 = TextEditingController();
+
+// String accuracy3 = "";
+// String fieldAwareness3 = "";
+// String capabilities3 = "";
+// String trends3 = "";
+// String robotFailure3 = "";
+// String autoNotes3 = "";
+TextEditingController activeNote3 = TextEditingController();
+
+List<List<String>> noteMatrix = [
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""]
+];
+
+List<TextEditingController> activeNoteControllers = [
+  activeNote1,
+  activeNote2,
+  activeNote3
+];
+
+List<int> activeNoteType = [0, 0, 0];
+
+var nameToInt = {
+  "Field Awareness": 0,
+  "Accuracy": 1,
+  "Capabilities": 2,
+  "Robot Failures": 3,
+  "Trends": 4,
+  "Auto Notes": 5,
+};
+
+//String selectedItem = "1, 2, 3";
+
+// enum ColorLabel {
+//   onetwothree('1, 2, 3', Colors.black),
+//   onethreetwo('1, 3, 2', Colors.red),
+//   twoonethree('2, 1, 3', Colors.blue),
+//   twothreeone('2, 3, 1', Colors.purple),
+//   threeonetwo('3, 1, 2', Colors.green),
+//   threetwoone('3, 2, 1', Colors.orange);
+
+//   const ColorLabel(this.label, this.color);
+//   final String label;
+//   final Color color;
+// }
 
 class LeadScouting extends StatefulWidget {
   const LeadScouting({super.key, required this.teamName});
@@ -25,215 +83,679 @@ class LeadScouting extends StatefulWidget {
 
 class _LeadScouting extends State<LeadScouting> {
   final List<String> entries = <String>[
-    'Enter Robot effectivness 5 is highest (1-5)',
-    'Enter relative effectivness 1 is highest (1-3)',
-    'Enter Notes on robot (strengths weaknesses ect.)',
-    'Did the alliance press Coopertition button',
+    'Enter robot effectiveness: 5 is highest (1-5)',
+    'Select relative effectiveness: 1 is highest (1-3)',
+    'Enter notes on robot (select category)',
   ];
 
-  
   Future<void> _submitForm() async {
     try {
-      final sheet = await SheetsHelper.sheetSetup("Scouting Lead Notes"); // Replace with your sheet name    
+      final sheet = await SheetsHelper.sheetSetup(
+          "NotesOrg"); // Replace with your sheet name
+      
+      List<String>relEffectivenessList = relEffectiveness.split(', ');
+      print(relEffectiveness);
+      print (relEffectivenessList);
 
-       // Writing data
-      final firstRow = [coopertition, effectiveness1, notes1, effectiveness2, notes2, effectiveness3, notes3, relPsdEffectiveness1, relPsdEffectiveness2 ,relPsdEffectiveness3];
-      await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
+      // Writing data
+      final firstRow = [
+        noteMatrix[0][0],
+        noteMatrix[1][0],
+        noteMatrix[2][0],
+        noteMatrix[3][0],
+        noteMatrix[4][0],
+        noteMatrix[5][0],
+        effectiveness1.value,
+        relEffectivenessList[0]
+      ];
+      final secondRow = [
+        noteMatrix[0][1],
+        noteMatrix[1][1],
+        noteMatrix[2][1],
+        noteMatrix[3][1],
+        noteMatrix[4][1],
+        noteMatrix[5][1],
+        effectiveness2.value,
+        relEffectivenessList[1]
+      ];
+      final thirdRow = [
+        noteMatrix[0][2],
+        noteMatrix[1][2],
+        noteMatrix[2][2],
+        noteMatrix[3][2],
+        noteMatrix[4][2],
+        noteMatrix[5][2],
+        effectiveness3.value,
+        relEffectivenessList[2]
+      ];
+      
+      String match = widget.teamName.substring(0,3);
+      String teams = widget.teamName.substring(4);
+      List <String> teamNames  =  teams.split(', ');
+      
+      //q5 frc555, frc777, frc888
 
-      print(await sheet.values.row(1));
-  }catch (e) {
+      List<List<dynamic>> rows = [
+        firstRow,
+        secondRow,
+        thirdRow
+      ];
+
+      for (int i =0; i< 3;i++){
+        await sheet!.values.insertRowByKey(match + teamNames[i], rows[i],fromColumn: 2 );
+      }
+      // await sheet!.values.insertRowByKey(
+      //   widget.teamName, [firstRow, secondRow, thirdRow],fromColumn: 2
+      // );
+
+    } catch (e) {
       print('Error: $e');
     }
   }
-  
-   @override
+
+  void reset (){
+    effectiveness1 = PrimitiveWrapper(1);
+    effectiveness2 = PrimitiveWrapper(1);
+    effectiveness3 = PrimitiveWrapper(1);
+    relEffectiveness ="";
+    activeNote1.clear();
+    activeNote1.clear();
+    activeNote1.clear();
+    noteMatrix = [
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""]
+  ];
+  }
+
+  void update(PrimitiveWrapper variable, int inc) {
+    setState(() {
+      if ((variable.value + inc) >= 1 && (variable.value + inc) <= 5) {
+        variable.value += inc;
+      }
+    });
+  }
+
+  void updateRelEff(String? newRanking) {
+    setState(() {
+      relEffectiveness = newRanking!;
+    });
+  }
+
+  void updateSubjectiveNotes(int noteType, int teamIndex) {
+    activeNoteType[teamIndex] = noteType;
+    activeNoteControllers[teamIndex].text = noteMatrix[noteType][teamIndex];
+  }
+
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar( 
+      appBar: AppBar(
         title: Column(
           children: [
-            const Text ("Lead Scouts",),
+            const Text(
+              "Lead Scouts",
+            ),
             Text(widget.teamName),
           ],
         ),
-        
         elevation: 21,
       ),
       body: Center(
-        child: ListView(
-          children: <Widget>[
-            SizedBox(
-            height: height / 3.5,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(entries[0], textScaleFactor: 1.5,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            effectiveness1 = value;
-                            print("$value");
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            effectiveness2 = value;
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            effectiveness3 = value;
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-
+          child: ListView(
+        children: <Widget>[
           SizedBox(
             height: height / 3.5,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(entries[1], textScaleFactor: 1.5,),
+                  Text(
+                    entries[0],
+                    textScaleFactor: 1.5,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            relPsdEffectiveness1 = value;
-                          },
-                        ),
-                      ),
-                      Container(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            relPsdEffectiveness2 = value;
-                          },
-                        ),
-                      ),
+                          width: width / 3.5, // Adjust the width as needed
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ScoreDisplay(
+                                    effectiveness1.value, ("Effectiveness: ")),
+                                CounterButton(
+                                    update,
+                                    effectiveness1,
+                                    1,
+                                    const Text(
+                                      '+',
+                                      textScaleFactor: 2,
+                                    )),
+                                CounterButton(
+                                    update,
+                                    effectiveness1,
+                                    -1,
+                                    const Text(
+                                      '-',
+                                      textScaleFactor: 2.5,
+                                    )),
+                              ])),
                       SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            relPsdEffectiveness3 = value;
-                          },
-                        ),
-                      ),
+                          width: width / 3.5, // Adjust the width as needed
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ScoreDisplay(
+                                    effectiveness2.value, ("Effectiveness: ")),
+                                CounterButton(
+                                    update,
+                                    effectiveness2,
+                                    1,
+                                    const Text(
+                                      '+',
+                                      textScaleFactor: 2,
+                                    )),
+                                CounterButton(
+                                    update,
+                                    effectiveness2,
+                                    -1,
+                                    const Text(
+                                      '-',
+                                      textScaleFactor: 2.5,
+                                    )),
+                              ])),
+                      SizedBox(
+                          width: width / 3.5, // Adjust the width as needed
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ScoreDisplay(
+                                    effectiveness3.value, ("Effectiveness: ")),
+                                CounterButton(
+                                    update,
+                                    effectiveness3,
+                                    1,
+                                    const Text(
+                                      '+',
+                                      textScaleFactor: 2,
+                                    )),
+                                CounterButton(
+                                    update,
+                                    effectiveness3,
+                                    -1,
+                                    const Text(
+                                      '-',
+                                      textScaleFactor: 2.5,
+                                    )),
+                              ])),
                     ],
                   ),
                 ],
               ),
             ),
           ),
-
+          SizedBox(
+            height: height / 3.5,
+            child: Center(
+              child: DropdownButtonFormField<String>(
+                value: "1, 2, 3",
+                onChanged: (String? value) {
+                  updateRelEff(value);
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Select an option',
+                  border: OutlineInputBorder(),
+                ),
+                items: [
+                  '1, 2, 3',
+                  '1, 3, 2',
+                  '2, 1, 3',
+                  '2, 3, 1',
+                  '3, 1, 2',
+                  '3, 2, 1'
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Row(
+                      children: [
+                        Text(value),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
           SizedBox(
             height: height / 3.5,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(entries[2], textScaleFactor: 1.5,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            notes1 = value;
-                          },
-                          maxLines: null, // Setting maxLines to null allows multiple lines
-
-                        ),
-                      ),
-                      SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            notes2 = value;
-                          },
-                          maxLines: null, // Setting maxLines to null allows multiple lines
-                        ),
-                      ),
-                      SizedBox(
-                        width: width / 3.5, // Adjust the width as needed
-                        child: TextField(
-                          onChanged: (String value) {
-                            notes3 = value;
-                          },
-                          maxLines: null, // Setting maxLines to null allows multiple lines
-                        ),
-                      ),
-                    ],
+                  Text(
+                    entries[2],
+                    textScaleFactor: 1.5,
                   ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              SizedBox(
+                                width: width / 3.5,
+                                child: DropdownButtonFormField<String>(
+                                  value: "Field Awareness",
+                                  onChanged: (String? newVal) {
+                                    updateSubjectiveNotes(nameToInt[newVal]!, 0);
+                                  },
+                                  decoration: const InputDecoration(
+                                    labelText: "Select an option",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  items: [
+                                    "Field Awareness",
+                                    "Accuracy",
+                                    "Capabilities",
+                                    "Robot Failures",
+                                    "Trends",
+                                    "Auto Notes",
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Row(
+                                        children: [
+                                          //const Icon(Icons.star),
+                                          //const SizedBox(width: 10),
+                                          Text(value, textScaleFactor: 0.5),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                              SizedBox(
+                                width:
+                                    width / 3.5, // Adjust the width as needed
+                                child: TextField(
+                                  controller: activeNote1,
+                                  onChanged: (String value) {
+                                    noteMatrix[activeNoteType[0]][0] = value;
+                                  },
+                                  maxLines:
+                                      null, // Setting maxLines to null allows multiple lines
+                                ),
+                              ),
+                            ]),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              SizedBox(
+                                width: width / 3.5,
+                                child: DropdownButtonFormField<String>(
+                                  value: "Field Awareness",
+                                  onChanged: (String? newVal) {
+                                    updateSubjectiveNotes(
+                                        nameToInt[newVal]!, 1);
+                                  },
+                                  decoration: const InputDecoration(
+                                    labelText: "Select an option",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  items: [
+                                    "Field Awareness",
+                                    "Accuracy",
+                                    "Capabilities",
+                                    "Robot Failures",
+                                    "Trends",
+                                    "Auto Notes",
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Row(
+                                        children: [
+                                          // const Icon(Icons.star),
+                                          // const SizedBox(width: 10),
+                                          Text(
+                                            value,
+                                            textScaleFactor: 0.5,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                              SizedBox(
+                                width:
+                                    width / 3.5, // Adjust the width as needed
+                                child: TextField(
+                                  controller: activeNote2,
+                                  onChanged: (String value) {
+                                    noteMatrix[activeNoteType[1]][1] = value;
+                                  },
+                                  maxLines:
+                                      null, // Setting maxLines to null allows multiple lines
+                                ),
+                              ),
+                            ]),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              SizedBox(
+                                width: width / 3.5,
+                                child: DropdownButtonFormField<String>(
+                                  value: "Field Awareness",
+                                  onChanged: (String? newVal) {
+                                    updateSubjectiveNotes(
+                                        nameToInt[newVal]!, 2);
+                                  },
+                                  decoration: const InputDecoration(
+                                    labelText: "Select option",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  items: [
+                                    "Field Awareness",
+                                    "Accuracy",
+                                    "Capabilities",
+                                    "Robot Failures",
+                                    "Trends",
+                                    "Auto Notes",
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Row(
+                                        children: [
+                                          // const Icon(Icons.star),
+                                          // const SizedBox(width: 10),
+                                          Text(
+                                            value,
+                                            textScaleFactor: 0.5,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                              SizedBox(
+                                width:
+                                    width / 3.5, // Adjust the width as needed
+                                child: TextField(
+                                  controller: activeNote3,
+                                  onChanged: (String value) {
+                                    noteMatrix[activeNoteType[2]][2] = value;
+                                  },
+                                  maxLines:
+                                      null, // Setting maxLines to null allows multiple lines
+                                ),
+                              ),
+                            ]),
+                      ])
                 ],
               ),
             ),
           ),
-
-            const Divider(),
-            Container(
-              width: width,
-              height: height/5,
-              //color: Colors.red[300],
-              alignment: AlignmentDirectional.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text("Coopertition?",textScaleFactor: 1.5,),
-                  Checkbox(
-                    value: coopertition,
-                    //color: Colors.red[700],
-                    onChanged: (newValue) {
-                      setState(() {
-                        coopertition = newValue!;
-                      });
-                    },
-                  ),
-                ]
-              ),
-            ),
-            const Divider(),
-
-            ElevatedButton(
-              onPressed: () async {
-                await _submitForm();
-                coopertition = false;
-                Navigator.push(
-                  context, 
-                  MaterialPageRoute
-                  (
-                    builder: (context) => const Entrance()
-                  )
-                );
-              },
-              child: const Icon(Icons.send),
-            )
-          ],
-        )
-      ),
+          const Divider(),
+          ElevatedButton(
+            onPressed: () async {
+              await _submitForm();
+              reset();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Entrance()));
+            },
+            child: const Icon(Icons.send),
+          )
+        ],
+      )),
     );
   }
 }
+
+class CounterButton extends StatelessWidget {
+  final Function func;
+  final PrimitiveWrapper prim;
+  final int inc;
+  final Widget child;
+  const CounterButton(this.func, this.prim, this.inc, this.child, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          func(prim, inc);
+        },
+        icon: child);
+  }
+}
+
+class ScoreDisplay extends StatelessWidget {
+  final int points;
+  final String lable;
+  const ScoreDisplay(this.points, this.lable, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          lable,
+          textScaleFactor: 0.9,
+        ),
+        SizedBox(width: width / 40),
+        FittedBox(
+            child: Text("$points",
+                textScaleFactor: 1.4,
+                style: const TextStyle(color: colors.myOnPrimary))),
+      ],
+    );
+  }
+}
+
+class PrimitiveWrapper {
+  int value = 0;
+  PrimitiveWrapper(this.value);
+}
+//    @override
+//   Widget build(BuildContext context) {
+//     double height = MediaQuery.of(context).size.height;
+//     double width = MediaQuery.of(context).size.width;
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Column(
+//           children: [
+//             const Text ("Lead Scouts",),
+//             Text(widget.teamName),
+//           ],
+//         ),
+
+//         elevation: 21,
+//       ),
+//       body: Center(
+//         child: ListView(
+//           children: <Widget>[
+//             SizedBox(
+//             height: height / 3.5,
+//             child: Center(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: <Widget>[
+//                   Text(entries[0], textScaleFactor: 1.5,),
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                     children: <Widget>[
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             effectiveness1 = value;
+//                             print("$value");
+//                           },
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             effectiveness2 = value;
+//                           },
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             effectiveness3 = value;
+//                           },
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+
+//           SizedBox(
+//             height: height / 3.5,
+//             child: Center(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: <Widget>[
+//                   Text(entries[1], textScaleFactor: 1.5,),
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                     children: <Widget>[
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             relPsdEffectiveness1 = value;
+//                           },
+//                         ),
+//                       ),
+//                       Container(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             relPsdEffectiveness2 = value;
+//                           },
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             relPsdEffectiveness3 = value;
+//                           },
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+
+//           SizedBox(
+//             height: height / 3.5,
+//             child: Center(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: <Widget>[
+//                   Text(entries[2], textScaleFactor: 1.5,),
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                     children: <Widget>[
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             notes1 = value;
+//                           },
+//                           maxLines: null, // Setting maxLines to null allows multiple lines
+
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             notes2 = value;
+//                           },
+//                           maxLines: null, // Setting maxLines to null allows multiple lines
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         width: width / 3.5, // Adjust the width as needed
+//                         child: TextField(
+//                           onChanged: (String value) {
+//                             notes3 = value;
+//                           },
+//                           maxLines: null, // Setting maxLines to null allows multiple lines
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+
+//             const Divider(),
+//             Container(
+//               width: width,
+//               height: height/5,
+//               //color: Colors.red[300],
+//               alignment: AlignmentDirectional.center,
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 crossAxisAlignment: CrossAxisAlignment.center,
+//                 children: [
+//                   const Text("Coopertition?",textScaleFactor: 1.5,),
+//                   Checkbox(
+//                     value: coopertition,
+//                     //color: Colors.red[700],
+//                     onChanged: (newValue) {
+//                       setState(() {
+//                         coopertition = newValue!;
+//                       });
+//                     },
+//                   ),
+//                 ]
+//               ),
+//             ),
+//             const Divider(),
+
+//             ElevatedButton(
+//               onPressed: () async {
+//                 await _submitForm();
+//                 coopertition = false;
+//                 Navigator.push(
+//                   context,
+//                   MaterialPageRoute
+//                   (
+//                     builder: (context) => const Entrance()
+//                   )
+//                 );
+//               },
+//               child: const Icon(Icons.send),
+//             )
+//           ],
+//         )
+//       ),
+//     );
+//   }
+// }
