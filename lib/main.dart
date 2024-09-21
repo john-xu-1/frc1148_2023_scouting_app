@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/color_scheme.dart';
 import 'package:frc1148_2023_scouting_app/entrance.dart';
+import 'package:frc1148_2023_scouting_app/auto_visualization.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
       //   useMaterial3: true,
       // ),
       theme: ThemeData.from(colorScheme: colors()),
-      home: const Entrance(),
+      // home: const Entrance(),
+      home: const AutoVisualization(),
     );
   }
 }
