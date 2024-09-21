@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
       //   useMaterial3: true,
       // ),
       theme: ThemeData.from(colorScheme: colors()),
-      // home: const Entrance(),
-      home: const AutoVisualization(),
+      home: const Entrance(),
+      // home: const AutoVisualization(),
     );
   }
 }
