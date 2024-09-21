@@ -6,6 +6,8 @@ import 'package:frc1148_2023_scouting_app/sheets_helper.dart';
 import 'package:frc1148_2023_scouting_app/color_scheme.dart';
 
 
+import 'package:fl_chart/fl_chart.dart';
+
 List<ScoutingForm> sf = List.empty();
 
 class TeamDisplayInstance extends StatefulWidget {
@@ -53,7 +55,7 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
   }
 
   //HashMap<String, List<int>> rutro = HashMap();
-  Map<String, Map<String, List<int>>> rutro = {};
+  List<Map<String, List<int>>> rutro = List.empty(growable: true);
 
 
   Future<void> _updateGraphs() async {
@@ -63,25 +65,40 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
 
       final rows = await sheet!.values.allRows();
       
-      final allMetricsName = rows[0].sublist(2);
-      print (allMetricsName);
+      final allMetricsName = rows[0];
 
-      for (int i = 1; i < rows.length; i++){
+      for (int i = 1; i < rows.length; i++){ 
         int spaceLoc = rows[i][0].indexOf(" ");
-        String teamNumber = rows[i][0].substring(spaceLoc+1);
+        String teamNumber = rows[i][0].substring(spaceLoc+4);
         String matchNumber = rows[i][0].substring(1, spaceLoc);
-
 
         if (teamNumber == widget.teamID){
           final allMetricsInAMatch = rows[i];
-          for (int j = 0; j < allMetricsInAMatch.length; j++){
-            List<int> coordinate = [int.parse(matchNumber), int.parse(allMetricsInAMatch[j])];
-            Map<String, List<int>> metricWithData = {allMetricsName[j]: coordinate};
-            rutro.putIfAbsent(teamNumber, metricWithData as Map<String, List<int>> Function());
-          }
           
+          //List<List<int>>> coordinates = List.empty(growable: true);
+
+          Map<String, List<int>> aMatch = {};
+
+          for (int j = 2; j < allMetricsInAMatch.length; j++){
+            //sus
+            
+            if (allMetricsInAMatch[j] != "true" && allMetricsInAMatch[j] != "false"){
+              
+              String columnName = allMetricsName[j];
+              List<int> coordinate = [int.parse(matchNumber), int.parse(allMetricsInAMatch[j])];
+              if (aMatch.containsKey(columnName)) {
+                aMatch.update(columnName, (value) => coordinate);
+              } else {
+                aMatch.putIfAbsent(columnName, () => coordinate);
+              }
+            }
+            
+          }
+          rutro.add( aMatch);
         }
       }
+
+      //print (rutro);
 
       // dataSet = (await sheet!.values.rowByKey(widget.teamID))!;
       // dataSet = dataSet.sublist(0);
@@ -97,11 +114,20 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
 
     _getNames();
     _updateTeams();
+    _updateGraphs();
   }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    List<FlSpot> coordinates = List.empty(growable: true);
+    String selected = "Amp Points";
+    for (int i = 0; i < rutro.length; i++){
+      FlSpot spot = FlSpot(rutro[i][selected]![0] as double, rutro[i][selected]![1] as double);
+      coordinates.add(spot);
+    }
+    
+    print (coordinates);
     if (dataSet.isEmpty || dataNames.isEmpty) {
       return const SafeArea(
         child: Scaffold(
@@ -120,18 +146,31 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
           title: Text(widget.teamID),
         ),
         body: Center(
-            child: ListView.separated(
-          padding: const EdgeInsets.all(8),
-          itemCount: dataSet.length,
-          itemBuilder: (BuildContext context, int index) {
-            return DataBlock(category: dataNames[index], data: dataSet[index]);
-          },
-          separatorBuilder: (BuildContext context, int index) =>
-              Container(
-                alignment: AlignmentDirectional.center,
-                height: height / 150,
-              ),
-        ))
+          child: LineChart(
+            LineChartData(
+              lineBarsData: [
+                LineChartBarData(
+                  spots: coordinates
+                )
+              ]
+            ),
+
+          )
+        )
+        // body: Center(
+        //   child: ListView.separated(
+        //     padding: const EdgeInsets.all(8),
+        //     itemCount: dataSet.length,
+        //     itemBuilder: (BuildContext context, int index) {
+        //       return DataBlock(category: dataNames[index], data: dataSet[index]);
+        //   },
+        //   separatorBuilder: (BuildContext context, int index) =>
+        //     Container(
+        //       alignment: AlignmentDirectional.center,
+        //       height: height / 150,
+        //     ),
+        //   )
+        // )
 
         // Column(
         //   children: [
@@ -140,7 +179,7 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
         //   ]
         // ),
 
-        );
+    );
   }
 }
 
