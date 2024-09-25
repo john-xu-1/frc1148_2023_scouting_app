@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'sheets_helper.dart';
+import 'teleop_form.dart';
 
 // Global list to store coordinates as strings
 List<String> baller = List.empty(growable: true);
 
 class DrawArea extends StatefulWidget {
-  const DrawArea({super.key});
+  const DrawArea({super.key, required this.teamName});
+
+  final String teamName;
 
   @override
   _DrawAreaState createState() => _DrawAreaState();
@@ -21,17 +24,29 @@ class _DrawAreaState extends State<DrawArea> {
   // Function to submit the form and save data to Google Sheets
   Future<void> _submitForm() async {
     try {
+      //final sheet = await SheetsHelper.sheetSetup("App results"); 
+      final sheet = await SheetsHelper.sheetSetup("Tracing"); 
+      
       print('Setting up Google Sheets...');
-      final sheet = await SheetsHelper.sheetSetup('Tracing');
-      // Writing data
+      
       String out = ""; 
       for (int i = 0; i < baller.length; i++) {
-        out += baller[i] + " ";
+        out += "${baller[i]} ";
       }
-      List<String> allAutoValues = List.empty(growable: true);
-      allAutoValues.add(out);
+
       print('Inserting data into Google Sheets...');
-      await sheet!.values.insertRowByKey("robot match", allAutoValues);
+      final firstRow = [out];
+      if (widget.teamName.contains("frc")){
+        await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
+      }
+      else{
+        print ('team name incorrect');
+      }
+      
+      
+      // else{
+      //   await sheet!.values.insertRowByKey (id, firstRow, fromColumn: 2);
+      // }
       print('Data inserted successfully.');
     } catch (e) {
       print('Error: $e');
@@ -65,10 +80,10 @@ class _DrawAreaState extends State<DrawArea> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Column(
+        title:Column(
           children: [
-            const Text("Tracing"),
-            // Text(widget.teamName), add something
+            const Text ("Auto Phase",),
+            Text(widget.teamName),
           ],
         ),
         actions: [
@@ -117,6 +132,13 @@ class _DrawAreaState extends State<DrawArea> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _submitForm();
+          Navigator.push(
+            context,
+            MaterialPageRoute
+            (
+              builder: (context) => TeleopForm(teamName: widget.teamName)
+            )
+          );
         },
         child: Icon(Icons.send),
       ),

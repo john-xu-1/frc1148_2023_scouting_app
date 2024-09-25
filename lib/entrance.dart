@@ -5,7 +5,7 @@ import 'pit_scouting.dart';
 import 'package:frc1148_2023_scouting_app/color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'match_list.dart';
-import 'draw_area.dart';
+import 'auto_vis_drawer.dart';
 
 
 class Entrance extends StatefulWidget {
@@ -239,7 +239,7 @@ class _Entrance extends State<Entrance> {
                         context, 
                         MaterialPageRoute
                         (
-                          builder: (context) => const DrawArea()
+                          builder: (context) => RobotPathGraph()
                         )
                       );
                     },  

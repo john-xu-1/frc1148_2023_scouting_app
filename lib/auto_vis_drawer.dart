@@ -3,19 +3,19 @@ import 'sheets_helper.dart';
 
   
 
-class AutoVisualization extends StatefulWidget {
-  const AutoVisualization({super.key});
+// class AutoVisualization extends StatefulWidget {
+//   const AutoVisualization({super.key});
 
-  @override
-  State<AutoVisualization> createState() => _AutoVisualization();
-}
+//   @override
+//   State<AutoVisualization> createState() => _AutoVisualization();
+// }
 
-class _AutoVisualization extends State<AutoVisualization> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(); // Replace with your actual widget tree
-  }
-}
+// class _AutoVisualization extends State<AutoVisualization> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(); // Replace with your actual widget tree
+//   }
+// }
 
 class RobotPathGraph extends StatefulWidget {
   @override
@@ -114,7 +114,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: matchController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Enter Match Number',
                 border: OutlineInputBorder(),
               ),
@@ -141,12 +141,12 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
           Expanded(
             child: selectedMatch.isNotEmpty && matchCoordinates.containsKey(selectedMatch)
                 ? DecoratedBox(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       image: DecorationImage(image: AssetImage('assets/blue_field.png'), fit: BoxFit.cover),
                     ),
-                    child: Container(
+                    child: SingleChildScrollView(
                       child: CustomPaint(
-                        size: Size(370, 370),
+                        size: const Size(370, 370),
                         painter: RobotPathPainter(
                           splitRobotPaths(matchCoordinates[selectedMatch]!),
                         ),
@@ -210,10 +210,4 @@ class RobotPathPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: RobotPathGraph(),
-  ));
 }

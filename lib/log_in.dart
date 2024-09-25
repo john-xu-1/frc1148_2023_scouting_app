@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frc1148_2023_scouting_app/lead_scouting.dart';
-import 'package:frc1148_2023_scouting_app/auto_form.dart';
+//import 'package:frc1148_2023_scouting_app/auto_form.dart';
+import 'draw_area.dart';
+import 'auto_visualization.dart';
 import 'sheets_helper.dart';
 import 'color_scheme.dart';
 
@@ -195,7 +197,7 @@ class _LogIn extends State<LogIn> {
                         context, 
                         MaterialPageRoute
                         (
-                          builder: (context) => AutoForm(teamName: out)
+                          builder: (context) => DrawArea(teamName: out)
                         )
                       );
                     }

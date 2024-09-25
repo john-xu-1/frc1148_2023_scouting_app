@@ -17,7 +17,7 @@ void initState() {
 Future<String> _fetchForm(column, row) async {
   try {
     final sheet = await SheetsHelper.sheetSetup(
-        'Tracing'); // Replace with your sheet name
+        'App results'); // Replace with your sheet name
 
     // Writing data
     final cell = await sheet?.cells.cell(column: column, row: row);
@@ -59,19 +59,16 @@ class _AutoVisualization extends State<AutoVisualization> {
   }
 
   @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold();
-  // }
 
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    // double height = MediaQuery.of(context).size.height;
+    // double width = MediaQuery.of(context).size.width;
     fetchTeamFromSheets();
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Auto visualization",
-          textScaleFactor: 1.5,
+          textScaler: TextScaler.linear(1.5),
         ),
         elevation: 21,
       ),
