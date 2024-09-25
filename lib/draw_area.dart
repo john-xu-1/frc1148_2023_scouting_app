@@ -24,26 +24,25 @@ class _DrawAreaState extends State<DrawArea> {
   // Function to submit the form and save data to Google Sheets
   Future<void> _submitForm() async {
     try {
-      //final sheet = await SheetsHelper.sheetSetup("App results"); 
-      final sheet = await SheetsHelper.sheetSetup("Tracing"); 
-      
+      //final sheet = await SheetsHelper.sheetSetup("App results");
+      final sheet = await SheetsHelper.sheetSetup("Tracing");
+
       print('Setting up Google Sheets...');
-      
-      String out = ""; 
+
+      String out = "";
       for (int i = 0; i < baller.length; i++) {
         out += "${baller[i]} ";
       }
 
       print('Inserting data into Google Sheets...');
       final firstRow = [out];
-      if (widget.teamName.contains("frc")){
-        await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
+      if (widget.teamName.contains("frc")) {
+        await sheet!.values
+            .insertRowByKey(widget.teamName, firstRow, fromColumn: 2);
+      } else {
+        print('team name incorrect');
       }
-      else{
-        print ('team name incorrect');
-      }
-      
-      
+
       // else{
       //   await sheet!.values.insertRowByKey (id, firstRow, fromColumn: 2);
       // }
@@ -80,9 +79,11 @@ class _DrawAreaState extends State<DrawArea> {
 
     return Scaffold(
       appBar: AppBar(
-        title:Column(
+        title: Column(
           children: [
-            const Text ("Auto Phase",),
+            const Text(
+              "Auto Phase",
+            ),
             Text(widget.teamName),
           ],
         ),
@@ -133,12 +134,9 @@ class _DrawAreaState extends State<DrawArea> {
         onPressed: () {
           _submitForm();
           Navigator.push(
-            context,
-            MaterialPageRoute
-            (
-              builder: (context) => TeleopForm(teamName: widget.teamName)
-            )
-          );
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TeleopForm(teamName: widget.teamName)));
         },
         child: Icon(Icons.send),
       ),
@@ -146,6 +144,7 @@ class _DrawAreaState extends State<DrawArea> {
   }
 }
 
+// We're going to optimize this!
 class Painter extends CustomPainter {
   final List<Offset> points;
 
@@ -158,9 +157,9 @@ class Painter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 5.0;
 
-     // Debug line to print the points list
+    // Debug line to print the points list
     print('Current points list: $points');
-    
+
     for (int i = 0; i < points.length - 1; i++) {
       if (points[i] != null && points[i + 1] != null) {
         canvas.drawLine(points[i], points[i + 1], paint);
