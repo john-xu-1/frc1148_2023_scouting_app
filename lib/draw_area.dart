@@ -17,24 +17,20 @@ class DrawArea extends StatefulWidget {
 
 class _DrawAreaState extends State<DrawArea> {
   // List to store the points drawn on the screen
-  List<Offset> points = <Offset>[];
+  List<Offset?> points = <Offset?>[];
   // Timer to periodically log the current cursor position
   Timer? timer;
 
   // Function to submit the form and save data to Google Sheets
   Future<void> _submitForm() async {
     try {
-      //final sheet = await SheetsHelper.sheetSetup("App results");
       final sheet = await SheetsHelper.sheetSetup("Tracing");
-
-      print('Setting up Google Sheets...');
 
       String out = "";
       for (int i = 0; i < baller.length; i++) {
         out += "${baller[i]} ";
       }
 
-      print('Inserting data into Google Sheets...');
       final firstRow = [out];
       if (widget.teamName.contains("frc")) {
         await sheet!.values
@@ -42,10 +38,6 @@ class _DrawAreaState extends State<DrawArea> {
       } else {
         print('team name incorrect');
       }
-
-      // else{
-      //   await sheet!.values.insertRowByKey (id, firstRow, fromColumn: 2);
-      // }
       print('Data inserted successfully.');
     } catch (e) {
       print('Error: $e');
@@ -57,10 +49,11 @@ class _DrawAreaState extends State<DrawArea> {
     super.initState();
     // Initialize the timer to log cursor coordinates every 200 milliseconds
     timer = Timer.periodic(Duration(milliseconds: 200), (timer) {
-      if (points.isNotEmpty && points.last.isFinite) {
-        print('Current Cursor Coordinates: ${points.last}');
-        baller.add(points.last.dx.toString() + "," + points.last.dy.toString());
-        print('Updated baller list: $baller');
+      if (points.isNotEmpty && points.last != null) {
+        // Uncomment the following lines if you need to log the cursor coordinates
+        // print('Current Cursor Coordinates: ${points.last}');
+        baller.add('${points.last!.dx},${points.last!.dy}');
+        // print('Updated baller list: $baller');
       }
     });
   }
@@ -91,9 +84,8 @@ class _DrawAreaState extends State<DrawArea> {
           IconButton(
             onPressed: () {
               setState(() {
-                points = [];
-                baller = [];
-                print('Cleared points and baller list.');
+                points.clear();
+                baller.clear();
               });
             },
             icon: const Icon(Icons.delete_outlined),
@@ -107,14 +99,12 @@ class _DrawAreaState extends State<DrawArea> {
             Offset point = box.globalToLocal(details.globalPosition);
             // Adjust the y-coordinate to account for the AppBar height
             point = Offset(point.dx, point.dy - appBarHeight);
-            points = List.from(points)..add(point);
-            print('Added point: $point');
+            points.add(point);
           });
         },
         onPanEnd: (DragEndDetails details) {
           setState(() {
-            points.add(Offset.infinite);
-            print('Pan ended, added Offset.infinite');
+            points.add(null); // Use null to signify the end of a stroke
           });
         },
         child: Container(
@@ -124,9 +114,11 @@ class _DrawAreaState extends State<DrawArea> {
               fit: BoxFit.cover,
             ),
           ),
-          child: CustomPaint(
-            painter: Painter(points: points),
-            size: Size.square(370),
+          child: RepaintBoundary(
+            child: CustomPaint(
+              painter: Painter(points: points),
+              size: Size.square(370),
+            ),
           ),
         ),
       ),
@@ -136,7 +128,8 @@ class _DrawAreaState extends State<DrawArea> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => TeleopForm(teamName: widget.teamName)));
+                  builder: (context) =>
+                      TeleopForm(teamName: widget.teamName)));
         },
         child: Icon(Icons.send),
       ),
@@ -144,9 +137,8 @@ class _DrawAreaState extends State<DrawArea> {
   }
 }
 
-// We're going to optimize this!
 class Painter extends CustomPainter {
-  final List<Offset> points;
+  final List<Offset?> points;
 
   Painter({required this.points});
 
@@ -155,19 +147,15 @@ class Painter extends CustomPainter {
     Paint paint = Paint()
       ..color = Colors.black
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 5.0;
-
-    // Debug line to print the points list
-    print('Current points list: $points');
+      ..strokeWidth = 3.0; // Adjusted stroke width for better performance
 
     for (int i = 0; i < points.length - 1; i++) {
       if (points[i] != null && points[i + 1] != null) {
-        canvas.drawLine(points[i], points[i + 1], paint);
-        print('Drawing line from ${points[i]} to ${points[i + 1]}');
+        canvas.drawLine(points[i]!, points[i + 1]!, paint);
       }
     }
   }
 
   @override
-  bool shouldRepaint(Painter oldDelegate) => oldDelegate.points != points;
+  bool shouldRepaint(Painter oldDelegate) => true;
 }
