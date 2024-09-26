@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart'; // For TapGestureRecognizer
 import 'package:url_launcher/url_launcher.dart';
 import 'entrance.dart';
 import 'sheets_helper.dart';
+import 'color_scheme.dart';
 
 
 String robotWeight="";
@@ -355,7 +356,7 @@ class _PitScouting extends State<PitScouting> {
                   )
                 );
               },
-              child: const Icon(Icons.send),
+              child: const Icon(Icons.send, color: colors.myOnPrimary),
             )
           ],
         )

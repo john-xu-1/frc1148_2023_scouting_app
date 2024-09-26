@@ -248,7 +248,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                 
 
               },
-              child: const Text("Next"),
+              child: const Text("Next", style: TextStyle(color: colors.myOnPrimary)),
             )
           ]
       )   

@@ -142,7 +142,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
             child: selectedMatch.isNotEmpty && matchCoordinates.containsKey(selectedMatch)
                 ? DecoratedBox(
                     decoration: const BoxDecoration(
-                      image: DecorationImage(image: AssetImage('assets/blue_field.png'), fit: BoxFit.cover),
+                      image: DecorationImage(image: AssetImage('assets/blue_field.png'), fit: BoxFit.fitWidth),
                     ),
                     child: SingleChildScrollView(
                       child: CustomPaint(

@@ -4,12 +4,14 @@ import 'sheets_helper.dart';
 import 'teleop_form.dart';
 
 // Global list to store coordinates as strings
-List<String> baller = List.empty(growable: true);
+List<String> coordinates = List.empty(growable: true);
+bool isBenched = false;
 
 class DrawArea extends StatefulWidget {
-  const DrawArea({super.key, required this.teamName});
+  const DrawArea({super.key, required this.teamName, required this.id});
 
   final String teamName;
+  final String id;
 
   @override
   _DrawAreaState createState() => _DrawAreaState();
@@ -27,8 +29,8 @@ class _DrawAreaState extends State<DrawArea> {
       final sheet = await SheetsHelper.sheetSetup("Tracing");
 
       String out = "";
-      for (int i = 0; i < baller.length; i++) {
-        out += "${baller[i]} ";
+      for (int i = 0; i < coordinates.length; i++) {
+        out += "${coordinates[i]} ";
       }
 
       final firstRow = [out];
@@ -52,7 +54,7 @@ class _DrawAreaState extends State<DrawArea> {
       if (points.isNotEmpty && points.last != null) {
         // Uncomment the following lines if you need to log the cursor coordinates
         // print('Current Cursor Coordinates: ${points.last}');
-        baller.add('${points.last!.dx},${points.last!.dy}');
+        coordinates.add('${points.last!.dx},${points.last!.dy}');
         // print('Updated baller list: $baller');
       }
     });
@@ -70,6 +72,14 @@ class _DrawAreaState extends State<DrawArea> {
     // Calculate the height of the AppBar
     final double appBarHeight = AppBar().preferredSize.height;
 
+    AssetImage bg;
+    if (widget.id.toLowerCase() == "a" || widget.id.toLowerCase() == "b" || widget.id.toLowerCase() == "c"){
+      bg = isBenched ? const AssetImage('assets/blue_field_flip.jpeg') : const AssetImage('assets/blue_field.png');
+    }
+    else{
+      bg = isBenched ? const AssetImage('assets/red_field_flip.png') : const AssetImage('assets/red_field.png');
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -85,7 +95,7 @@ class _DrawAreaState extends State<DrawArea> {
             onPressed: () {
               setState(() {
                 points.clear();
-                baller.clear();
+                coordinates.clear();
               });
             },
             icon: const Icon(Icons.delete_outlined),
@@ -110,7 +120,7 @@ class _DrawAreaState extends State<DrawArea> {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/blue_field.png'),
+              image: bg,
               fit: BoxFit.cover,
             ),
           ),
@@ -131,7 +141,7 @@ class _DrawAreaState extends State<DrawArea> {
                   builder: (context) =>
                       TeleopForm(teamName: widget.teamName)));
         },
-        child: Icon(Icons.send),
+        child: const Icon(Icons.send),
       ),
     );
   }

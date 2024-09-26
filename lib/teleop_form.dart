@@ -288,7 +288,7 @@ class _TeleopForm extends State<TeleopForm> {
                 });
                 _submitSection();
               },
-              child: const Text("Next"),
+              child: const Text("Next", style: TextStyle(color: colors.myOnPrimary),),
             )
           ]
         )

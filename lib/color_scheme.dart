@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class colors extends ColorScheme {
   // Define your custom colors here
-  static const Color myPrimaryColor = Color.fromARGB(255, 248, 245, 245);
+  static const Color myPrimaryColor = Color.fromARGB(255, 255, 255, 255);
   static const Color myOnPrimary = Color.fromRGBO(189, 46, 46, 1);
   static const Color mySecondaryColor = Color.fromARGB(255, 58, 58, 58);
   
-  static const Color myBackground = Color.fromARGB(255, 245, 243, 243);
-  static const Color myOnBackground = Color.fromARGB(103, 184, 180, 180);
+  static const Color myBackground = Color.fromARGB(255, 255, 255, 255);
+  static const Color myOnBackground = Color.fromARGB(103, 216, 216, 216);
   static const Color myOnBackgroundD = Color.fromARGB(255, 184, 180, 180);
 
   
@@ -31,7 +31,7 @@ class colors extends ColorScheme {
     Color onPrimary = myOnPrimary,
     Color background = myBackground,
     Color secondaryColor = mySecondaryColor,
-    //Color onBackground = myOnBackground,
+    Color onBackground = myOnBackground,
 
     Color surface = mySurface,
     Color onSurface = myOnSurface,
@@ -50,10 +50,7 @@ class colors extends ColorScheme {
 
 
       secondary: secondaryColor,//not used
-      onSecondary: onPrimary,//not used
-      
-      background: background,//back round of everything, shoudl be white
-      onBackground: background,//doesn't show up?? 
+      onSecondary: onPrimary,//doesn't show up?? 
 
       surface: surface,//top bar should be white
       onSurface: onSurface,//text on the surface should be black

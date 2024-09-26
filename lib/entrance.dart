@@ -6,7 +6,7 @@ import 'package:frc1148_2023_scouting_app/color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'match_list.dart';
 import 'auto_vis_drawer.dart';
-
+import 'auto_form.dart';
 
 class Entrance extends StatefulWidget {
   const Entrance({Key? key}) : super(key: key);
