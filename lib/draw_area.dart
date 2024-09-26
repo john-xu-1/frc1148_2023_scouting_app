@@ -5,7 +5,7 @@ import 'teleop_form.dart';
 
 // Global list to store coordinates as strings
 List<String> coordinates = List.empty(growable: true);
-bool isBenched = false;
+bool isBenchFlipped = false;
 
 class DrawArea extends StatefulWidget {
   const DrawArea({super.key, required this.teamName, required this.id});
@@ -74,10 +74,10 @@ class _DrawAreaState extends State<DrawArea> {
 
     AssetImage bg;
     if (widget.id.toLowerCase() == "a" || widget.id.toLowerCase() == "b" || widget.id.toLowerCase() == "c"){
-      bg = isBenched ? const AssetImage('assets/blue_field_flip.jpeg') : const AssetImage('assets/blue_field.png');
+      bg = isBenchFlipped ? const AssetImage('assets/blue_field_flip.jpeg') : const AssetImage('assets/blue_field.png');
     }
     else{
-      bg = isBenched ? const AssetImage('assets/red_field_flip.png') : const AssetImage('assets/red_field.png');
+      bg = isBenchFlipped ? const AssetImage('assets/red_field_flip.png') : const AssetImage('assets/red_field.png');
     }
 
     return Scaffold(
@@ -99,6 +99,19 @@ class _DrawAreaState extends State<DrawArea> {
               });
             },
             icon: const Icon(Icons.delete_outlined),
+          ),
+          Transform.rotate(
+            angle: (3.1415 / 2),
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  points = (points.map((point) => Offset(point!.dx, 370 - point.dy))).toList();
+                  coordinates = (points.map((point) => "${point!.dx},${point.dy}")).toList();
+                  isBenchFlipped = !isBenchFlipped;
+                });
+              },
+              icon: const Icon(Icons.delete_outlined),
+            )
           ),
         ],
       ),
