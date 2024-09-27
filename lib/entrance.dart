@@ -15,24 +15,8 @@ class Entrance extends StatefulWidget {
   State<Entrance> createState() => _Entrance();
 }
 
-// enum ColorLabel {
-//   Strategy('Blue', Colors.blue),
-//   pink('Pink', Colors.pink),
-//   green('Green', Colors.green),
-//   yellow('Orange', Colors.orange),
-//   grey('Grey', Colors.grey);
-
-//   const ColorLabel(this.label, this.color);
-//   final String label;
-//   final Color color;
-// }
-
-
 
 class _Entrance extends State<Entrance> {
-  
-  //ColorLabel? selectedColor;
-  //final TextEditingController colorController = TextEditingController();
 
   String pitTeam = "";
 
@@ -44,30 +28,6 @@ class _Entrance extends State<Entrance> {
         backgroundColor: colors.myBackground,
       ),
       body: Center(
-      //   child: DropdownMenu<ColorLabel>(
-      //     //initialSelection: ColorLabel.green,
-      //     //enable filter
-      //     //controller: colorController,
-      //     requestFocusOnTap: true,
-      //     label: const Text('Color'),
-      //     onSelected: (ColorLabel? color) {
-      //       setState(() {
-      //         selectedColor = color;
-      //       });
-      //     },
-      //     dropdownMenuEntries: ColorLabel.values
-      //         .map<DropdownMenuEntry<ColorLabel>>(
-      //             (ColorLabel color) {
-      //       return DropdownMenuEntry<ColorLabel>(
-      //         value: color,
-      //         label: color.label,
-      //         enabled: color.label != 'Grey',
-      //         style: MenuItemButton.styleFrom(
-      //           foregroundColor: color.color,
-      //         ),
-      //       );
-      //     }).toList(),
-      //   ),
         child: Container(
           color: colors.myPrimaryColor,
           child: GridView.count(
@@ -239,14 +199,14 @@ class _Entrance extends State<Entrance> {
                         context, 
                         MaterialPageRoute
                         (
-                          builder: (context) => RobotPathGraph()
+                          builder: (context) => const RobotPathGraph()
                         )
                       );
                     },  
-                    icon: const Icon(Icons.question_answer),
+                    icon: const Icon(Icons.data_usage),
                     color: Colors.black,
                   ),
-                  const Text("Tracing Test"),
+                  const Text("Auto Path Visual"),
                   
                   
                 ],

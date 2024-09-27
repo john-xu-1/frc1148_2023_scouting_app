@@ -14,7 +14,7 @@ class DrawArea extends StatefulWidget {
   final String id;
 
   @override
-  _DrawAreaState createState() => _DrawAreaState();
+  State<DrawArea> createState() => _DrawAreaState();
 }
 
 class _DrawAreaState extends State<DrawArea> {
@@ -29,8 +29,21 @@ class _DrawAreaState extends State<DrawArea> {
     try {
       final sheet = await SheetsHelper.sheetSetup("Tracing");
 
-      points = (points.map((point) => Offset(point!.dx, 370 - point!.dy))).toList();
-      coordinates = (points.map((point) => "${point!.dx},${point.dy}")).toList();
+      // points = (points.map((point) => Offset(point!.dx, 370 - point!.dy))).toList();
+      // coordinates = (points.map((point) => "${point!.dx},${point.dy}")).toList();
+
+      if (isBenchFlipped && (widget.id.toLowerCase() == "a" || widget.id.toLowerCase() == "b" || widget.id.toLowerCase() == "c")) {
+        points = (points.map((point) => point == null ? const Offset(0,0) :Offset(370 - point.dx, 370 - point.dy))).toList();
+        coordinates = (points.map((point) => "${point!.dx},${point.dy}")).toList();
+      }
+      else if (isBenchFlipped) {
+        points = (points.map((point) => point == null ? const Offset(0,0) :Offset(point.dx, 370 - point.dy))).toList();
+        coordinates = (points.map((point) => "${point!.dx},${point.dy}")).toList();
+      }
+      else if (!(widget.id.toLowerCase() == "a" || widget.id.toLowerCase() == "b" || widget.id.toLowerCase() == "c")){
+        points = (points.map((point) => point == null ? const Offset(0,0) :Offset(370-point.dx, point.dy))).toList();
+        coordinates = (points.map((point) => "${point!.dx},${point.dy}")).toList();
+      }
 
       String out = "";
       for (int i = 0; i < coordinates.length; i++) {
@@ -45,6 +58,8 @@ class _DrawAreaState extends State<DrawArea> {
         print('team name incorrect');
       }
       print('Data inserted successfully.');
+      points = [];
+      coordinates = [];
     } catch (e) {
       print('Error: $e');
     }
@@ -110,11 +125,8 @@ class _DrawAreaState extends State<DrawArea> {
               onPressed: () {
                 setState(() {
                   
-                  if (points.length >= 2) points = points.sublist(0,points.length-2);
+                  //if (points.length >= 2) points = points.sublist(0,points.length-2);
                   
-                  print (points);
-                  points = (points.map((point) => Offset(point!.dx, 370 - point!.dy))).toList();
-                  coordinates = (points.map((point) => "${point!.dx},${point.dy}")).toList();
                   isBenchFlipped = !isBenchFlipped;
                 });
               },
@@ -133,11 +145,11 @@ class _DrawAreaState extends State<DrawArea> {
             points.add(point);
           });
         },
-        onPanEnd: (DragEndDetails details) {
-          setState(() {
-            points.add(null); // Use null to signify the end of a stroke
-          });
-        },
+        // onPanEnd: (DragEndDetails details) {
+        //   setState(() {
+        //     points.add(null); // Use null to signify the end of a stroke
+        //   });
+        // },
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -160,7 +172,8 @@ class _DrawAreaState extends State<DrawArea> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      TeleopForm(teamName: widget.teamName)));
+                      TeleopForm(teamName: widget.teamName))
+          );
         },
         child: const Icon(Icons.send),
       ),

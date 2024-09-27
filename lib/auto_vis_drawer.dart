@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'sheets_helper.dart';
 
 class RobotPathGraph extends StatefulWidget {
+  const RobotPathGraph({super.key});
+
   @override
-  _RobotPathGraphState createState() => _RobotPathGraphState();
+  State<RobotPathGraph> createState() => _RobotPathGraphState();
 }
 
 class _RobotPathGraphState extends State<RobotPathGraph> {
@@ -44,6 +46,8 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
     return coordinates;
   }
 
+  Map<String, String> matchTeams = {};
+
   // Updated fetchTeamFromSheets function
   Future<void> fetchTeamFromSheets() async {
     try {
@@ -56,6 +60,10 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
           String match = row[9].value;
           String coordinates = row[1].value;
           bool isRed = row[13].value == 'true'; // Assuming the value is a string 'true' or 'false'
+          if (!matchTeams.containsKey(match)){
+            matchTeams[match] = "";
+          }
+          matchTeams[match] = "${matchTeams[match]}${row[10].value} ";
           print('Match: $match, Coordinates: $coordinates, IsRed: $isRed\n'); // Debug line
           if (!matchCoordinates.containsKey(match)) {
             matchCoordinates[match] = [];
@@ -83,9 +91,9 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
       robotPaths[i % 6].addAll(coordinates);
     }
     if (isRed) {
-      return robotPaths.sublist(0, 3);
-    } else {
       return robotPaths.sublist(3, 6);
+    } else {
+      return robotPaths.sublist(0, 3);
     }
   }
 
@@ -131,9 +139,47 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
                 ? SingleChildScrollView(
                     child: Column(
                       children: [
-                        LegendWidget(
-                          title: 'Blue Field Legend',
-                          robotPaths: splitRobotPaths(matchCoordinates[selectedMatch]!, false),
+                        // LegendWidget(
+                        //   title: 'Blue Field Legend',
+                        //   robotPaths: splitRobotPaths(matchCoordinates[selectedMatch]!, false),
+                        // ),
+                        Column(
+                          children: [
+                            const Text ("Blue Field Key"),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  color: Colors.green,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(matchTeams[selectedMatch]!.split(" ")[0]),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  color: Colors.orange,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(matchTeams[selectedMatch]!.split(" ")[1]),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  color: Colors.purple,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(matchTeams[selectedMatch]!.split(" ")[2]),
+                              ],
+                            ),
+                          ],
                         ),
                         DecoratedBox(
                           decoration: const BoxDecoration(
@@ -148,9 +194,43 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
                             ),
                           ),
                         ),
-                        LegendWidget(
-                          title: 'Red Field Legend',
-                          robotPaths: splitRobotPaths(matchCoordinates[selectedMatch]!, true),
+                        Column(
+                          children: [
+                            const Text ("Red Field Key"),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  color: Colors.green,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(matchTeams[selectedMatch]!.split(" ")[3]),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  color: Colors.orange,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(matchTeams[selectedMatch]!.split(" ")[4]),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  color: Colors.purple,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(matchTeams[selectedMatch]!.split(" ")[5]),
+                              ],
+                            ),
+                          ],
                         ),
                         DecoratedBox(
                           decoration: const BoxDecoration(
@@ -168,7 +248,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
                       ],
                     ),
                   )
-                : Center(child: Text('Enter a match number to view the graph')),
+                : const Center(child: Text('Enter a match number to view the graph')),
           ),
         ],
       ),
@@ -176,52 +256,12 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
   }
 }
 
-class LegendWidget extends StatelessWidget {
-  final String title;
-  final List<List<Offset>> robotPaths;
-  final List<Color> robotColors = [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.orange,
-    Colors.purple,
-    Colors.brown,
-  ];
-
-  LegendWidget({required this.title, required this.robotPaths});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-        ...List.generate(robotPaths.length, (index) {
-          return Row(
-            children: [
-              Container(
-                width: 20,
-                height: 20,
-                color: robotColors[index % robotColors.length],
-              ),
-              SizedBox(width: 8),
-              Text('Robot ${index + 1}'),
-            ],
-          );
-        }),
-      ],
-    );
-  }
-}
-
 class RobotPathPainter extends CustomPainter {
   final List<List<Offset>> robotPaths;
   final List<Color> robotColors = [
-    Colors.red,
-    Colors.blue,
     Colors.green,
     Colors.orange,
     Colors.purple,
-    Colors.brown,
   ];
 
   RobotPathPainter(this.robotPaths);

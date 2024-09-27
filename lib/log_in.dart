@@ -82,17 +82,17 @@ class _LogInState extends State<LogIn> {
           length: 7,
         );
 
-        if (cells == null || cells.isEmpty) {
+        if (cells.isEmpty) {
           throw Exception('No data found in the specified range');
         }
 
         // Assign the values to the variables
-        A = cells[0][0] ?? '';
-        B = cells[1][0] ?? '';
-        C = cells[2][0] ?? '';
-        D = cells[4][0] ?? ''; // Adjust index if necessary
-        E = cells[5][0] ?? '';
-        F = cells[6][0] ?? '';
+        A = cells[0][0];
+        B = cells[1][0];
+        C = cells[2][0];
+        D = cells[4][0]; // Adjust index if necessary
+        E = cells[5][0];
+        F = cells[6][0];
 
         // Save data to cache
         await prefs.setString('A', A);
