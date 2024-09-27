@@ -1,22 +1,6 @@
 import 'package:flutter/material.dart';
 import 'sheets_helper.dart';
 
-  
-
-// class AutoVisualization extends StatefulWidget {
-//   const AutoVisualization({super.key});
-
-//   @override
-//   State<AutoVisualization> createState() => _AutoVisualization();
-// }
-
-// class _AutoVisualization extends State<AutoVisualization> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(); // Replace with your actual widget tree
-//   }
-// }
-
 class RobotPathGraph extends StatefulWidget {
   @override
   _RobotPathGraphState createState() => _RobotPathGraphState();
@@ -91,14 +75,18 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
   }
 
   // Helper function to split robot paths
-  List<List<Offset>> splitRobotPaths(List<Map<String, dynamic>> rawCoordinates) {
+  List<List<Offset>> splitRobotPaths(List<Map<String, dynamic>> rawCoordinates, bool isRed) {
     List<List<Offset>> robotPaths = List.generate(6, (_) => []);
     for (int i = 0; i < rawCoordinates.length; i++) {
       Map<String, dynamic> data = rawCoordinates[i];
       List<Offset> coordinates = parseAndConvertCoordinates(data['coordinates'], data['isRed']);
       robotPaths[i % 6].addAll(coordinates);
     }
-    return robotPaths;
+    if (isRed) {
+      return robotPaths.sublist(0, 3);
+    } else {
+      return robotPaths.sublist(3, 6);
+    }
   }
 
   @override
@@ -140,23 +128,87 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
             ),
           Expanded(
             child: selectedMatch.isNotEmpty && matchCoordinates.containsKey(selectedMatch)
-                ? DecoratedBox(
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(image: AssetImage('assets/blue_field.png'), fit: BoxFit.fitWidth),
-                    ),
-                    child: SingleChildScrollView(
-                      child: CustomPaint(
-                        size: const Size(370, 370),
-                        painter: RobotPathPainter(
-                          splitRobotPaths(matchCoordinates[selectedMatch]!),
+                ? SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        LegendWidget(
+                          title: 'Blue Field Legend',
+                          robotPaths: splitRobotPaths(matchCoordinates[selectedMatch]!, false),
                         ),
-                      ),
+                        DecoratedBox(
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(image: AssetImage('assets/blue_field.png'), fit: BoxFit.cover),
+                          ),
+                          child: SingleChildScrollView(
+                            child: CustomPaint(
+                              size: const Size(370, 370),
+                              painter: RobotPathPainter(
+                                splitRobotPaths(matchCoordinates[selectedMatch]!, false),
+                              ),
+                            ),
+                          ),
+                        ),
+                        LegendWidget(
+                          title: 'Red Field Legend',
+                          robotPaths: splitRobotPaths(matchCoordinates[selectedMatch]!, true),
+                        ),
+                        DecoratedBox(
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(image: AssetImage('assets/red_field.png'), fit: BoxFit.cover),
+                          ),
+                          child: SingleChildScrollView(
+                            child: CustomPaint(
+                              size: const Size(370, 370),
+                              painter: RobotPathPainter(
+                                splitRobotPaths(matchCoordinates[selectedMatch]!, true),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                )
+                  )
                 : Center(child: Text('Enter a match number to view the graph')),
           ),
         ],
       ),
+    );
+  }
+}
+
+class LegendWidget extends StatelessWidget {
+  final String title;
+  final List<List<Offset>> robotPaths;
+  final List<Color> robotColors = [
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.orange,
+    Colors.purple,
+    Colors.brown,
+  ];
+
+  LegendWidget({required this.title, required this.robotPaths});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+        ...List.generate(robotPaths.length, (index) {
+          return Row(
+            children: [
+              Container(
+                width: 20,
+                height: 20,
+                color: robotColors[index % robotColors.length],
+              ),
+              SizedBox(width: 8),
+              Text('Robot ${index + 1}'),
+            ],
+          );
+        }),
+      ],
     );
   }
 }
@@ -176,17 +228,6 @@ class RobotPathPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // final paint = Paint()
-    //   ..color = Colors.black
-    //   ..strokeWidth = 1.0;
-    // Load the image as a ui.Image
-    
-    // // Draw grid
-    // for (int i = 0; i <= 370; i += 10) {
-    //   canvas.drawLine(Offset(i.toDouble(), 0), Offset(i.toDouble(), 370), paint);
-    //   canvas.drawLine(Offset(0, i.toDouble()), Offset(370, i.toDouble()), paint);
-    // }
-
     // Draw robot paths
     for (int i = 0; i < robotPaths.length; i++) {
       final pathPaint = Paint()
@@ -211,3 +252,6 @@ class RobotPathPainter extends CustomPainter {
     return true;
   }
 }
+
+//create 2 size boxes each before their own field
+//within each show the color of the robot and the number of the robot - 3 text lines
