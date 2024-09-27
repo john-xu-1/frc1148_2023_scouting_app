@@ -5,7 +5,7 @@ import 'teleop_form.dart';
 
 // Global list to store coordinates as strings
 List<String> coordinates = List.empty(growable: true);
-bool isBenchFlipped = false;
+
 
 class DrawArea extends StatefulWidget {
   const DrawArea({super.key, required this.teamName, required this.id});
@@ -22,11 +22,15 @@ class _DrawAreaState extends State<DrawArea> {
   List<Offset?> points = <Offset?>[];
   // Timer to periodically log the current cursor position
   Timer? timer;
+  bool isBenchFlipped = false;
 
   // Function to submit the form and save data to Google Sheets
   Future<void> _submitForm() async {
     try {
       final sheet = await SheetsHelper.sheetSetup("Tracing");
+
+      points = (points.map((point) => Offset(point!.dx, 370 - point!.dy))).toList();
+      coordinates = (points.map((point) => "${point!.dx},${point.dy}")).toList();
 
       String out = "";
       for (int i = 0; i < coordinates.length; i++) {
@@ -105,7 +109,11 @@ class _DrawAreaState extends State<DrawArea> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  points = (points.map((point) => Offset(point!.dx, 370 - point.dy))).toList();
+                  
+                  if (points.length >= 2) points = points.sublist(0,points.length-2);
+                  
+                  print (points);
+                  points = (points.map((point) => Offset(point!.dx, 370 - point!.dy))).toList();
                   coordinates = (points.map((point) => "${point!.dx},${point.dy}")).toList();
                   isBenchFlipped = !isBenchFlipped;
                 });
