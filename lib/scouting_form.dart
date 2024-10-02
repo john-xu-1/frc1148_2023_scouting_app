@@ -15,6 +15,8 @@ bool tryParkAuto = false;
 int missedCone = 0;
 int missedCube = 0;
 
+int numberOfPasses = 0;
+
 class ScoutingForm extends StatefulWidget {
   const ScoutingForm({super.key, required this.teamName});
   final String teamName;
@@ -100,6 +102,20 @@ class _ScoutingForm extends State<ScoutingForm> {
     else if (score == "missed"){
       if (missedCube > 0) setState(() => missedCube -= 1);
     }
+  }
+
+    void _addPass() {
+    setState(() {
+      numberOfPasses++;
+    });
+  }
+
+  void _minusPass() {
+    setState(() {
+      if (numberOfPasses > 0) {
+        numberOfPasses--;
+      }
+    });
   }
   
 
