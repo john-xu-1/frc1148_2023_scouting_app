@@ -45,7 +45,7 @@ class _TeleopForm extends State<TeleopForm> {
       final sheet = await SheetsHelper.sheetSetup("App results");
 
       // Writing data
-      final firstRow = [speakerPoints.value, speakerAmpedCounter.value, speakerNotAmpedCounter.value, ampPoints.value, trapPoints.value, missedS.value, missedA.value, missedT.value,tryParkTele,messUpParkTele, numberOfPasses];
+      final firstRow = [speakerPoints.value, speakerAmpedCounter.value, speakerNotAmpedCounter.value, ampPoints.value, trapPoints.value, missedS.value, missedA.value, missedT.value,tryParkTele,messUpParkTele, numberOfPasses.value];
       if (widget.teamName.contains("frc")){
         await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 3);
       }
