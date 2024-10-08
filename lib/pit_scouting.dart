@@ -47,9 +47,9 @@ class _PitScouting extends State<PitScouting> {
     'Intake from source',
     'Robot speed',
     'How many motors',
-    'How do they score in speaker',
+    'Subsystem for scoring in speaker',
     'How do they pass',
-    'Under or over intake',
+    'Under or over bumper intake',
     'Tank or swerve drive',
   ];
 
