@@ -49,10 +49,10 @@ class _SubjectiveForm extends State<SubjectiveForm> {
       
       final firstRow = [defensive, tippiness, robotBreak, tip];
       if (widget.teamName.contains("frc")){
-        await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 13);
+        await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 14);
       }
       else{
-        await sheet!.values.insertRowByKey (id, firstRow, fromColumn: 13);
+        await sheet!.values.insertRowByKey (id, firstRow, fromColumn: 14);
       }
       //await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 13);
 

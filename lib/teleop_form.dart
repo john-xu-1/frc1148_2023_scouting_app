@@ -6,6 +6,7 @@ import 'color_scheme.dart';
 
 
   PrimitiveWrapper playerPointsToAdd = PrimitiveWrapper(0);
+  PrimitiveWrapper numberOfPasses = PrimitiveWrapper(0);
 
   PrimitiveWrapper speakerPoints = PrimitiveWrapper(0); 
   PrimitiveWrapper speakerAmpedCounter = PrimitiveWrapper(0); 
@@ -44,7 +45,7 @@ class _TeleopForm extends State<TeleopForm> {
       final sheet = await SheetsHelper.sheetSetup("App results");
 
       // Writing data
-      final firstRow = [speakerPoints.value, speakerAmpedCounter.value, speakerNotAmpedCounter.value, ampPoints.value, trapPoints.value, missedS.value, missedA.value, missedT.value,tryParkTele,messUpParkTele];
+      final firstRow = [speakerPoints.value, speakerAmpedCounter.value, speakerNotAmpedCounter.value, ampPoints.value, trapPoints.value, missedS.value, missedA.value, missedT.value,tryParkTele,messUpParkTele, numberOfPasses.value];
       if (widget.teamName.contains("frc")){
         await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 3);
       }
@@ -124,6 +125,16 @@ class _TeleopForm extends State<TeleopForm> {
                 ),
               ],
             ),
+            const Divider(color: colors.mySecondaryColor),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[
+                    ScoreDisplay(numberOfPasses.value, "Passes: "),
+                    CounterButton(update, numberOfPasses, 1, const Text('+',textScaleFactor: 2,)),
+                    CounterButton(update, numberOfPasses, -1, const Text('-',textScaleFactor: 2.5,)),
+              ],
+            ),
+            const Divider(color: colors.mySecondaryColor),
             Row(
               children: [
                 Column (

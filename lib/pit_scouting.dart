@@ -15,6 +15,16 @@ bool climb = false;
 bool trap = false;
 bool ground=false;
 bool source = false;
+String robotSpeed = "";
+String numMotors = "";
+String scoreInSpeaker = "";
+String howTheyPass = "";
+String driveType = "";
+String intakeType = "";
+List<String> intakeOptions = ['Under', 'Over', 'Both'];
+List<String> driveOptions = ['Tank', 'Swerve', 'Other'];
+
+
 
 
 class PitScouting extends StatefulWidget {
@@ -35,6 +45,12 @@ class _PitScouting extends State<PitScouting> {
     'Can score Trap',
     'Intake from ground',
     'Intake from source',
+    'Robot speed',
+    'How many motors',
+    'How do they score in speaker',
+    'How do they pass',
+    'Under or over intake',
+    'Tank or swerve drive',
   ];
 
 
@@ -44,7 +60,7 @@ class _PitScouting extends State<PitScouting> {
     try {
       final sheet = await SheetsHelper.sheetSetup('PitScouting');
        // Writing data
-      final firstRow = [robotWeight, CapablityOne, CapablityTwo, bumperQuality, fieldCapability,climb,trap,ground,source];
+      final firstRow = [robotWeight, CapablityOne, CapablityTwo, bumperQuality, fieldCapability,climb,trap,ground,source,robotSpeed,numMotors,scoreInSpeaker,howTheyPass,intakeType,driveType];
       await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 2);
       // prints [index, letter, number, label]
       print(await sheet.values.row(1));
@@ -306,6 +322,134 @@ class _PitScouting extends State<PitScouting> {
                 ),
               ),
             ),
+            SizedBox(
+              height: height / 3.5,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(entries[9], textScaleFactor: 1.5), 
+                    SizedBox(
+                      width: width / 3,
+                      child: TextField(
+                        onChanged: (String value) {
+                          robotSpeed = value;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: height / 3.5,
+              child: Center(
+                child: Column (
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(entries[10], textScaleFactor: 1.5),
+                    SizedBox(
+                      width: width / 3,
+                      child: TextField(
+                        onChanged: (String value) {
+                          numMotors = value;
+                        },
+                      ),
+                    ),
+                  ],
+                )),
+            ),
+            SizedBox(
+              height: height / 3.5,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(entries[11], textScaleFactor: 1.5), 
+                    SizedBox(
+                      width: width / 3,
+                      child: TextField(
+                        onChanged: (String value) {
+                          scoreInSpeaker = value;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: height / 3.5,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(entries[12], textScaleFactor: 1.5),
+                    SizedBox(
+                      width: width / 3,
+                      child: TextField(
+                        onChanged: (String value) {
+                          howTheyPass = value;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+            height: height / 3.5,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(entries[14], textScaleFactor: 1.5),
+                  DropdownButton<String>(
+                    value: driveType.isNotEmpty ? driveType : null,
+                    hint: Text('Select Drive Type'),
+                    items: driveOptions.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        driveType = newValue!;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: height / 3.5,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(entries[13], textScaleFactor: 1.5),
+                  DropdownButton<String>(
+                    value: intakeType.isNotEmpty ? intakeType : null,
+                    hint: Text('Select Intake Type'),
+                    items: intakeOptions.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        intakeType = newValue!;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+
             // Container (
             //   height: height / 10,
             //   width: width,
@@ -339,15 +483,22 @@ class _PitScouting extends State<PitScouting> {
               onPressed: () async {
                 await _submitForm(0,0);
 
-                robotWeight="";
+                robotWeight = "";
                 CapablityOne = false;
                 CapablityTwo = false;
                 bumperQuality = "";
                 fieldCapability = false;
                 climb = false;
                 trap = false;
-                ground=false;
+                ground = false;
                 source = false;
+                robotSpeed = "";
+                numMotors = "";
+                scoreInSpeaker = "";
+                howTheyPass = "";
+                intakeType = "";
+                driveType = "";
+
                 Navigator.push(
                   context, 
                   MaterialPageRoute

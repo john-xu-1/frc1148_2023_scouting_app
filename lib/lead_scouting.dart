@@ -3,9 +3,9 @@ import 'sheets_helper.dart';
 import 'entrance.dart';
 import 'color_scheme.dart';
 
-PrimitiveWrapper effectiveness1 = PrimitiveWrapper(0);
-PrimitiveWrapper effectiveness2 = PrimitiveWrapper(0);
-PrimitiveWrapper effectiveness3 = PrimitiveWrapper(0);
+PrimitiveWrapper effectiveness1 = PrimitiveWrapper(1);
+PrimitiveWrapper effectiveness2 = PrimitiveWrapper(1);
+PrimitiveWrapper effectiveness3 = PrimitiveWrapper(1);
 
 String relEffectiveness = "";
 
@@ -51,12 +51,12 @@ List<TextEditingController> activeNoteControllers = [
 List<int> activeNoteType = [0, 0, 0];
 
 var nameToInt = {
-  "Field Awareness": 0,
+  "Auto Notes": 0,
   "Accuracy": 1,
   "Capabilities": 2,
-  "Robot Failures": 3,
-  "Trends": 4,
-  "Auto Notes": 5,
+  "Trends": 3,
+  "Field Awareness": 4,
+  "Robot Failures": 5,
 };
 
 //String selectedItem = "1, 2, 3";
@@ -351,7 +351,7 @@ class _LeadScouting extends State<LeadScouting> {
                               SizedBox(
                                 width: width / 3.5,
                                 child: DropdownButtonFormField<String>(
-                                  value: "Field Awareness",
+                                  value: "Auto Notes",
                                   onChanged: (String? newVal) {
                                     updateSubjectiveNotes(nameToInt[newVal]!, 0);
                                   },
@@ -360,12 +360,12 @@ class _LeadScouting extends State<LeadScouting> {
                                     border: OutlineInputBorder(),
                                   ),
                                   items: [
-                                    "Field Awareness",
+                                    "Auto Notes",
                                     "Accuracy",
                                     "Capabilities",
-                                    "Robot Failures",
                                     "Trends",
-                                    "Auto Notes",
+                                    "Field Awareness",
+                                    "Robot Failures",
                                   ].map<DropdownMenuItem<String>>(
                                       (String value) {
                                     return DropdownMenuItem<String>(
@@ -400,7 +400,7 @@ class _LeadScouting extends State<LeadScouting> {
                               SizedBox(
                                 width: width / 3.5,
                                 child: DropdownButtonFormField<String>(
-                                  value: "Field Awareness",
+                                  value: "Auto Notes",
                                   onChanged: (String? newVal) {
                                     updateSubjectiveNotes(
                                         nameToInt[newVal]!, 1);
@@ -410,12 +410,12 @@ class _LeadScouting extends State<LeadScouting> {
                                     border: OutlineInputBorder(),
                                   ),
                                   items: [
-                                    "Field Awareness",
+                                    "Auto Notes",
                                     "Accuracy",
                                     "Capabilities",
-                                    "Robot Failures",
                                     "Trends",
-                                    "Auto Notes",
+                                    "Field Awareness",
+                                    "Robot Failures",
                                   ].map<DropdownMenuItem<String>>(
                                       (String value) {
                                     return DropdownMenuItem<String>(
@@ -453,7 +453,7 @@ class _LeadScouting extends State<LeadScouting> {
                               SizedBox(
                                 width: width / 3.5,
                                 child: DropdownButtonFormField<String>(
-                                  value: "Field Awareness",
+                                  value: "Auto Notes",
                                   onChanged: (String? newVal) {
                                     updateSubjectiveNotes(
                                         nameToInt[newVal]!, 2);
@@ -463,12 +463,12 @@ class _LeadScouting extends State<LeadScouting> {
                                     border: OutlineInputBorder(),
                                   ),
                                   items: [
-                                    "Field Awareness",
+                                    "Auto Notes",
                                     "Accuracy",
                                     "Capabilities",
-                                    "Robot Failures",
                                     "Trends",
-                                    "Auto Notes",
+                                    "Field Awareness",
+                                    "Robot Failures",
                                   ].map<DropdownMenuItem<String>>(
                                       (String value) {
                                     return DropdownMenuItem<String>(
@@ -506,14 +506,14 @@ class _LeadScouting extends State<LeadScouting> {
             ),
           ),
           const Divider(),
-          ElevatedButton(
+          ElevatedButton(              
             onPressed: () async {
               await _submitForm();
               reset();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const Entrance()));
             },
-            child: const Icon(Icons.send),
+            child: const Icon(Icons.send, color: colors.myOnPrimary),
           )
         ],
       )),
