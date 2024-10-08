@@ -56,6 +56,8 @@ class _LogIn extends State<LogIn> {
   String id = "";
   String mnum = "";
 
+  bool load = true;
+
 
   void fetchTeamFromSheets () async {
     A = (await _fetchForm(2,1));
@@ -64,6 +66,9 @@ class _LogIn extends State<LogIn> {
     D = (await _fetchForm(2,5));
     E = (await _fetchForm(2,6));
     F = (await _fetchForm(2,7));
+    setState(() {
+      load = false;
+    });
   }
   
 
@@ -108,7 +113,7 @@ class _LogIn extends State<LogIn> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     formatSheetsTeamsData();
-    if (scoutLists.isEmpty){
+    if (load){
       return const SafeArea(
         child: Scaffold(
           backgroundColor: Color.fromARGB(255, 36, 36, 36),
