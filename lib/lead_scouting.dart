@@ -130,8 +130,11 @@ class _LeadScouting extends State<LeadScouting> {
         relEffectivenessList[2]
       ];
 
-      String teams = widget.teamName.substring(4);
-      List<String> teamNames = teams.split(', ');
+    List<String> teams = widget.teamName.split(' ');
+    String robotOne = teams[1].substring(0,teams[1].length-1);
+    String robotTwo = teams[2].substring(0,teams[2].length-1);
+    String robotThree = teams[3];
+    List<String> teamNames = [robotOne,robotTwo,robotThree];
 
       //q5 frc555, frc777, frc888
 
@@ -168,54 +171,51 @@ class _LeadScouting extends State<LeadScouting> {
   }
 
   Future<void> setUp() async {
-    String teams = widget.teamName.substring(4);
-    List<String> teamNames = teams.split(', ');
+    List<String> teams = widget.teamName.split(' ');
+    String robotOne = teams[1].substring(0,teams[1].length-1);
+    String robotTwo = teams[2].substring(0,teams[2].length-1);
+    String robotThree = teams[3];
+    List<String> teamNames = [robotOne,robotTwo,robotThree];
 
-    // Await the asynchronous calls to fetch the data
+    //this print out the teamnames that the set up is looking for in the spreadsheet
+    print(""+teamNames[0]);
+    print(teamNames[1]);
+    print(teamNames[2]);
+
+    //if the team isn't there _fetchForm will get from row 100 and fill the notematrix with "."
+      //this is because I am too lazy to do null checks??
     List<String> team1 = await _fetchForm(teamNames[0]);
     List<String> team2 = await _fetchForm(teamNames[1]);
     List<String> team3 = await _fetchForm(teamNames[2]);
 
     setState(() {
       noteMatrix = [
-        [team1[0], team2[0], team3[0]],
         [team1[1], team2[1], team3[1]],
         [team1[2], team2[2], team3[2]],
         [team1[3], team2[3], team3[3]],
         [team1[4], team2[4], team3[4]],
-        [team1[5], team2[5], team3[5]]
+        [team1[5], team2[5], team3[5]],
+        [team1[6], team2[6], team3[6]]
       ];
     });
   }
 
   Future<List<String>> _fetchForm(String team) async {
     try {
-      final sheet = await SheetsHelper.sheetSetup(
-          'NotesOrgTest'); // Replace with your sheet name
-      final column = 11;
+      final sheet = await SheetsHelper.sheetSetup('NotesOrgTest'); // temporarily this sheet name.
+      final column = 1;
       var columnData = await sheet?.values.column(column);
 
-      var row = 1;
+      var row = 100;
       for (int i = 0; i < columnData!.length; i++) {
         if (columnData[i] == team) {
           row = i + 1;
         }
       }
-
-      final cellOne = await sheet?.cells.cell(column: 2, row: row);
-      final cellTwo = await sheet?.cells.cell(column: 3, row: row);
-      final cellThree = await sheet?.cells.cell(column: 4, row: row);
-      final cellFour = await sheet?.cells.cell(column: 5, row: row);
-      final cellFive = await sheet?.cells.cell(column: 6, row: row);
-      final cellSix = await sheet?.cells.cell(column: 7, row: row);
-
       List<String> stringList = [];
-      stringList.add(cellOne!.value);
-      stringList.add(cellTwo!.value);
-      stringList.add(cellThree!.value);
-      stringList.add(cellFour!.value);
-      stringList.add(cellFive!.value);
-      stringList.add(cellSix!.value);
+      var rowList = await sheet?.values.row(row);
+
+      stringList = rowList!;
 
       return (stringList);
     } catch (e) {
@@ -245,6 +245,7 @@ class _LeadScouting extends State<LeadScouting> {
 
   @override
   Widget build(BuildContext context) {
+    bool can = false;
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -398,12 +399,15 @@ class _LeadScouting extends State<LeadScouting> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        // ElevatedButton( 
-                        //   onPressed: () async { await setUp(); },
-                        //   style: ButtonStyle(if pressed, iconColor = Color.fromARGB(255, 255, 255, 255)),
-                        //   child: Icon(Icons.refresh, color: colors.myOnPrimary),
-                        // ),
-                        
+                        ElevatedButton(
+                          onPressed: () async {
+                            await setUp(); 
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Fetched Notes")),
+                            );
+                          },
+                          child: Icon(Icons.refresh, color: colors.myOnPrimary),
+                        ),
                         Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
