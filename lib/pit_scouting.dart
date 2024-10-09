@@ -503,7 +503,8 @@ class _PitScouting extends State<PitScouting> {
                   context, 
                   MaterialPageRoute
                   (
-                    builder: (context) => const Entrance()
+                    builder: (context) => Entrance(onThemeChanged: (newTheme) {
+                    })
                   )
                 );
               },

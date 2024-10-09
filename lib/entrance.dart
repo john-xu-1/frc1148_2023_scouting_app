@@ -9,220 +9,216 @@ import 'auto_vis_drawer.dart';
 import 'auto_form.dart';
 
 class Entrance extends StatefulWidget {
-  const Entrance({Key? key}) : super(key: key);
+  final Function(ThemeMode) onThemeChanged;
+
+  const Entrance({Key? key, required this.onThemeChanged}) : super(key: key);
 
   @override
   State<Entrance> createState() => _Entrance();
 }
 
-
 class _Entrance extends State<Entrance> {
-
   String pitTeam = "";
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Selection Menu"),
-        backgroundColor: colors.myBackground,
+        backgroundColor: colorScheme.primary,
       ),
       body: Center(
         child: Container(
-          color: colors.myPrimaryColor,
+          color: colorScheme.background,
           child: GridView.count(
-          crossAxisCount: 2,
-          padding: const EdgeInsets.all(10),
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          children: <Widget>[
-            Container(
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(60.0),
-                ),
-                //color: Color.fromARGB(20, 62, 62, 62)
-                color: colors.myOnBackground
-              ),
-              //color: Colors.grey,
-              child: Column(
+            crossAxisCount: 2,
+            padding: const EdgeInsets.all(10),
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            children: <Widget>[
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: [
                   IconButton(
-                    iconSize: 100,
-                    onPressed: (){
-                      Navigator.push(
-                        context, 
-                        MaterialPageRoute
-                        (
-                          builder: (context) => const TeamDisplayChoice(),
-                        )
-                      );
-                    },  
-                    icon: const Icon(Icons.data_array),
-                    color: Colors.black,
+                    onPressed: () {
+                      widget.onThemeChanged(ThemeMode.light);
+                    },
+                    icon: const Icon(Icons.light_mode),
                   ),
-                  const Text("Team Data"),
+                  IconButton(
+                    onPressed: () {
+                      widget.onThemeChanged(ThemeMode.dark);
+                    },
+                    icon: const Icon(Icons.dark_mode),
+                  ),
                 ],
-              )
-            ),
-            Container(
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(60.0),
-                ),
-                //color: Color.fromARGB(20, 62, 62, 62)
-                color: colors.myOnBackground
               ),
-              //color: Colors.grey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  IconButton(
-                    iconSize: 100,
-                    onPressed: (){
-                      Navigator.push(
-                        context, 
-                        MaterialPageRoute
-                        (
-                          builder: (context) => const LogIn(),
-                        )
-                      );
-                    },  
-                    icon: const Icon(Icons.edit_document),
-                    color: Colors.black,
-                  ),
-                  const Text("Match Scouts"),
-                  
-                ],
-              )
-            ),
-            Container(
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(60.0),
-                ),
-                //color: Color.fromARGB(20, 62, 62, 62)
-                color: colors.myOnBackground
+              _buildGridItem(
+                context,
+                icon: Icons.data_array,
+                label: "Team Data",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TeamDisplayChoice(),
+                    ),
+                  );
+                },
               ),
-              //color: Colors.grey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  IconButton(
-                    iconSize: 100,
-                    onPressed: (){
-                      if (pitTeam != ""){
-                        Navigator.push(
-                          context, 
-                          MaterialPageRoute
-                          (
-                            builder: (context) => PitScouting(teamName: pitTeam)
-                          )
-                        );
-                      }
-                    },  
-                    icon: const Icon(Icons.question_mark),
-                    color: Colors.black,
-                  ),
-                  Row (
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget> [
-                      const Text("Team #: "),
-                      SizedBox(
-                        height: 25,
-                        width: 100,
-                        child: TextField(
-                          onChanged: (String value){
-                            setState(() {
-                              pitTeam = value;
-                            });
-                          },
-                        )
+              _buildGridItem(
+                context,
+                icon: Icons.edit_document,
+                label: "Match Scouts",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LogIn(),
+                    ),
+                  );
+                },
+              ),
+              _buildGridItemWithInput(
+                context,
+                icon: Icons.question_mark,
+                label: "Pit Scouts",
+                pitTeam: pitTeam,
+                onTeamChanged: (value) {
+                  setState(() {
+                    pitTeam = value;
+                  });
+                },
+                onTap: () {
+                  if (pitTeam.isNotEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PitScouting(teamName: pitTeam),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 10,),
-                  const Text("Pit Scouts"),
-                ],
-              )
-            ),
-            Container(
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(60.0),
-                ),
-                //color: Color.fromARGB(20, 62, 62, 62)
-                color: colors.myOnBackground
+                    );
+                  }
+                },
               ),
-              //color: Colors.grey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  IconButton(
-                    iconSize: 100,
-                    onPressed: (){
-                      Navigator.push(
-                        context, 
-                        MaterialPageRoute
-                        (
-                          builder: (context) => const MatchList()
-                        )
-                      );
-                    },  
-                    icon: const Icon(Icons.search),
-                    color: Colors.black,
-                  ),
-                  const Text("Match List"),
-                  
-                  
-                ],
-              )
-            ),
-
-            Container(
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(60.0),
-                ),
-                //color: Color.fromARGB(20, 62, 62, 62)
-                color: colors.myOnBackground
+              _buildGridItem(
+                context,
+                icon: Icons.search,
+                label: "Match List",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MatchList(),
+                    ),
+                  );
+                },
               ),
-              //color: Colors.grey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  IconButton(
-                    iconSize: 100,
-                    onPressed: (){
-                      Navigator.push(
-                        context, 
-                        MaterialPageRoute
-                        (
-                          builder: (context) => const RobotPathGraph()
-                        )
-                      );
-                    },  
-                    icon: const Icon(Icons.data_usage),
-                    color: Colors.black,
-                  ),
-                  const Text("Auto Path Visual"),
-                  
-                  
-                ],
-              )
-            ),
-          ],
-
+              _buildGridItem(
+                context,
+                icon: Icons.data_usage,
+                label: "Auto Path Visual",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RobotPathGraph(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
-        
-        )
-        
-
       ),
+    );
+  }
 
+  Widget _buildGridItem(BuildContext context,
+      {required IconData icon,
+      required String label,
+      required VoidCallback onTap}) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
+    return Container(
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(60.0),
+        ),
+        color: colorScheme.surface,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          IconButton(
+            iconSize: 100,
+            onPressed: onTap,
+            icon: Icon(icon),
+            color: colorScheme.onSurface,
+          ),
+          Text(
+            label,
+            style: TextStyle(color: colorScheme.onSurface),
+          ),
+        ],
+      ),
+    );
+  }
 
+  Widget _buildGridItemWithInput(BuildContext context,
+      {required IconData icon,
+      required String label,
+      required String pitTeam,
+      required ValueChanged<String> onTeamChanged,
+      required VoidCallback onTap}) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    return Container(
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(60.0),
+        ),
+        color: colorScheme.surface,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          IconButton(
+            iconSize: 100,
+            onPressed: onTap,
+            icon: Icon(icon),
+            color: colorScheme.onSurface,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "Team #: ",
+                style: TextStyle(color: colorScheme.onSurface),
+              ),
+              SizedBox(
+                height: 25,
+                width: 100,
+                child: TextField(
+                  onChanged: onTeamChanged,
+                  style: TextStyle(color: colorScheme.onSurface),
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: colorScheme.onSurface),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            label,
+            style: TextStyle(color: colorScheme.onSurface),
+          ),
+        ],
+      ),
     );
   }
 }

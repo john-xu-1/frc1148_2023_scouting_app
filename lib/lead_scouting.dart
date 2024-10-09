@@ -511,7 +511,9 @@ class _LeadScouting extends State<LeadScouting> {
               await _submitForm();
               reset();
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Entrance()));
+                  MaterialPageRoute(builder: (context) => Entrance(onThemeChanged: (newTheme) {
+                    // Handle theme change here
+                  })));
             },
             child: const Icon(Icons.send, color: colors.myOnPrimary),
           )

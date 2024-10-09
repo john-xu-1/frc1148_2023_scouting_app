@@ -6,19 +6,30 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  _MainAppState createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MyApp> {
+  ThemeMode themeMode = ThemeMode.system;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Scouting Home Page',
-      // theme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-      //   useMaterial3: true,
-      // ),
-      theme: ThemeData.from(colorScheme: colors()),
-      home: const Entrance(),
-      // home: const AutoVisualization(),
+      theme: ThemeData.from(colorScheme: lightColorScheme),
+      darkTheme: ThemeData.from(colorScheme: darkColorScheme),
+      themeMode: themeMode,
+      home: Entrance(
+        onThemeChanged: (ThemeMode mode) {
+          setState(() {
+            themeMode = mode;
+          });
+        },
+      ),
     );
   }
 }
