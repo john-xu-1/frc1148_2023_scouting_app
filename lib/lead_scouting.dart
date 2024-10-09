@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gsheets/gsheets.dart';
 import 'sheets_helper.dart';
 import 'entrance.dart';
 import 'color_scheme.dart';
@@ -92,10 +93,10 @@ class _LeadScouting extends State<LeadScouting> {
     try {
       final sheet = await SheetsHelper.sheetSetup(
           "NotesOrg"); // Replace with your sheet name
-      
-      List<String>relEffectivenessList = relEffectiveness.split(', ');
+
+      List<String> relEffectivenessList = relEffectiveness.split(', ');
       print(relEffectiveness);
-      print (relEffectivenessList);
+      print(relEffectivenessList);
 
       // Writing data
       final firstRow = [
@@ -128,47 +129,99 @@ class _LeadScouting extends State<LeadScouting> {
         effectiveness3.value,
         relEffectivenessList[2]
       ];
-      
-      String match = widget.teamName.substring(0,3);
+
       String teams = widget.teamName.substring(4);
-      List <String> teamNames  =  teams.split(', ');
-      
+      List<String> teamNames = teams.split(', ');
+
       //q5 frc555, frc777, frc888
 
-      List<List<dynamic>> rows = [
-        firstRow,
-        secondRow,
-        thirdRow
-      ];
+      List<List<dynamic>> rows = [firstRow, secondRow, thirdRow];
 
-      for (int i =0; i< 3;i++){
-        await sheet!.values.insertRowByKey(match + teamNames[i], rows[i],fromColumn: 2 );
+      for (int i = 0; i < 3; i++) {
+        await sheet!.values
+            .insertRowByKey(teamNames[i], rows[i], fromColumn: 2);
       }
       // await sheet!.values.insertRowByKey(
       //   widget.teamName, [firstRow, secondRow, thirdRow],fromColumn: 2
       // );
-
     } catch (e) {
       print('Error: $e');
     }
   }
 
-  void reset (){
+  void reset() {
     effectiveness1 = PrimitiveWrapper(1);
     effectiveness2 = PrimitiveWrapper(1);
     effectiveness3 = PrimitiveWrapper(1);
-    relEffectiveness ="";
+    relEffectiveness = "";
     activeNote1.clear();
     activeNote1.clear();
     activeNote1.clear();
     noteMatrix = [
-    ["", "", ""],
-    ["", "", ""],
-    ["", "", ""],
-    ["", "", ""],
-    ["", "", ""],
-    ["", "", ""]
-  ];
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""]
+    ];
+  }
+
+  Future<void> setUp() async {
+    String teams = widget.teamName.substring(4);
+    List<String> teamNames = teams.split(', ');
+
+    // Await the asynchronous calls to fetch the data
+    List<String> team1 = await _fetchForm(teamNames[0]);
+    List<String> team2 = await _fetchForm(teamNames[1]);
+    List<String> team3 = await _fetchForm(teamNames[2]);
+
+    setState(() {
+      noteMatrix = [
+        [team1[0], team2[0], team3[0]],
+        [team1[1], team2[1], team3[1]],
+        [team1[2], team2[2], team3[2]],
+        [team1[3], team2[3], team3[3]],
+        [team1[4], team2[4], team3[4]],
+        [team1[5], team2[5], team3[5]]
+      ];
+    });
+  }
+
+  Future<List<String>> _fetchForm(String team) async {
+    try {
+      final sheet = await SheetsHelper.sheetSetup(
+          'NotesOrgTest'); // Replace with your sheet name
+      final column = 11;
+      var columnData = await sheet?.values.column(column);
+
+      var row = 1;
+      for (int i = 0; i < columnData!.length; i++) {
+        if (columnData[i] == team) {
+          row = i + 1;
+        }
+      }
+
+      final cellOne = await sheet?.cells.cell(column: 2, row: row);
+      final cellTwo = await sheet?.cells.cell(column: 3, row: row);
+      final cellThree = await sheet?.cells.cell(column: 4, row: row);
+      final cellFour = await sheet?.cells.cell(column: 5, row: row);
+      final cellFive = await sheet?.cells.cell(column: 6, row: row);
+      final cellSix = await sheet?.cells.cell(column: 7, row: row);
+
+      List<String> stringList = [];
+      stringList.add(cellOne!.value);
+      stringList.add(cellTwo!.value);
+      stringList.add(cellThree!.value);
+      stringList.add(cellFour!.value);
+      stringList.add(cellFive!.value);
+      stringList.add(cellSix!.value);
+
+      return (stringList);
+    } catch (e) {
+      print('Error: $e');
+      return [];
+    }
   }
 
   void update(PrimitiveWrapper variable, int inc) {
@@ -345,6 +398,12 @@ class _LeadScouting extends State<LeadScouting> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
+                        // ElevatedButton( 
+                        //   onPressed: () async { await setUp(); },
+                        //   style: ButtonStyle(if pressed, iconColor = Color.fromARGB(255, 255, 255, 255)),
+                        //   child: Icon(Icons.refresh, color: colors.myOnPrimary),
+                        // ),
+                        
                         Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
@@ -353,7 +412,8 @@ class _LeadScouting extends State<LeadScouting> {
                                 child: DropdownButtonFormField<String>(
                                   value: "Auto Notes",
                                   onChanged: (String? newVal) {
-                                    updateSubjectiveNotes(nameToInt[newVal]!, 0);
+                                    updateSubjectiveNotes(
+                                        nameToInt[newVal]!, 0);
                                   },
                                   decoration: const InputDecoration(
                                     labelText: "Select an option",
@@ -506,7 +566,7 @@ class _LeadScouting extends State<LeadScouting> {
             ),
           ),
           const Divider(),
-          ElevatedButton(              
+          ElevatedButton(
             onPressed: () async {
               await _submitForm();
               reset();
