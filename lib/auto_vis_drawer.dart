@@ -81,7 +81,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
       print('Error: $e\n');
     }
   }
-
+  
   // Helper function to split robot paths
   List<List<Offset>> splitRobotPaths(List<Map<String, dynamic>> rawCoordinates, bool isRed) {
     List<List<Offset>> robotPaths = List.generate(6, (_) => []);

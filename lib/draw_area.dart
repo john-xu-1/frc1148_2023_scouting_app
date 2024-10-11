@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'sheets_helper.dart';
@@ -65,19 +66,19 @@ class _DrawAreaState extends State<DrawArea> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    // Initialize the timer to log cursor coordinates every 200 milliseconds
-    timer = Timer.periodic(Duration(milliseconds: 200), (timer) {
-      if (points.isNotEmpty && points.last != null) {
-        // Uncomment the following lines if you need to log the cursor coordinates
-        // print('Current Cursor Coordinates: ${points.last}');
-        coordinates.add('${points.last!.dx},${points.last!.dy}');
-        // print('Updated baller list: $baller');
-      }
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // Initialize the timer to log cursor coordinates every 200 milliseconds
+  //   timer = Timer.periodic(Duration(milliseconds: 200), (timer) {
+  //     if (points.isNotEmpty && points.last != null) {
+  //       // Uncomment the following lines if you need to log the cursor coordinates
+  //       // print('Current Cursor Coordinates: ${points.last}');
+  //       coordinates.add('${points.last!.dx},${points.last!.dy}');
+  //       // print('Updated baller list: $baller');  
+  //     }
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -136,15 +137,30 @@ class _DrawAreaState extends State<DrawArea> {
         ],
       ),
       body: GestureDetector(
-        onPanUpdate: (DragUpdateDetails details) {
+        onTapDown:(details) {
           setState(() {
             RenderBox box = context.findRenderObject() as RenderBox;
             Offset point = box.globalToLocal(details.globalPosition);
             // Adjust the y-coordinate to account for the AppBar height
             point = Offset(point.dx, point.dy - appBarHeight);
             points.add(point);
+            if (points.isNotEmpty && points.last != null) {
+              coordinates.add('${points.last!.dx},${points.last!.dy}');
+            }
           });
         },
+
+        // onPanUpdate: (DragUpdateDetails details) {
+        //   setState(() {
+        //     RenderBox box = context.findRenderObject() as RenderBox;
+        //     Offset point = box.globalToLocal(details.globalPosition);
+        //     // Adjust the y-coordinate to account for the AppBar height
+        //     point = Offset(point.dx, point.dy - appBarHeight);
+        // //     points.add(point);
+        //   });
+        // },
+
+
         // onPanEnd: (DragEndDetails details) {
         //   setState(() {
         //     points.add(null); // Use null to signify the end of a stroke

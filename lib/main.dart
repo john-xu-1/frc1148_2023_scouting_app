@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frc1148_2023_scouting_app/auto_vis_drawer.dart';
 import 'package:frc1148_2023_scouting_app/color_scheme.dart';
+import 'package:frc1148_2023_scouting_app/draw_area.dart';
 import 'package:frc1148_2023_scouting_app/entrance.dart';
 
 void main() {
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
       // ),
       theme: ThemeData.from(colorScheme: colors()),
       home: const Entrance(),
-      // home: const AutoVisualization(),
+
     );
   }
 }
