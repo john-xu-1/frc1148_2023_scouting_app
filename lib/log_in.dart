@@ -39,9 +39,9 @@ class _LogIn extends State<LogIn> {
     }
   }
 
-  Future<void> _submitForm(teamName) async {
+  Future<void> _submitName(teamName) async {
     try {
-      final sheet = await SheetsHelper.sheetSetup("Name To Bot Assign");
+      final sheet = await SheetsHelper.sheetSetup("App results");
       final scoutName = [name];
       await sheet!.values.insertRowByKey(teamName, scoutName, fromColumn: 19);
     } catch (e) {
@@ -77,9 +77,8 @@ class _LogIn extends State<LogIn> {
     F = (await _fetchForm(2, 7, "Scouting Assignment"));
     namesString = (await _fetchForm(5, 1, "Name To Bot Assign"));
     idsString = (await _fetchForm(5, 2, "Name To Bot Assign"));
-    print("Hey");
-    print(namesString);
-    print(idsString);
+    // print(namesString);
+    // print(idsString);
   }
 
   void formatSheetsTeamsData() {
@@ -113,7 +112,7 @@ class _LogIn extends State<LogIn> {
       nameToID.update(nameList[i], (correspondingID) => correspondingID,
           ifAbsent: () => correspondingID);
     }
-    print(nameToID);
+    // print(nameToID);
   }
 
   String updateResults() {
@@ -255,8 +254,8 @@ class _LogIn extends State<LogIn> {
                           builder: (context) => DrawArea(
                                 teamName: out,
                                 id: nameToID[name]!,
-                                scoutName: name,
                               )));
+                  _submitName(out);
                 }
               }
             },
