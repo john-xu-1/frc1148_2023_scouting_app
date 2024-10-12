@@ -221,7 +221,8 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                     context,
                     MaterialPageRoute
                     (
-                      builder: (context) => const Entrance()
+                      builder: (context) => Entrance(onThemeChanged: (newTheme) {
+                    })
                     )
                   );
                 });

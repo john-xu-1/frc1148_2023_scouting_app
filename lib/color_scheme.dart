@@ -1,5 +1,38 @@
 import 'package:flutter/material.dart';
 
+const lightColorScheme = ColorScheme(
+  brightness: Brightness.light,
+  primary: Color.fromARGB(255, 255, 81, 81),
+  onPrimary: Color(0xFFFFFFFF),
+  primaryContainer: Color.fromARGB(255, 255, 216, 216),
+  onPrimaryContainer: Color.fromARGB(255, 78, 3, 3),
+  secondary: Color.fromARGB(255, 115, 88, 87),
+  onSecondary: Color.fromARGB(255, 255, 255, 255),
+  error: Color.fromARGB(255, 176, 0, 82),
+  onError: Color.fromARGB(255, 255, 255, 255),
+  background: Color.fromARGB(255, 255, 251, 254),
+  onBackground: Color.fromARGB(255, 29, 27, 31),
+  surface: Color.fromARGB(255, 255, 251, 254),
+  onSurface: Color.fromARGB(255, 28, 27, 31),
+);
+
+const darkColorScheme = ColorScheme(
+  brightness: Brightness.dark,
+  primary: Color.fromARGB(255, 147, 2, 2),
+  onPrimary: Color.fromARGB(255, 133, 0, 0),
+  primaryContainer: Color.fromARGB(255, 121, 41, 41),
+  onPrimaryContainer: Color.fromARGB(255, 255, 216, 216),
+  secondary: Color.fromARGB(255, 225, 189, 189),
+  onSecondary: Color.fromARGB(255, 65, 42, 42),
+  error: Color.fromARGB(255, 207, 102, 102),
+  onError: Color.fromARGB(255, 28, 27, 31),
+  background: Color.fromARGB(255, 18, 18, 18),
+  onBackground: Color.fromARGB(255, 225, 225, 225),
+  surface: Color.fromARGB(255, 18, 18, 18),
+  onSurface: Color.fromARGB(255, 225, 225, 225),
+);
+
+
 class colors extends ColorScheme {
   // Define your custom colors here
   static const Color myPrimaryColor = Color.fromARGB(255, 255, 255, 255);
@@ -10,7 +43,6 @@ class colors extends ColorScheme {
   static const Color myOnBackground = Color.fromARGB(103, 216, 216, 216);
   static const Color myOnBackgroundD = Color.fromARGB(255, 184, 180, 180);
 
-  
   static const Color mySurface = Color.fromARGB(255, 255, 255, 255);
   static const Color myOnSurface = Color.fromARGB(255, 4, 4, 4);
 
