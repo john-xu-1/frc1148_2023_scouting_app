@@ -7,6 +7,17 @@ import 'color_scheme.dart';
 PrimitiveWrapper effectiveness1 = PrimitiveWrapper(1);
 PrimitiveWrapper effectiveness2 = PrimitiveWrapper(1);
 PrimitiveWrapper effectiveness3 = PrimitiveWrapper(1);
+int curEffect1=0;
+int curEffect2=0;
+int curEffect3=0;
+
+int curRelEffect1=0;
+int curRelEffect2=0;
+int curRelEffect3=0;
+
+int counter1 = 0;
+int counter2 = 0;
+int counter3 = 0;
 
 String relEffectiveness = "";
 
@@ -97,6 +108,7 @@ class _LeadScouting extends State<LeadScouting> {
       List<String> relEffectivenessList = relEffectiveness.split(', ');
       print(relEffectiveness);
       print(relEffectivenessList);
+      
 
       // Writing data
       final firstRow = [
@@ -106,8 +118,9 @@ class _LeadScouting extends State<LeadScouting> {
         noteMatrix[3][0],
         noteMatrix[4][0],
         noteMatrix[5][0],
-        effectiveness1.value,
-        relEffectivenessList[0]
+        (effectiveness1.value+ curEffect1)/(counter1+1),
+        (int.parse(relEffectivenessList[0])+curRelEffect1)/(counter1+1),
+        (counter1+1)
       ];
       final secondRow = [
         noteMatrix[0][1],
@@ -116,8 +129,9 @@ class _LeadScouting extends State<LeadScouting> {
         noteMatrix[3][1],
         noteMatrix[4][1],
         noteMatrix[5][1],
-        effectiveness2.value,
-        relEffectivenessList[1]
+        (effectiveness2.value+ curEffect2)/(counter2+1),
+        (int.parse(relEffectivenessList[1])+curRelEffect2)/(counter2+1),
+        (counter2+1)
       ];
       final thirdRow = [
         noteMatrix[0][2],
@@ -126,8 +140,9 @@ class _LeadScouting extends State<LeadScouting> {
         noteMatrix[3][2],
         noteMatrix[4][2],
         noteMatrix[5][2],
-        effectiveness3.value,
-        relEffectivenessList[2]
+        (effectiveness3.value+ curEffect3)/(counter3+1),
+        (int.parse(relEffectivenessList[2])+curRelEffect3)/(counter3+1),
+        (counter3+1)
       ];
 
     List<String> teams = widget.teamName.split(' ');
@@ -181,6 +196,7 @@ class _LeadScouting extends State<LeadScouting> {
     print(""+teamNames[0]);
     print(teamNames[1]);
     print(teamNames[2]);
+    
 
     //if the team isn't there _fetchForm will get from row 100 and fill the notematrix with "."
       //this is because I am too lazy to do null checks??
@@ -188,6 +204,60 @@ class _LeadScouting extends State<LeadScouting> {
     List<String> team2 = await _fetchForm(teamNames[1]);
     List<String> team3 = await _fetchForm(teamNames[2]);
 
+    if (team1[9]==null){
+      counter1=0;
+    }else{
+          counter1=int.parse(team1[9]);
+    }
+    if (team2[9]==null){
+      counter2=0;
+    }else{
+          counter2=int.parse(team1[9]);
+    }
+    if (team3[9]==null){
+      counter3=0;
+    }else{
+          counter3=int.parse(team1[9]);
+    }
+
+
+
+    if (team1[7]==null){
+      curEffect1=0;
+    }else{
+          curEffect1=int.parse(team1[7]);
+    }
+    if (team2[7]==null){
+      curEffect2=0;
+    }else{
+          curEffect2=int.parse(team1[7]);
+    }
+    if (team3[7]==null){
+      curEffect3=0;
+    }else{
+          curEffect3=int.parse(team1[7]);
+    }
+
+
+    if (team1[8]==null){
+      curRelEffect1=0;
+    }else{
+          curRelEffect1=int.parse(team1[8]);
+    }
+    if (team2[8]==null){
+      curRelEffect2=0;
+    }else{
+          curRelEffect2=int.parse(team1[8]);
+    }
+    if (team3[8]==null){
+      curRelEffect3=0;
+    }else{
+          curRelEffect3=int.parse(team1[8]);
+    }
+
+    print (curEffect1);
+    print (curRelEffect1);
+    
     setState(() {
       noteMatrix = [
         [team1[1], team2[1], team3[1]],
@@ -198,11 +268,12 @@ class _LeadScouting extends State<LeadScouting> {
         [team1[6], team2[6], team3[6]]
       ];
     });
+    print("done");
   }
 
   Future<List<String>> _fetchForm(String team) async {
     try {
-      final sheet = await SheetsHelper.sheetSetup('NotesOrgTest'); // temporarily this sheet name.
+      final sheet = await SheetsHelper.sheetSetup('NotesOrg'); // temporarily this sheet name.
       final column = 1;
       var columnData = await sheet?.values.column(column);
 
