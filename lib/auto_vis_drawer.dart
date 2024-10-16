@@ -48,7 +48,8 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
     return coordinates;
   }
 
-  Map<String, String> matchTeams = {};
+  // Map<String, String> matchTeams = {};
+  // Map<String, String> teamMatches = {};
 
   // Updated fetchTeamFromSheets function
   Future<void> fetchTeamFromSheets() async {
@@ -62,26 +63,31 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
           String match = row[9].value;
           String team = row[10].value;
           String coordinates = row[1].value;
-          bool isRed = row[13].value == 'true'; // Assuming the value is a string 'true' or 'false'
-          if (!matchTeams.containsKey(match)){
-            matchTeams[match] = "";
-          }
-          if (!teamAutos.containsKey(team)){
-            print(team);
-            teamAutos[team] = [];
-          }
-          matchTeams[match] = "${matchTeams[match]}${row[10].value} ";
-          teamAutos[team]!.add({'coordinates': coordinates, 'isRed': isRed});
+          bool isRed = row[13].value ==
+              'true'; // Assuming the value is a string 'true' or 'false'
+          // if (!matchTeams.containsKey(match)) {
+          //   matchTeams[match] = "";
+          // }
+          // matchTeams[match] = "${matchTeams[match]}$team ";
+          // if (!teamMatches.containsKey(team)) {
+          //   teamMatches[team] = "";
+          // }
+          // teamMatches[team] = "${teamMatches[team]}$match ";
           // print('Match: $match, Coordinates: $coordinates, IsRed: $isRed\n'); // Debug line
           if (!matchCoordinates.containsKey(match)) {
             matchCoordinates[match] = [];
           }
-          matchCoordinates[match]!.add({'coordinates': coordinates, 'isRed': isRed});
+          matchCoordinates[match]!.add(
+              {'coordinates': coordinates, 'teamNum': team, 'isRed': isRed});
+          if (!teamAutos.containsKey(team)) {
+            teamAutos[team] = [];
+          }
+          teamAutos[team]!.add(
+              {'coordinates': coordinates, 'matchNum': 'q$match', 'isRed': isRed});
           if (!matchNumbers.contains(match)) {
             matchNumbers.add(match);
           }
         }
-        print(teamAutos['frc6328']);
         print('Data parsing complete.\n');
         print('Available matches: $matchNumbers\n'); // Debug line
         setState(() {});
@@ -90,50 +96,73 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
       print('Error: $e\n');
     }
   }
-  
+
+  bool isIndexValid() {
+    return isIndexByTeam
+        ? teamAutos.containsKey('frc$selectedIndex')
+        : matchCoordinates.containsKey(selectedIndex);
+  }
+
   // Helper function to split robot paths
-  List<List<Offset>> splitRobotPaths(List<Map<String, dynamic>> rawCoordinates, bool isRed) {
+  List<List<Offset>> splitRobotPaths(bool isRed) {
+    if (!isIndexValid()) {
+      return [];
+    }
     int numSelectedColorCoords = 0;
+    List<Map<String, dynamic>> rawCoordinates = isIndexByTeam
+        ? teamAutos['frc$selectedIndex']!
+        : matchCoordinates[selectedIndex]!;
     for (Map<String, dynamic> data in rawCoordinates) {
       if (data['isRed'] == isRed) {
         numSelectedColorCoords++;
       }
     }
-    List<List<Offset>> robotPaths = List.generate(numSelectedColorCoords, (_) => []);
+    List<List<Offset>> robotPaths =
+        List.generate(numSelectedColorCoords, (_) => []);
     int coordsAdded = 0;
     for (int i = 0; i < rawCoordinates.length; i++) {
       if (rawCoordinates[i]['isRed'] == isRed) {
         Map<String, dynamic> data = rawCoordinates[i];
-        List<Offset> coordinates = parseAndConvertCoordinates(data['coordinates'], data['isRed']);
+        List<Offset> coordinates =
+            parseAndConvertCoordinates(data['coordinates'], data['isRed']);
         robotPaths[coordsAdded].addAll(coordinates);
         coordsAdded++;
       }
-     
     }
     return robotPaths;
   }
 
-  List<List<Offset>> splitRobotPathsByType(bool isRed, bool isIndexByTeam) {
-    // return splitRobotPaths(matchCoordinates[selectedIndex]!, isRed);
-    if (!isIndexByTeam) {
-      if (!matchCoordinates.containsKey(selectedIndex)) {
-        return [];
-      }
-      return splitRobotPaths(matchCoordinates[selectedIndex]!, isRed);
+  List<Widget> generateKey(bool isRed) {
+    if (!isIndexValid()) {
+      return [];
     }
-    else {
-      if (!teamAutos.containsKey('frc$selectedIndex')) {
-        return [];
+    List<Widget> keys = [Text("${isRed ? 'Red' : 'Blue'} Field Key")];
+    List<Map<String, dynamic>> rawCoordinates = isIndexByTeam
+        ? teamAutos['frc$selectedIndex']!
+        : matchCoordinates[selectedIndex]!;
+    for (Map<String, dynamic> match in rawCoordinates) {
+      if (match['isRed'] == isRed) {
+        keys.add(Row(
+          children: [
+            Container(
+              width: 20,
+              height: 20,
+              color: Colors.green,
+            ),
+            const SizedBox(width: 8),
+            Text(match[isIndexByTeam ? 'matchNum' : 'teamNum']),
+          ],
+        ));
       }
-      return splitRobotPaths(teamAutos['frc$selectedIndex']!, isRed);
     }
+    return keys;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Robot Path Graph'),
+        title: const Text('Robot Path Graph'),
       ),
       body: Column(
         children: [
@@ -162,10 +191,11 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
               onSubmitted: (String value) {
                 setState(() {
                   selectedIndex = value.trim();
-                  if (matchCoordinates.containsKey(selectedIndex) || isIndexByTeam) {
+                  if (selectedIndex.isEmpty || isIndexValid()) {
                     errorMessage = '';
                   } else {
-                    errorMessage = 'Match not found: $selectedIndex';
+                    errorMessage =
+                        '${isIndexByTeam ? 'Team' : 'Match'} not found: $selectedIndex';
                   }
                 });
               },
@@ -176,11 +206,11 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 errorMessage,
-                style: TextStyle(color: Colors.red),
+                style: const TextStyle(color: Colors.red),
               ),
             ),
           Expanded(
-            child: selectedIndex.isNotEmpty && (matchCoordinates.containsKey(selectedIndex) || isIndexByTeam)
+            child: isIndexValid()
                 ? SingleChildScrollView(
                     child: Column(
                       children: [
@@ -188,104 +218,40 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
                         //   title: 'Blue Field Legend',
                         //   robotPaths: splitRobotPaths(matchCoordinates[selectedIndex]!, false),
                         // ),
-                        /* Column(
-                          children: [
-                            const Text ("Blue Field Key"),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 20,
-                                  height: 20,
-                                  color: Colors.green,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(matchTeams[selectedIndex]!.split(" ")[0]),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 20,
-                                  height: 20,
-                                  color: Colors.orange,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(matchTeams[selectedIndex]!.split(" ")[1]),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 20,
-                                  height: 20,
-                                  color: Colors.purple,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(matchTeams[selectedIndex]!.split(" ")[2]),
-                              ],
-                            ),
-                          ],
-                        ), */
+                        Column(
+                          children:
+                            generateKey(false)
+                        ),
                         DecoratedBox(
                           decoration: const BoxDecoration(
-                            image: DecorationImage(image: AssetImage('assets/blue_field.png'), fit: BoxFit.cover),
+                            image: DecorationImage(
+                                image: AssetImage('assets/blue_field.png'),
+                                fit: BoxFit.cover),
                           ),
                           child: SingleChildScrollView(
                             child: CustomPaint(
                               size: const Size(370, 370),
                               painter: RobotPathPainter(
-                                splitRobotPathsByType(false, isIndexByTeam),
+                                splitRobotPaths(false),
                               ),
                             ),
                           ),
                         ),
-                        /* dColumn(
-                          children: [
-                            const Text ("Red Field Key"),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 20,
-                                  height: 20,
-                                  color: Colors.green,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(matchTeams[selectedIndex]!.split(" ")[3]),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 20,
-                                  height: 20,
-                                  color: Colors.orange,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(matchTeams[selectedIndex]!.split(" ")[4]),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 20,
-                                  height: 20,
-                                  color: Colors.purple,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(matchTeams[selectedIndex]!.split(" ")[5]),
-                              ],
-                            ),
-                          ],
-                        ), */
+                        Column(
+                          children: 
+                            generateKey(true)
+                        ),
                         DecoratedBox(
                           decoration: const BoxDecoration(
-                            image: DecorationImage(image: AssetImage('assets/red_field.png'), fit: BoxFit.cover),
+                            image: DecorationImage(
+                                image: AssetImage('assets/red_field.png'),
+                                fit: BoxFit.cover),
                           ),
                           child: SingleChildScrollView(
                             child: CustomPaint(
                               size: const Size(370, 370),
                               painter: RobotPathPainter(
-                                splitRobotPathsByType(true, isIndexByTeam),
+                                splitRobotPaths(true),
                               ),
                             ),
                           ),
@@ -293,7 +259,9 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
                       ],
                     ),
                   )
-                : const Center(child: Text('Enter a match number to view the graph')),
+                : Center(
+                    child: Text(
+                        'Enter a valid ${isIndexByTeam ? 'team' : 'match'} number to view the graph')),
           ),
         ],
       ),
