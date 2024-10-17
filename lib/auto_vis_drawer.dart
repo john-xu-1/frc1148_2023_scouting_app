@@ -192,7 +192,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'Indexing by match/team (uncheck for match, check for team):'),
+                'Indexing by match/team (uncheck for match, check for team):', textScaler: TextScaler.linear(0.75),),
               Checkbox(
                 value: isIndexByTeam,
                 onChanged: (bool? value) {

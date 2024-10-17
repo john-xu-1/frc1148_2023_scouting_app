@@ -282,18 +282,22 @@ class _Entrance extends State<Entrance> {
               ),
               SizedBox(
                 height: 25,
-                width: 150,
+                width: 100,
                 child: DropdownButton<String>(
                   value: pitTeam.isNotEmpty ? pitTeam : null,
                   hint: Text(
                     'Select team',
-                    style: TextStyle(color: colorScheme.onSurface),
+                    style: TextStyle(color: colorScheme.onSurface,),
+                    textScaler: const TextScaler.linear(0.75),
                   ),
                   items: allTeams.map((String team) {
                     return DropdownMenuItem<String>(
                       value: team,
-                      child: Text(team,
-                          style: TextStyle(color: colorScheme.onSurface)),
+                      child: Text(
+                          team,
+                          style: TextStyle(color: colorScheme.onSurface),
+                          textScaler: const TextScaler.linear(0.75),
+                        ),
                     );
                   }).toList(),
                   onChanged: (String? newValue) {

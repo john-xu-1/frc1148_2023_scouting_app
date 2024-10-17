@@ -278,19 +278,19 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
                           ),
                         ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: colorScheme.onError,
-                          border: Border.all(
-                            color: colorScheme.onSurface,
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        // child: const Padding(
-                        //   padding: EdgeInsets.all(8.0),
-                        //   child: Text("drive quality"),
-                        // ),
-                      ),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     color: colorScheme.onError,
+                      //     border: Border.all(
+                      //       color: colorScheme.onSurface,
+                      //     ),
+                      //     borderRadius: BorderRadius.circular(10),
+                      //   ),
+                      //   // child: const Padding(
+                      //   //   padding: EdgeInsets.all(8.0),
+                      //   //   child: Text("drive quality"),
+                      //   // ),
+                      // ),
                       Container(
                         decoration: BoxDecoration(
                           color: colorScheme.onError,
