@@ -1,11 +1,12 @@
 
-import 'package:frc1148_2023_scouting_app/team_display_choice.dart';
+import 'package:frc1148_2023_scouting_app/team_graphing.dart';
 import 'package:frc1148_2023_scouting_app/log_in.dart';
 import 'pit_scouting.dart';
-import 'package:frc1148_2023_scouting_app/color_scheme.dart';
+//import 'package:frc1148_2023_scouting_app/color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'match_list.dart';
 import 'auto_vis_drawer.dart';
+import 'team_data_entrance.dart';
 import 'auto_form.dart';
 
 class Entrance extends StatefulWidget {
@@ -65,7 +66,7 @@ class _Entrance extends State<Entrance> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const TeamDisplayChoice(),
+                      builder: (context) => const TeamDataEntrance(),
                     ),
                   );
                 },

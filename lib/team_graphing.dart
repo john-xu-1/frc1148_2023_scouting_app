@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'team_display_instance.dart';
 import 'package:frc1148_2023_scouting_app/color_scheme.dart';
 import 'sheets_helper.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
 
-class TeamDisplayChoice extends StatefulWidget {
-  const TeamDisplayChoice({super.key});
+class TeamGraphing extends StatefulWidget {
+  const TeamGraphing({super.key, required this.allTeams, required this.teamName});
 
+  final String teamName;
+  final List<String> allTeams;
   @override
-  State<TeamDisplayChoice> createState() => _TeamDisplayChoiceState();
+  State<TeamGraphing> createState() => _TeamGraphingState();
 }
 
-class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
-  List<String> allTeams = List.empty();
+class _TeamGraphingState extends State<TeamGraphing> {
+  //List<String> allTeams = List.empty();
   List<String> selectedTeams = List.empty(growable: true);
 
   String selectedTeamsDisplay = "";
@@ -26,24 +27,22 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
 
   
   List<String> allMetricsName = List.empty(growable: true);
+
   
-  List<String> teamDataNames = List.empty(growable: true);
-  Map<String, Map<String, String>> teamsNumberDatas = {};
-  Map<String, Map<String, List<String>>> teamsNotesDatas = {};
 
 
-  Future<void> _updateTeams() async {
+  void _updateTeams() {
     try {
-      final sheet = await SheetsHelper.sheetSetup("PowerRatings.py");
+      //final sheet = await SheetsHelper.sheetSetup("PowerRatings.py");
 
-      allTeams = await sheet!.values.column(1);
-      allTeams = allTeams.sublist(1);
-      for (int i = 0; i < allTeams.length; i++){
-        allTeamColors[allTeams[i]] = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+//allTeams = await sheet!.values.column(1);
+      //widget.allTeams = widget.allTeams.sublist(1);
+      for (int i = 0; i < widget.allTeams.length; i++){
+        allTeamColors[widget.allTeams[i]] = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
       }
       print (allTeamColors);
       setState(() {});
-      print(allTeams.length);
+      print(widget.allTeams.length);
     } catch (e) {
       print('Error: $e');
     }
@@ -69,7 +68,7 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
       
       allMetricsName = rows[0];
 
-      for (int k = 0; k < allTeams.length; k++){
+      for (int k = 0; k < widget.allTeams.length; k++){
         List<Map<String, List<int>>> rutro = List.empty(growable: true);
         print ("got");
         for (int i = 1; i < rows.length; i++){ 
@@ -77,7 +76,7 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
           int spaceLoc = rows[i][0].indexOf(" ");
           String teamNumber = rows[i][0].substring(spaceLoc+4);
           String matchNumber = rows[i][0].substring(1, spaceLoc);
-          if (teamNumber == allTeams[k]){
+          if (teamNumber == widget.allTeams[k]){
 
             final allMetricsInAMatch = rows[i];
 
@@ -100,12 +99,12 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
             rutro.add( aMatch);
           }
         }
-        if (all.containsKey(allTeams[k])) {
+        if (all.containsKey(widget.allTeams[k])) {
           print ("here");
-          all.update(allTeams[k], (value) => rutro);
+          all.update(widget.allTeams[k], (value) => rutro);
         } else {
           print ("here");
-          all.putIfAbsent(allTeams[k], () => rutro);
+          all.putIfAbsent(widget.allTeams[k], () => rutro);
         }
       }
       setState(() {}); 
@@ -118,47 +117,9 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
   void initState() {
     super.initState();
     all = {};
+    
     _updateTeams();
-    setState(() {
-      _updateGraphs();
-    });
-  }
-
-  Future<void> _updateTeamInfo(String team) async {
-    final sheet = await SheetsHelper.sheetSetup("Team Data");
-
-    await sheet!.values.insertRow(1, [team]);
-
-    final rows = await sheet!.values.allRows();
-
-    List<String> dataNames = rows[0].sublist(1);
-      
-    teamDataNames = dataNames; 
-    List<String> dataNumbers = rows[1].sublist(1);
-
-    teamsNumberDatas.putIfAbsent(team, () => {});
-
-
-    for (int i = 0; i < dataNames.length; i++)
-    {
-      // if (isNumeric( dataNumbers[i])){
-      //   teamsNumberDatas[team]!.putIfAbsent(dataNames[i], () => dataNumbers[i]);
-      // }
-      teamsNumberDatas[team]!.putIfAbsent(dataNames[i], () => dataNumbers[i]);
-      // else if (dataNumbers[i] == "true"){
-      //   teamsNumberDatas[team]!.putIfAbsent(dataNames[i], () => 1);
-      // }
-      // else{
-      //   teamsNumberDatas[team]!.putIfAbsent(dataNames[i], () => 0);
-      // }
-    }
-
-    setState(() {
-      
-    });
-
-    print (teamsNumberDatas);
-
+    _updateGraphs();
   }
 
   
@@ -170,10 +131,8 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
     double width = MediaQuery.of(context).size.width;
     TextEditingController teamDrop = TextEditingController();
     TextEditingController metricDrop = TextEditingController();
-
-    //_updateTeamInfo("9442");
     
-    if (allTeams.isEmpty || all.isEmpty) {
+    if (widget.allTeams.isEmpty || all.isEmpty) {
       return const SafeArea(
         child: Scaffold(
             backgroundColor: colors.myBackground,
@@ -188,9 +147,10 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Graphing"),
       ),
-      body: Center(
+      body: SizedBox(
+        height: height,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -236,7 +196,7 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
                     
                   },
                   dropdownMenuEntries:
-                      allTeams.map<DropdownMenuEntry<String>>((String menu) {
+                      widget.allTeams.map<DropdownMenuEntry<String>>((String menu) {
                     return DropdownMenuEntry<String>(
                         value: menu,
                         label: menu,);
@@ -298,36 +258,9 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
                 ),
               )
               : const SizedBox(),
-              SizedBox(
-                height: height * 0.75,
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: selectedTeams.length,
-                  itemBuilder: (BuildContext context, int index) 
-                  {
-                    print (selectedTeams);
-                    if (!teamsNumberDatas.containsKey(selectedTeams[index])) _updateTeamInfo(selectedTeams[index]);
-                    return IconButton(
-                      onPressed: (){
-                        Navigator.push(
-                          context, 
-                          MaterialPageRoute
-                          (
-                            builder: (context) => TeamDisplayInstance(teamDataNames: teamDataNames, teamsNumberDatas: teamsNumberDatas, team: selectedTeams[index])
-                          )
-                        );
-                      },
-                      //color: allTeamColors[selectedTeams[index]],
-                      icon: Row( children: [ Icon(Icons.circle, color: allTeamColors[selectedTeams[index]]), Text(selectedTeams[index]) ] ),
-                    );
-                    //TeamDisplayInstance(teamDataNames: teamDataNames, teamsNumberDatas: teamsNumberDatas, team: selectedTeams[index]);
-                  },
-                  separatorBuilder: (BuildContext context, int index) => const Divider()
-                ),
-              ),
             ],
           ),
-        )
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
