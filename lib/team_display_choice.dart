@@ -28,7 +28,7 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
   List<String> allMetricsName = List.empty(growable: true);
   
   List<String> teamDataNames = List.empty(growable: true);
-  Map<String, Map<String, double>> teamsNumberDatas = {};
+  Map<String, Map<String, String>> teamsNumberDatas = {};
   Map<String, Map<String, List<String>>> teamsNotesDatas = {};
 
 
@@ -141,12 +141,16 @@ class _TeamDisplayChoiceState extends State<TeamDisplayChoice> {
 
     for (int i = 0; i < dataNames.length; i++)
     {
-      if (isNumeric( dataNumbers[i])){
-        teamsNumberDatas[team]!.putIfAbsent(dataNames[i], () => double.parse(dataNumbers[i]));
-      }
-      else{
-        teamsNumberDatas[team]!.putIfAbsent(dataNames[i], () => 0);
-      }
+      // if (isNumeric( dataNumbers[i])){
+      //   teamsNumberDatas[team]!.putIfAbsent(dataNames[i], () => dataNumbers[i]);
+      // }
+      teamsNumberDatas[team]!.putIfAbsent(dataNames[i], () => dataNumbers[i]);
+      // else if (dataNumbers[i] == "true"){
+      //   teamsNumberDatas[team]!.putIfAbsent(dataNames[i], () => 1);
+      // }
+      // else{
+      //   teamsNumberDatas[team]!.putIfAbsent(dataNames[i], () => 0);
+      // }
     }
 
     setState(() {
