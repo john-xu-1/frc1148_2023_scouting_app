@@ -556,6 +556,8 @@ class _PitScouting extends State<PitScouting> {
             onPressed: () async {
               await _submitForm(0, 0);
 
+              await updateTeamUColumn(widget.teamName);
+
               robotWeight = "";
               CapablityOne = false;
               CapablityTwo = false;
@@ -583,5 +585,29 @@ class _PitScouting extends State<PitScouting> {
         ],
       )),
     );
+  }
+
+  Future<void> updateTeamUColumn(String teamNumber) async {
+    try {
+      final sheet = await SheetsHelper.sheetSetup("PowerRatings.py");
+
+      final teamColumn = await sheet!.values.column(1);
+      int rowIndex = teamColumn.indexOf(teamNumber);
+
+      if (rowIndex != -1) {
+        int sheetRowIndex = rowIndex + 1;
+
+        await sheet.values.insertValue(
+          'true',
+          column: 21,
+          row: sheetRowIndex,
+        );
+        print('Updated team $teamNumber in row $sheetRowIndex');
+      } else {
+        print('Team $teamNumber not found');
+      }
+    } catch (e) {
+      print('Error updating team $teamNumber: $e');
+    }
   }
 }

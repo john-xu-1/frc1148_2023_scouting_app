@@ -1,4 +1,3 @@
-
 import 'package:frc1148_2023_scouting_app/team_display_choice.dart';
 import 'package:frc1148_2023_scouting_app/log_in.dart';
 import 'pit_scouting.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'match_list.dart';
 import 'auto_vis_drawer.dart';
 import 'auto_form.dart';
+import 'sheets_helper.dart';
 
 class Entrance extends StatefulWidget {
   final Function(ThemeMode) onThemeChanged;
@@ -19,6 +19,50 @@ class Entrance extends StatefulWidget {
 
 class _Entrance extends State<Entrance> {
   String pitTeam = "";
+  List<String> allTeams = [];
+
+  @override
+  void initState() {
+    super.initState();
+    allTeams = [];
+    _updateTeams();
+  }
+
+  Future<void> _updateTeams() async {
+    try {
+      final sheet = await SheetsHelper.sheetSetup("PowerRatings.py");
+
+      // Fetch all rows from the sheet
+      final rows = await sheet!.values.allRows();
+
+      // Remove the header row if necessary
+      if (rows.isNotEmpty) {
+        rows.removeAt(0);
+      }
+
+      // Initialize a list to hold the teams that have 'false' in column "U"
+      allTeams = [];
+
+      for (var row in rows) {
+        // Ensure the row has at least 21 columns
+        if (row.length >= 21) {
+          String teamNumber = row[0]; // Column 1: Team Number
+          String uValue = row[20].toLowerCase(); // Column 21 (index 20): Column "U"
+
+          if (uValue == 'false') {
+            allTeams.add(teamNumber);
+          }
+        }
+      }
+
+      setState(() {
+        // referesh after successful fetch
+      });
+      print(allTeams.length);
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +142,13 @@ class _Entrance extends State<Entrance> {
                       MaterialPageRoute(
                         builder: (context) => PitScouting(teamName: pitTeam),
                       ),
-                    );
+                    ).then((_) {
+                      // After returning from the PitScouting screen, refresh the team list
+                      _updateTeams();
+                    });
                   }
                 },
+                allTeams: allTeams,
               ),
               _buildGridItem(
                 context,
@@ -171,8 +219,26 @@ class _Entrance extends State<Entrance> {
       required String label,
       required String pitTeam,
       required ValueChanged<String> onTeamChanged,
-      required VoidCallback onTap}) {
+      required VoidCallback onTap,
+      required List<String> allTeams}) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    if (allTeams.isEmpty) {
+      // Show a loading indicator if teams are not loaded yet
+      return Container(
+        decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(60.0),
+          ),
+          color: colorScheme.surface,
+        ),
+        child: Center(
+          child: CircularProgressIndicator(
+            color: colorScheme.onSurface,
+          ),
+        ),
+      );
+    }
 
     return Container(
       decoration: ShapeDecoration(
@@ -199,15 +265,26 @@ class _Entrance extends State<Entrance> {
               ),
               SizedBox(
                 height: 25,
-                width: 100,
-                child: TextField(
-                  onChanged: onTeamChanged,
-                  style: TextStyle(color: colorScheme.onSurface),
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: colorScheme.onSurface),
-                    ),
+                width: 150,
+                child: DropdownButton<String>(
+                  value: pitTeam.isNotEmpty ? pitTeam : null,
+                  hint: Text(
+                    'Select team',
+                    style: TextStyle(color: colorScheme.onSurface),
                   ),
+                  items: allTeams.map((String team) {
+                    return DropdownMenuItem<String>(
+                      value: team,
+                      child: Text(team,
+                          style: TextStyle(color: colorScheme.onSurface)),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    onTeamChanged(newValue!);
+                  },
+                  dropdownColor: colorScheme.surface,
+                  style: TextStyle(color: colorScheme.onSurface),
+                  iconEnabledColor: colorScheme.onSurface,
                 ),
               ),
             ],
@@ -224,7 +301,8 @@ class _Entrance extends State<Entrance> {
 }
 
 class DataBlock extends StatelessWidget {
-  const DataBlock({super.key, required this.category, required this.displayIcon});
+  const DataBlock(
+      {super.key, required this.category, required this.displayIcon});
   final String category;
   final Icon displayIcon;
   @override
@@ -246,7 +324,7 @@ class DataBlock extends StatelessWidget {
     //         onPressed: (){
     //           if (category == "Team Data"){
     //              Navigator.push(
-    //                 context, 
+    //                 context,
     //                 MaterialPageRoute
     //                 (
     //                   builder: (context) => const team_display_choice(),
@@ -255,7 +333,7 @@ class DataBlock extends StatelessWidget {
     //           }
     //           else if (category == "Pit Scouting"){
     //               Navigator.push(
-    //                 context, 
+    //                 context,
     //                 MaterialPageRoute
     //                 (
     //                   builder: (context) => const pit_scouting(),
@@ -267,21 +345,21 @@ class DataBlock extends StatelessWidget {
     //           }
     //           else{
     //             Navigator.push(
-    //                 context, 
+    //                 context,
     //                 MaterialPageRoute
     //                 (
     //                   builder: (context) => const ScoutingForm(),
     //                 )
     //               );
     //           }
-    //         }, 
+    //         },
     //         icon: displayIcon,
     //         color: Colors.black,
     //       ),
     //       Text(category),
     //     ],
     //   )
-      
+
     // );
   }
 }
