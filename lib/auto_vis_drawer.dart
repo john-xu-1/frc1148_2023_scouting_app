@@ -9,21 +9,20 @@ class RobotPathGraph extends StatefulWidget {
 }
 
 class _RobotPathGraphState extends State<RobotPathGraph> {
-  final List<List<Color>> robotColors = [
+  final List<List<Color>> gradients = [
     [
-      const Color.fromARGB(255, 67, 206, 162),
+      Color.fromARGB(255, 67, 206, 162),
       const Color.fromARGB(255, 24, 90, 157)
     ],
     [
-      const Color.fromARGB(255, 255, 204, 133),
-      const Color.fromARGB(255, 253, 82, 84)
+      Color.fromARGB(255, 255, 204, 133),
+      Color.fromARGB(255, 253, 82, 84)
     ],
     [
-      const Color.fromARGB(255, 237, 30, 121),
-      const Color.fromARGB(255, 102, 45, 140)
+      Color.fromARGB(255, 237, 30, 121),
+      Color.fromARGB(255, 102, 45, 140)
     ],
   ];
-  
   Map<String, List<Map<String, dynamic>>> matchCoordinates = {};
   Map<String, List<Map<String, dynamic>>> teamAutos = {};
   String selectedIndex = '';
@@ -107,7 +106,6 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
           }
         }
         print('Data parsing complete.\n');
-        // print(teamAutos['frc6328']);
         print('Available matches: $matchNumbers\n'); // Debug line
         setState(() {});
       }
@@ -148,7 +146,6 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
         coordsAdded++;
       }
     }
-    print(robotPaths);
     return robotPaths;
   }
 
@@ -156,6 +153,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
     if (!isIndexValid()) {
       return [];
     }
+    int numAdded = 0;
     List<Widget> keys = [Text("${isRed ? 'Red' : 'Blue'} Field Key")];
     List<Map<String, dynamic>> rawCoordinates = isIndexByTeam
         ? teamAutos['frc$selectedIndex']!
@@ -165,14 +163,18 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
         keys.add(Row(
           children: [
             Container(
-              width: 20,
-              height: 20,
-              color: Colors.green,
-            ),
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: gradients[numAdded]))),
             const SizedBox(width: 8),
             Text(match[isIndexByTeam ? 'matchNum' : 'teamNum']),
           ],
         ));
+        numAdded = (numAdded + 1) % gradients.length;
       }
     }
     return keys;
@@ -186,17 +188,20 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Checkbox(
-              value: isIndexByTeam,
-              onChanged: (bool? value) {
-                setState(() {
-                  isIndexByTeam = value!;
-                  print(isIndexByTeam);
-                });
-              },
-            ),
+          Row (
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Indexing by match/team (uncheck for match, check for team):'),
+              Checkbox(
+                value: isIndexByTeam,
+                onChanged: (bool? value) {
+                  setState(() {
+                    isIndexByTeam = value!;
+                  });
+                },
+              ),
+            ]
           ),
           // Text input field for selecting match number
           Padding(
@@ -249,7 +254,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
                             child: CustomPaint(
                               size: const Size(370, 370),
                               painter: RobotPathPainter(
-                                splitRobotPaths(false),
+                                splitRobotPaths(false), gradients
                               ),
                             ),
                           ),
@@ -265,7 +270,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
                             child: CustomPaint(
                               size: const Size(370, 370),
                               painter: RobotPathPainter(
-                                splitRobotPaths(true),
+                                splitRobotPaths(true), gradients
                               ),
                             ),
                           ),
@@ -285,20 +290,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
 
 class RobotPathPainter extends CustomPainter {
   final List<List<Offset>> robotPaths;
-  final List<List<Color>> robotColors = [
-    [
-      const Color.fromARGB(255, 67, 206, 162),
-      const Color.fromARGB(255, 24, 90, 157)
-    ],
-    [
-      const Color.fromARGB(255, 255, 204, 133),
-      const Color.fromARGB(255, 253, 82, 84)
-    ],
-    [
-      const Color.fromARGB(255, 237, 30, 121),
-      const Color.fromARGB(255, 102, 45, 140)
-    ],
-  ];
+  final List<List<Color>> gradients;
 
   // Function to help calculate color gradient
   Color calculateGradient(
@@ -312,20 +304,20 @@ class RobotPathPainter extends CustomPainter {
     return Color.fromARGB(255, redVal, greenVal, blueVal);
   }
 
-  RobotPathPainter(this.robotPaths);
+  RobotPathPainter(this.robotPaths, this.gradients);
 
   @override
   void paint(Canvas canvas, Size size) {
     // Draw robot paths
     for (int i = 0; i < robotPaths.length; i++) {
       final pathPaint = Paint()
-        ..color = robotColors[i % robotColors.length][0]
+        ..color = gradients[i % gradients.length][0]
         ..strokeWidth = 5.0
         ..style = PaintingStyle.stroke;
 
       final points = robotPaths[i];
-      final initialColor = robotColors[i % robotColors.length][0];
-      final finalColor = robotColors[i % robotColors.length][1];
+      final initialColor = gradients[i % gradients.length][0];
+      final finalColor = gradients[i % gradients.length][1];
 
       if (points.isNotEmpty) {
         for (int i = 0; i < points.length - 1; i++) {
@@ -338,7 +330,10 @@ class RobotPathPainter extends CustomPainter {
         pathPaint.color = initialColor;
         canvas.drawCircle(Offset(points[0].dx, points[0].dy), 10.0, pathPaint);
         pathPaint.color = finalColor;
-        canvas.drawCircle(Offset(points[points.length - 1].dx, points[points.length - 1].dy), 10.0, pathPaint);
+        canvas.drawCircle(
+            Offset(points[points.length - 1].dx, points[points.length - 1].dy),
+            10.0,
+            pathPaint);
       }
     }
   }
