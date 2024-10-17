@@ -120,7 +120,7 @@ class _TeleopForm extends State<TeleopForm> {
                         id = value;
                       });
                     },
-                    cursorColor: colors.myOnSurface,
+                    //cursorColor: colors.myOnSurface,
                   ),
                 ),
               ],

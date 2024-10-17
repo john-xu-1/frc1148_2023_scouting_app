@@ -17,6 +17,8 @@ class Entrance extends StatefulWidget {
   State<Entrance> createState() => _Entrance();
 }
 
+bool isLight = false;
+
 class _Entrance extends State<Entrance> {
   String pitTeam = "";
 
@@ -31,30 +33,30 @@ class _Entrance extends State<Entrance> {
       ),
       body: Center(
         child: Container(
-          color: colorScheme.background,
+          color: colorScheme.surface,
           child: GridView.count(
             crossAxisCount: 2,
             padding: const EdgeInsets.all(10),
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      widget.onThemeChanged(ThemeMode.light);
-                    },
-                    icon: const Icon(Icons.light_mode),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      widget.onThemeChanged(ThemeMode.dark);
-                    },
-                    icon: const Icon(Icons.dark_mode),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     IconButton(
+              //       onPressed: () {
+              //         widget.onThemeChanged(ThemeMode.light);
+              //       },
+              //       icon: const Icon(Icons.light_mode),
+              //     ),
+              //     IconButton(
+              //       onPressed: () {
+              //         widget.onThemeChanged(ThemeMode.dark);
+              //       },
+              //       icon: const Icon(Icons.dark_mode),
+              //     ),
+              //   ],
+              // ),
               _buildGridItem(
                 context,
                 icon: Icons.data_array,
@@ -131,6 +133,19 @@ class _Entrance extends State<Entrance> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          setState(() {
+            isLight = !isLight;
+            if (isLight) {
+              widget.onThemeChanged(ThemeMode.light);
+            } else {
+              widget.onThemeChanged(ThemeMode.dark);
+            }
+          });
+        },
+        child: const Icon(Icons.light_mode_outlined),
       ),
     );
   }

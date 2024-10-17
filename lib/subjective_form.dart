@@ -45,9 +45,11 @@ class _SubjectiveForm extends State<SubjectiveForm> {
   Future<void> _submitSection() async {
     try {
 
+      print(robotBreak);
       final sheet = await SheetsHelper.sheetSetup("App results");       
-      
+
       final firstRow = [defensive, tippiness, robotBreak, tip];
+      print(robotBreak);
       if (widget.teamName.contains("frc")){
         await sheet!.values.insertRowByKey (widget.teamName, firstRow, fromColumn: 14);
       }
@@ -98,7 +100,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                         id = value;
                       });
                     },
-                    cursorColor: colors.myOnSurface,
+                    //cursorColor: colors.myOnSurface,
                   ),
                 ),
               ],
@@ -205,6 +207,7 @@ class _SubjectiveForm extends State<SubjectiveForm> {
                     //color Colors.amber[700],
                     onChanged: (newValue) {
                       setState(() {
+                        print(robotBreak);
                         robotBreak = newValue!;
                       });
                     },
@@ -214,8 +217,8 @@ class _SubjectiveForm extends State<SubjectiveForm> {
             ),
             const Divider(),
             ElevatedButton(
-              onPressed: (){
-                _submitSection();
+              onPressed: () async {
+                await _submitSection();
                 setState(() {
                   Navigator.push(
                     context,

@@ -69,14 +69,28 @@ class _LogIn extends State<LogIn> {
   String mnum = "";
 
   void fetchTeamFromSheets() async {
-    A = (await _fetchForm(2, 1, "Scouting Assignment"));
-    B = (await _fetchForm(2, 2, "Scouting Assignment"));
-    C = (await _fetchForm(2, 3, "Scouting Assignment"));
-    D = (await _fetchForm(2, 5, "Scouting Assignment"));
-    E = (await _fetchForm(2, 6, "Scouting Assignment"));
-    F = (await _fetchForm(2, 7, "Scouting Assignment"));
-    namesString = (await _fetchForm(5, 1, "Name To Bot Assign"));
-    idsString = (await _fetchForm(5, 2, "Name To Bot Assign"));
+    try{
+      String everythingLoginInfo = await _fetchForm(2, 11, "Scouting Assignment");
+      String allTeamAssigns = everythingLoginInfo.split("/")[0];
+      String namesAndIDs = everythingLoginInfo.split("/")[1];
+      List<String> splittedAllTeamAssigns = allTeamAssigns.split("|");
+      A = splittedAllTeamAssigns[0];
+      B = splittedAllTeamAssigns[1];
+      C = splittedAllTeamAssigns[2];
+      D = splittedAllTeamAssigns[3];
+      E = splittedAllTeamAssigns[4];
+      F = splittedAllTeamAssigns[5];
+      
+      namesString = namesAndIDs.split("|")[0];//(await _fetchForm(5, 1, "Name To Bot Assign"));
+      idsString = namesAndIDs.split("|")[1];//(await _fetchForm(5, 2, "Name To Bot Assign"));
+      setState(() {
+        
+      });
+      print (idsString);
+    }
+    catch (e){
+      print (e);
+    }
     // print(namesString);
     // print(idsString);
   }
@@ -97,10 +111,13 @@ class _LogIn extends State<LogIn> {
         .split(", ")
         .map((id) => id.toLowerCase().replaceAll(" ", ""))
         .toList();
+      
 
     if (nameList.length != idList.length) {
       print(
           "name list and id list are not same size on google sheets, pls check");
+      print (nameList.length);
+      print (idList);
     }
     String correspondingID;
     for (int i = 0; i < nameList.length; i++) {
@@ -152,14 +169,14 @@ class _LogIn extends State<LogIn> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     formatSheetsTeamsData();
-    if (scoutLists.isEmpty) {
+    if (idsString.isEmpty) {
       return const SafeArea(
         child: Scaffold(
-            backgroundColor: Color.fromARGB(255, 36, 36, 36),
+            //backgroundColor: Color.fromARGB(255, 36, 36, 36),
             body: Center(
               child: Text(
                 "loading",
-                style: TextStyle(color: Color.fromARGB(255, 224, 224, 224)),
+                //style: TextStyle(color: Color.fromARGB(255, 224, 224, 224)),
               ),
             )),
       );
@@ -196,7 +213,7 @@ class _LogIn extends State<LogIn> {
                               .replaceAll(".", "");
                         });
                       },
-                      cursorColor: colors.myOnSurface,
+                      //cursorColor: colors.myOnSurface,
                       decoration:
                           const InputDecoration(border: OutlineInputBorder()),
                     ),
@@ -225,7 +242,7 @@ class _LogIn extends State<LogIn> {
                           mnum = value;
                         });
                       },
-                      cursorColor: colors.myOnSurface,
+                      //cursorColor: colors.myOnSurface,
                       decoration:
                           const InputDecoration(border: OutlineInputBorder()),
                     ),
@@ -236,9 +253,15 @@ class _LogIn extends State<LogIn> {
           ),
           ElevatedButton(
             onPressed: () {
-              setState(() {
-                results = updateResults();
-              });
+              try{
+                setState(() {
+                  results = updateResults();
+                });
+              }
+              catch (e){
+                print (e);
+              }
+              
 
               if (results != "") {
                 final String out = "q$mnum $results";
