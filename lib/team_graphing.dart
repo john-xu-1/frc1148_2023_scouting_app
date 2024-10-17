@@ -52,9 +52,6 @@ class _TeamGraphingState extends State<TeamGraphing> {
   Map<String, List<Map<String, List<int>>>> all = {};
 
   bool isNumeric(String s) {
-    if (s == null) {
-      return false;
-    }
     return double.tryParse(s) != null;
   }
 
@@ -182,7 +179,7 @@ class _TeamGraphingState extends State<TeamGraphing> {
                         print (all[value]);
                         List<FlSpot> spots = List.empty(growable: true);
                         for (int j = 0; j < all[value]!.length; j++){
-                          FlSpot spot = FlSpot(all[value]![j][selectedMetric!]![0] as double, all[value]![j][selectedMetric!]![1] as double);
+                          FlSpot spot = FlSpot(all[value]![j][selectedMetric]![0] as double, all[value]![j][selectedMetric]![1] as double);
                           spots.add(spot);
                           
                         }
@@ -222,8 +219,8 @@ class _TeamGraphingState extends State<TeamGraphing> {
                         print (all[selectedTeams[i]]);
                         List<FlSpot> spots = List.empty(growable: true);
                         for (int j = 0; j < all[selectedTeams[i]]!.length; j++){
-                          if (all[selectedTeams[i]]![j][value!] != null){
-                            FlSpot spot = FlSpot(all[selectedTeams[i]]![j][value!]![0] as double, all[selectedTeams[i]]![j][value!]![1] as double);
+                          if (all[selectedTeams[i]]![j][value] != null){
+                            FlSpot spot = FlSpot(all[selectedTeams[i]]![j][value]![0] as double, all[selectedTeams[i]]![j][value]![1] as double);
                             spots.add(spot);
                           }
                           

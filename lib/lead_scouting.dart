@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gsheets/gsheets.dart';
 import 'sheets_helper.dart';
 import 'entrance.dart';
 import 'color_scheme.dart';
@@ -314,7 +313,6 @@ class _LeadScouting extends State<LeadScouting> {
 
   @override
   Widget build(BuildContext context) {
-    bool can = false;
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(

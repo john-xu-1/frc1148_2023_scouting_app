@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'team_display_instance.dart';
-import 'package:frc1148_2023_scouting_app/color_scheme.dart';
 import 'sheets_helper.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'dart:math' as math;
 
 class TeamDataEntrance extends StatefulWidget {
   const TeamDataEntrance({super.key});
@@ -46,8 +43,7 @@ class _TeamDataEntranceState extends State<TeamDataEntrance> {
     
     
     _updateTeams();
-    print ("hey");
-  ;
+  
   }
 
   Future<void> _updateTeamInfo(String team) async {
@@ -55,7 +51,7 @@ class _TeamDataEntranceState extends State<TeamDataEntrance> {
 
     await sheet!.values.insertRow(1, [team]);
 
-    final rows = await sheet!.values.allRows();
+    final rows = await sheet.values.allRows();
 
     List<String> dataNames = rows[0].sublist(1);
       
@@ -95,9 +91,6 @@ class _TeamDataEntranceState extends State<TeamDataEntrance> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     TextEditingController teamDrop = TextEditingController();
-    TextEditingController metricDrop = TextEditingController();
-
-    //_updateTeamInfo("9442");
     
     if (allTeams.isEmpty) {
       return const SafeArea(
