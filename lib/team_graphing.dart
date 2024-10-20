@@ -132,11 +132,9 @@ class _TeamGraphingState extends State<TeamGraphing> {
     if (widget.allTeams.isEmpty || all.isEmpty) {
       return const SafeArea(
         child: Scaffold(
-            backgroundColor: colors.myBackground,
             body: Center(
               child: Text(
                 "loading ...",
-                style: TextStyle(color: colors.myOnPrimary),
               ),
             )),
       );

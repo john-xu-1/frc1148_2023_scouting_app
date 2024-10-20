@@ -213,7 +213,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
                 labelText: 'Enter Match Number',
                 border: OutlineInputBorder(),
               ),
-              onSubmitted: (String value) {
+              onChanged: (String value) {
                 setState(() {
                   selectedIndex = value.trim();
                   if (selectedIndex.isEmpty || isIndexValid()) {

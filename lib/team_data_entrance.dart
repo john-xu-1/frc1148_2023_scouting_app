@@ -16,8 +16,9 @@ class _TeamDataEntranceState extends State<TeamDataEntrance> {
   String selectedTeamsDisplay = "";
   
   List<String> teamDataNames = List.empty(growable: true);
+  List<String> teamNotesNames = List.empty(growable: true);
   Map<String, Map<String, String>> teamsNumberDatas = {};
-  Map<String, Map<String, List<String>>> teamsNotesDatas = {};
+  Map<String, Map<String, String>> teamsNotesDatas = {};
 
 
   Future<void> _updateTeams() async {
@@ -56,9 +57,15 @@ class _TeamDataEntranceState extends State<TeamDataEntrance> {
     List<String> dataNames = rows[0].sublist(1);
       
     teamDataNames = dataNames; 
+    teamNotesNames = rows[2].sublist(1);
+
     List<String> dataNumbers = rows[1].sublist(1);
+    List<String> dataNotes = rows[3].sublist(1);
+
+    
 
     teamsNumberDatas.putIfAbsent(team, () => {});
+    teamsNotesDatas.putIfAbsent(team, () => {});
 
 
     for (int i = 0; i < dataNames.length; i++)
@@ -75,11 +82,20 @@ class _TeamDataEntranceState extends State<TeamDataEntrance> {
       // }
     }
 
+
+    for (int i = 0; i < teamNotesNames.length; i++){
+      if (i >= dataNotes.length){
+        dataNotes.add("");
+      }
+      teamsNotesDatas[team]!.putIfAbsent(teamNotesNames[i], () => dataNotes[i]);
+    }
+
     setState(() {
       
     });
 
-    print (teamsNumberDatas);
+    //print (teamsNumberDatas);
+    print (teamsNotesDatas);
 
   }
 
@@ -148,16 +164,26 @@ class _TeamDataEntranceState extends State<TeamDataEntrance> {
                     print (selectedTeams);
                     return IconButton(
                       onPressed: () async {
-                        if (!teamsNumberDatas.containsKey(selectedTeams[index])) {
+                        if (!teamsNumberDatas.containsKey(selectedTeams[index]) || !teamsNotesDatas.containsKey(selectedTeams[index])) {
                           await _updateTeamInfo(selectedTeams[index]);
                         }
-                        Navigator.push(
-                          context, 
-                          MaterialPageRoute
-                          (
-                            builder: (context) => TeamDisplayInstance(teamDataNames: teamDataNames, teamsNumberDatas: teamsNumberDatas, team: selectedTeams[index])
-                          )
-                        );
+                        if (context.mounted){
+                          Navigator.push(
+                            context, 
+                            MaterialPageRoute
+                            (
+                              builder: (context) => TeamDisplayInstance(
+                                teamDataNames: teamDataNames, 
+                                teamsNumberDatas: teamsNumberDatas, 
+                                teamsNotesDatas: teamsNotesDatas, 
+                                team: selectedTeams[index]
+                              )
+                            )
+                          );
+                        }
+                        else{
+                          print ("error");
+                        }
                       },
                       icon: Row( children: [ const Icon(Icons.circle,), Text(selectedTeams[index]) ] ),
                     );

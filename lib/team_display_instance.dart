@@ -1,3 +1,4 @@
+import 'auto_vis_drawer.dart';
 import 'package:frc1148_2023_scouting_app/team_graphing.dart';
 
 import 'sheets_helper.dart';
@@ -9,11 +10,12 @@ import 'package:frc1148_2023_scouting_app/color_scheme.dart';
 List<ScoutingForm> sf = List.empty();
 
 class TeamDisplayInstance extends StatefulWidget {
-  const TeamDisplayInstance({super.key, required this.teamDataNames, required this.teamsNumberDatas, required this.team, });
+  const TeamDisplayInstance({super.key, required this.teamDataNames, required this.teamsNumberDatas, required this.team, required this.teamsNotesDatas, });
 
   final String team;
   final List<String> teamDataNames;
   final Map<String, Map<String, String>> teamsNumberDatas;
+  final Map<String, Map<String, String>> teamsNotesDatas;
   
   @override
   State<TeamDisplayInstance> createState() => _TeamDisplayInstanceState();
@@ -580,12 +582,228 @@ class _TeamDisplayInstanceState extends State<TeamDisplayInstance> {
                     child: const Text("Graphing", style: TextStyle(color: colors.myOnPrimary, fontSize: 35), ),
                   ),
                 ),
-              )
+              ),
 
-              //final sheet = await SheetsHelper.sheetSetup("PowerRatings.py");
 
-//allTeams = await sheet!.values.column(1);
-      //widget.allTeams = widget.allTeams.sublist(1);
+
+
+              const Divider(),
+              const Padding(
+                padding: EdgeInsets.all(12),
+                child: Center(child: Text("Notes", style: TextStyle(color: colors.myOnPrimary, fontSize: 35), ),),
+              ),
+
+
+
+
+              SizedBox(
+                width: width,
+                height: height*0.5,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                       Container(
+                        width: width,
+                        height: height*0.5,
+                        decoration: BoxDecoration(
+                          color: colorScheme.onError,
+                          border: Border.all(
+                            color: colorScheme.onSurface,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text("Auto Notes", style: TextStyle(color: colors.myOnPrimary, fontSize: 20),),
+                              Text(widget.teamsNotesDatas[widget.team]!["Auto Notes"]!, style: TextStyle(color: colorScheme.onSurface, fontSize: 10),),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: width,
+                        height: height*0.5,
+                        decoration: BoxDecoration(
+                          color: colorScheme.onError,
+                          border: Border.all(
+                            color: colorScheme.onSurface,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text("Acuracy", style: TextStyle(color: colors.myOnPrimary, fontSize: 20),),
+                              Text(widget.teamsNotesDatas[widget.team]!["ACC"]!, style: TextStyle(color: colorScheme.onSurface, fontSize: 10),),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: width,
+                        height: height*0.5,
+                        decoration: BoxDecoration(
+                          color: colorScheme.onError,
+                          border: Border.all(
+                            color: colorScheme.onSurface,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text("Capabilities", style: TextStyle(color: colors.myOnPrimary, fontSize: 20),),
+                              Text(widget.teamsNotesDatas[widget.team]!["Capabilities"]!, style: TextStyle(color: colorScheme.onSurface, fontSize: 10),),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: width,
+                        height: height*0.5,
+                        decoration: BoxDecoration(
+                          color: colorScheme.onError,
+                          border: Border.all(
+                            color: colorScheme.onSurface,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text("Trends", style: TextStyle(color: colors.myOnPrimary, fontSize: 20),),
+                              Text(widget.teamsNotesDatas[widget.team]!["Trends"]!, style: TextStyle(color: colorScheme.onSurface, fontSize: 10),),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: width,
+                        height: height*0.5,
+                        decoration: BoxDecoration(
+                          color: colorScheme.onError,
+                          border: Border.all(
+                            color: colorScheme.onSurface,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text("Field awareness", style: TextStyle(color: colors.myOnPrimary, fontSize: 20),),
+                              Text(widget.teamsNotesDatas[widget.team]!["field awareness"]!, style: TextStyle(color: colorScheme.onSurface, fontSize: 10),),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: width,
+                        height: height*0.5,
+                        decoration: BoxDecoration(
+                          color: colorScheme.onError,
+                          border: Border.all(
+                            color: colorScheme.onSurface,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text("Robot faliures", style: TextStyle(color: colors.myOnPrimary, fontSize: 20),),
+                              Text(widget.teamsNotesDatas[widget.team]!["Robot faliures"]!, style: TextStyle(color: colorScheme.onSurface, fontSize: 10),),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: width,
+                        height: height*0.5,
+                        decoration: BoxDecoration(
+                          color: colorScheme.onError,
+                          border: Border.all(
+                            color: colorScheme.onSurface,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text("Effect avg", style: TextStyle(color: colors.myOnPrimary, fontSize: 20),),
+                              Text(widget.teamsNotesDatas[widget.team]!["effect avg"]!, style: TextStyle(color: colorScheme.onSurface, fontSize: 10),),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: width,
+                        height: height*0.5,
+                        decoration: BoxDecoration(
+                          color: colorScheme.onError,
+                          border: Border.all(
+                            color: colorScheme.onSurface,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text("Rel effect avg", style: TextStyle(color: colors.myOnPrimary, fontSize: 15),),
+                              Text(widget.teamsNotesDatas[widget.team]!["rel effect avg"]!, style: TextStyle(color: colorScheme.onSurface, fontSize: 10),),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const Divider(),
+
+               Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: colorScheme.onError,
+                    border: Border.all(
+                      color: colorScheme.onSurface,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextButton(
+                    onPressed: () async {
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute
+                        (
+                          builder: (context) => const RobotPathGraph(),
+                        )
+                      );
+                    },
+                    child: const Text("Auto Path", style: TextStyle(color: colors.myOnPrimary, fontSize: 35), ),
+                  ),
+                ),
+              ),
+
+              const Divider(),
             ],
           ),
         ),
