@@ -269,8 +269,7 @@ class _LeadScouting extends State<LeadScouting> {
 
   Future<List<String>> _fetchForm(String team) async {
     try {
-      final sheet = await SheetsHelper.sheetSetup(
-          'NotesOrg'); // temporarily this sheet name.
+      final sheet = await SheetsHelper.sheetSetup('NotesOrg'); // temporarily this sheet name.
       final column = 1;
       var columnData = await sheet?.values.column(column);
 
