@@ -223,43 +223,44 @@ class _DrawAreaState extends State<DrawArea> {
       body: Column(
         children: [
           // Field drawing area
-          Expanded(
-            child: GestureDetector(
-              onTapDown: (details) {
-                setState(() {
-                  RenderBox box = context.findRenderObject() as RenderBox;
-                  Offset point = box.globalToLocal(details.globalPosition);
-                  // Adjust coordinate for AppBar height
-                  point = Offset(point.dx, point.dy - appBarHeight);
-                  points.add(point);
-                  if (points.isNotEmpty && points.last != null) {
-                    coordinates.add('${points.last!.dx},${points.last!.dy}');
-                  }
-                });
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: bg,
-                    fit: BoxFit.cover,
-                  ),
+          GestureDetector(
+            onTapDown: (details) {
+              setState(() {
+                RenderBox box = context.findRenderObject() as RenderBox;
+                Offset point = box.globalToLocal(details.globalPosition);
+                point = Offset(point.dx, point.dy - appBarHeight);
+                points.add(point);
+                if (points.isNotEmpty && points.last != null) {
+                  coordinates.add('${points.last!.dx},${points.last!.dy}');
+                }
+              });
+            },
+            child: Container(
+              width: 370, // Fixed width
+              height: 370, // Fixed height
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: bg,
+                  fit: BoxFit
+                      .fill, // Use fill to ensure image takes exact dimensions
                 ),
-                child: RepaintBoundary(
-                  child: CustomPaint(
-                    painter: Painter(points: points),
-                    size: Size.square(370),
-                  ),
+              ),
+              child: RepaintBoundary(
+                child: CustomPaint(
+                  painter: Painter(points: points),
+                  size: Size.square(370),
                 ),
               ),
             ),
           ),
           // Scoring interface
+          // Counter interface section - contains both scoring methods (Speaker and Amp)
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Speaker scoring section
+                // Speaker scoring (5 points per score) with separate miss tracking
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                   ScoreDisplay(speakerPoints.value, "Speaker:"),
                   CounterButton(
@@ -268,7 +269,7 @@ class _DrawAreaState extends State<DrawArea> {
                       5,
                       const Text(
                         '+',
-                        textScaleFactor: 2,
+                        textScaleFactor: 1.5,
                       )),
                   CounterButton(
                       update,
@@ -276,9 +277,10 @@ class _DrawAreaState extends State<DrawArea> {
                       -5,
                       const Text(
                         '-',
-                        textScaleFactor: 2.5,
+                        textScaleFactor: 2,
                       )),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
+                  // Track missed shots separately from scoring
                   ScoreDisplay(missedS.value, "Missed:"),
                   CounterButton(
                       update,
@@ -286,7 +288,7 @@ class _DrawAreaState extends State<DrawArea> {
                       1,
                       const Text(
                         '+',
-                        textScaleFactor: 2,
+                        textScaleFactor: 1.5,
                       )),
                   CounterButton(
                       update,
@@ -294,13 +296,13 @@ class _DrawAreaState extends State<DrawArea> {
                       -1,
                       const Text(
                         '-',
-                        textScaleFactor: 2.5,
+                        textScaleFactor: 2,
                       )),
                 ]),
                 const SizedBox(
                   width: 50,
-                ),
-                // Amp scoring section
+                ), // Space between scoring sections
+                // Amp scoring (1 point per score) with separate miss tracking
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                   ScoreDisplay(ampPoints.value, "Amp:"),
                   CounterButton(
@@ -309,7 +311,7 @@ class _DrawAreaState extends State<DrawArea> {
                       1,
                       const Text(
                         '+',
-                        textScaleFactor: 2,
+                        textScaleFactor: 1.5,
                       )),
                   CounterButton(
                       update,
@@ -317,9 +319,10 @@ class _DrawAreaState extends State<DrawArea> {
                       -1,
                       const Text(
                         '-',
-                        textScaleFactor: 2.5,
+                        textScaleFactor: 2,
                       )),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
+                  // Track missed shots separately from scoring
                   ScoreDisplay(missedA.value, "Missed:"),
                   CounterButton(
                       update,
@@ -327,7 +330,7 @@ class _DrawAreaState extends State<DrawArea> {
                       1,
                       const Text(
                         '+',
-                        textScaleFactor: 2,
+                        textScaleFactor: 1.5,
                       )),
                   CounterButton(
                       update,
@@ -335,7 +338,7 @@ class _DrawAreaState extends State<DrawArea> {
                       -1,
                       const Text(
                         '-',
-                        textScaleFactor: 2.5,
+                        textScaleFactor: 2,
                       )),
                 ]),
               ],
