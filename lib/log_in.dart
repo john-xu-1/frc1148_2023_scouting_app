@@ -71,8 +71,8 @@ class _LogIn extends State<LogIn> {
   void fetchTeamFromSheets() async {
     try{
       String everythingLoginInfo = await _fetchForm(2, 11, "Scouting Assignment");
-      String allTeamAssigns = everythingLoginInfo.split("/")[0]; // row of all teams in position order
-      String namesAndIDs = everythingLoginInfo.split("/")[1]; // row of all scouts corresponding to the above teams
+      String allTeamAssigns = everythingLoginInfo.split("/")[0];
+      String namesAndIDs = everythingLoginInfo.split("/")[1];
       List<String> splittedAllTeamAssigns = allTeamAssigns.split("|");
       A = splittedAllTeamAssigns[0];
       B = splittedAllTeamAssigns[1];
@@ -134,31 +134,8 @@ class _LogIn extends State<LogIn> {
 
   String updateResults() {
     //after the q number and identifier are input changes the identifier's value
-    int index;
-    String id;
-    try {
-      index = int.parse(mnum);
-      id = nameToID[name]!;
-    } catch (e) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Error'),
-            content: const Text('Invalid match number or name.'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-      return "";
-    }
+    int index = int.parse(mnum);
+    String id = nameToID[name]!;
     String result = "";
     if (index < 1 || id == "") {
       print("invalid");
@@ -236,7 +213,7 @@ class _LogIn extends State<LogIn> {
                               .replaceAll(".", "");
                         });
                       },
-                      // cursorColor: colors.myOnSurface,
+                      //cursorColor: colors.myOnSurface,
                       decoration:
                           const InputDecoration(border: OutlineInputBorder()),
                     ),
@@ -259,7 +236,7 @@ class _LogIn extends State<LogIn> {
                   SizedBox(
                     width: width / 3,
                     child: TextField(
-                      // int.parse(value)
+                      //int.parse(value)
                       onChanged: (String value) {
                         setState(() {
                           mnum = value;
