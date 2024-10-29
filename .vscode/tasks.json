@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "app > client webserver",
+            "type": "shell",
+            "command": "bash",
+            "args": ["./_resources/run.sh"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "app > client (with debug service)",
+            "type": "shell",
+            "command": "flutter",
+            "args": ["run"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+    ]
+}
