@@ -9,22 +9,19 @@ class RobotPathGraph extends StatefulWidget {
 }
 
 class _RobotPathGraphState extends State<RobotPathGraph> {
+  // Gradient colors for different robot paths
+  // Each sublist contains start and end colors for the gradient
   final List<List<Color>> gradients = [
-    [
-      Color.fromARGB(255, 67, 206, 162),
-      const Color.fromARGB(255, 24, 90, 157)
-    ],
-    [
-      Color.fromARGB(255, 255, 204, 133),
-      Color.fromARGB(255, 253, 82, 84)
-    ],
-    [
-      Color.fromARGB(255, 237, 30, 121),
-      Color.fromARGB(255, 102, 45, 140)
-    ],
+    [Color.fromARGB(255, 67, 206, 162), const Color.fromARGB(255, 24, 90, 157)],
+    [Color.fromARGB(255, 255, 204, 133), Color.fromARGB(255, 253, 82, 84)],
+    [Color.fromARGB(255, 237, 30, 121), Color.fromARGB(255, 102, 45, 140)],
   ];
-  Map<String, List<Map<String, dynamic>>> matchCoordinates = {};
-  Map<String, List<Map<String, dynamic>>> teamAutos = {};
+  // Data structures to store information from different sheets
+  Map<String, List<Map<String, dynamic>>> matchCoordinates =
+      {}; // Stores paths by match
+  Map<String, List<Map<String, dynamic>>> teamAutos =
+      {}; // Stores paths by team
+  Map<String, List<Map<String, dynamic>>> teamShots = {}; // Stores shot data
   String selectedIndex = '';
   List<String> matchNumbers = [];
   TextEditingController matchController = TextEditingController();
@@ -49,7 +46,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
           double dx = double.parse(values[0]).roundToDouble();
           double dy = double.parse(values[1]).roundToDouble();
           if (isRed) {
-            dx = 370 - dx;
+            dx = 370 - dx; // Mirror coordinates for red alliance
           }
           coordinates.add(Offset(dx, dy));
         } else {
@@ -65,7 +62,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
   // Map<String, String> matchTeams = {};
   // Map<String, String> teamMatches = {};
 
-  // Updated fetchTeamFromSheets function
+  // Updated fetchTeamFromSheets function to handle both sheets
   Future<void> fetchTeamFromSheets() async {
     try {
       print('Fetching data from Google Sheets...\n');
@@ -77,8 +74,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
           String match = row[9].value;
           String team = row[10].value;
           String coordinates = row[1].value;
-          bool isRed = row[13].value ==
-              'true'; // Assuming the value is a string 'true' or 'false'
+          bool isRed = row[13].value == 'true';
           // if (!matchTeams.containsKey(match)) {
           //   matchTeams[match] = "";
           // }
@@ -91,22 +87,71 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
           if (!matchCoordinates.containsKey(match)) {
             matchCoordinates[match] = [];
           }
-          matchCoordinates[match]!.add(
-              {'coordinates': coordinates, 'teamNum': team, 'isRed': isRed});
+          matchCoordinates[match]!.add({
+            'coordinates': coordinates,
+            'teamNum': team,
+            'isRed': isRed,
+          });
+
           if (!teamAutos.containsKey(team)) {
             teamAutos[team] = [];
           }
           teamAutos[team]!.add({
             'coordinates': coordinates,
             'matchNum': 'q$match',
-            'isRed': isRed
+            'isRed': isRed,
           });
+
           if (!matchNumbers.contains(match)) {
             matchNumbers.add(match);
           }
         }
-        print('Data parsing complete.\n');
-        print('Available matches: $matchNumbers\n'); // Debug line
+        setState(() {});
+      }
+
+      // Fetch and parse shot data from App Results sheet
+      final sheet2 = await SheetsHelper.sheetSetup('App results');
+      final rows2 = await sheet2?.cells.allRows();
+      if (rows2 != null) {
+        print('App results sheet loaded, number of rows: ${rows2.length}');
+        for (var row in rows2) {
+          try {
+            String matchTeamString = row[0].value;
+            print('Reading row with match/team: $matchTeamString');
+
+            List<String> parts = matchTeamString.split(' ');
+            String match =
+                parts[0].substring(1); // Remove the 'q' from match number
+            String team =
+                parts[1].substring(3); // Remove the 'frc' from team number
+
+            print('Parsed match: $match, team: $team');
+
+            String speakerShots = row[19].value;
+            String ampShots = row[21].value;
+            String accuracy = row[24].value;
+
+            print(
+                'Shot data: Speaker=$speakerShots, Amp=$ampShots, Accuracy=$accuracy');
+
+            if (!teamShots.containsKey(match)) {
+              teamShots[match] = [];
+            }
+            teamShots[match]!.add({
+              'speaker shots': speakerShots,
+              'amp shots': ampShots,
+              'accuracy': accuracy,
+              'teamNum': team,
+            });
+
+            print('Added shot data for match $match team $team');
+            print('Current teamShots data: ${teamShots[match]}');
+          } catch (e) {
+            print('Error processing App results row: $e');
+            print('Row data: ${row.map((cell) => cell.value).toList()}');
+          }
+        }
+        print('Final teamShots data: $teamShots');
         setState(() {});
       }
     } catch (e) {
@@ -120,7 +165,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
         : matchCoordinates.containsKey(selectedIndex);
   }
 
-  // Helper function to split robot paths
+  // Helper function to split robot paths by alliance color
   List<List<Offset>> splitRobotPaths(bool isRed) {
     if (!isIndexValid()) {
       return [];
@@ -129,6 +174,8 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
     List<Map<String, dynamic>> rawCoordinates = isIndexByTeam
         ? teamAutos['frc$selectedIndex']!
         : matchCoordinates[selectedIndex]!;
+
+    // Count paths for the selected alliance color
     for (Map<String, dynamic> data in rawCoordinates) {
       if (data['isRed'] == isRed) {
         numSelectedColorCoords++;
@@ -137,6 +184,8 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
     List<List<Offset>> robotPaths =
         List.generate(numSelectedColorCoords, (_) => []);
     int coordsAdded = 0;
+
+    // Process paths for this alliance
     for (int i = 0; i < rawCoordinates.length; i++) {
       if (rawCoordinates[i]['isRed'] == isRed) {
         Map<String, dynamic> data = rawCoordinates[i];
@@ -149,6 +198,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
     return robotPaths;
   }
 
+  // Generate the legend/key showing team numbers and shot data
   List<Widget> generateKey(bool isRed) {
     if (!isIndexValid()) {
       return [];
@@ -158,22 +208,56 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
     List<Map<String, dynamic>> rawCoordinates = isIndexByTeam
         ? teamAutos['frc$selectedIndex']!
         : matchCoordinates[selectedIndex]!;
+
     for (Map<String, dynamic> match in rawCoordinates) {
       if (match['isRed'] == isRed) {
-        keys.add(Row(
-          children: [
-            Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: gradients[numAdded]))),
-            const SizedBox(width: 8),
-            Text(match[isIndexByTeam ? 'matchNum' : 'teamNum']),
-          ],
-        ));
+        // Get the team number without the 'frc' prefix for lookup
+        String teamNum = match['teamNum'].toString().replaceAll('frc', '');
+        // Get match number without the 'q' prefix if present
+        String matchNum = isIndexByTeam
+            ? match['matchNum'].toString().replaceAll('q', '')
+            : selectedIndex;
+
+        Map<String, dynamic>? shotData = isIndexByTeam
+            ? teamShots[matchNum]?.firstWhere(
+                (shot) => shot['teamNum'] == selectedIndex,
+                orElse: () =>
+                    {'speaker shots': '0', 'amp shots': '0', 'accuracy': '0'})
+            : teamShots[selectedIndex]?.firstWhere(
+                (shot) => shot['teamNum'] == teamNum,
+                orElse: () =>
+                    {'speaker shots': '0', 'amp shots': '0', 'accuracy': '0'});
+
+        try {
+          // Handle DIV/0 or empty values
+          var speakerShots =
+              int.tryParse(shotData?['speaker shots']?.toString() ?? '0') ?? 0;
+          var ampShots =
+              int.tryParse(shotData?['amp shots']?.toString() ?? '0') ?? 0;
+          var accuracy = shotData?['accuracy']?.toString() ?? '0';
+          if (accuracy.contains('DIV')) accuracy = '0';
+
+          keys.add(Row(
+            children: [
+              Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: gradients[numAdded]))),
+              const SizedBox(width: 8),
+              Text(match[isIndexByTeam ? 'matchNum' : 'teamNum']),
+              const SizedBox(width: 8),
+              Text(" - Shots: ${speakerShots + ampShots}"),
+              const SizedBox(width: 8),
+              Text(" - Accuracy: $accuracy%"),
+            ],
+          ));
+        } catch (e) {
+          print('Error processing shot data: $e');
+        }
         numAdded = (numAdded + 1) % gradients.length;
       }
     }
@@ -188,21 +272,20 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
       ),
       body: Column(
         children: [
-          Row (
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Indexing by match/team (uncheck for match, check for team):', textScaler: TextScaler.linear(0.75),),
-              Checkbox(
-                value: isIndexByTeam,
-                onChanged: (bool? value) {
-                  setState(() {
-                    isIndexByTeam = value!;
-                  });
-                },
-              ),
-            ]
-          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            const Text(
+              'Indexing by match/team (uncheck for match, check for team):',
+              textScaler: TextScaler.linear(0.75),
+            ),
+            Checkbox(
+              value: isIndexByTeam,
+              onChanged: (bool? value) {
+                setState(() {
+                  isIndexByTeam = value!;
+                });
+              },
+            ),
+          ]),
           // Text input field for selecting match number
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -254,8 +337,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
                             child: CustomPaint(
                               size: const Size(370, 370),
                               painter: RobotPathPainter(
-                                splitRobotPaths(false), gradients
-                              ),
+                                  splitRobotPaths(false), gradients),
                             ),
                           ),
                         ),
@@ -270,8 +352,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
                             child: CustomPaint(
                               size: const Size(370, 370),
                               painter: RobotPathPainter(
-                                splitRobotPaths(true), gradients
-                              ),
+                                  splitRobotPaths(true), gradients),
                             ),
                           ),
                         ),
@@ -288,6 +369,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
   }
 }
 
+// CustomPainter that handles drawing the robot paths with gradients
 class RobotPathPainter extends CustomPainter {
   final List<List<Offset>> robotPaths;
   final List<List<Color>> gradients;
@@ -308,7 +390,7 @@ class RobotPathPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Draw robot paths
+    // Draw robot paths with gradients
     for (int i = 0; i < robotPaths.length; i++) {
       final pathPaint = Paint()
         ..color = gradients[i % gradients.length][0]
