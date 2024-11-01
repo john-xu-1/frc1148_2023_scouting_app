@@ -50,10 +50,10 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
           }
           coordinates.add(Offset(dx, dy));
         } else {
-          print("Invalid coordinate format: $coord\n");
+          // print("Invalid coordinate format: $coord\n");
         }
       } catch (e) {
-        print("Error parsing coordinate: $coord, Error: $e\n");
+        // print("Error parsing coordinate: $coord, Error: $e\n");
       }
     }
     return coordinates;
@@ -117,7 +117,7 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
         for (var row in rows2) {
           try {
             String matchTeamString = row[0].value;
-            print('Reading row with match/team: $matchTeamString');
+            // print('Reading row with match/team: $matchTeamString');
 
             List<String> parts = matchTeamString.split(' ');
             String match =
@@ -125,33 +125,37 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
             String team =
                 parts[1].substring(3); // Remove the 'frc' from team number
 
-            print('Parsed match: $match, team: $team');
+            // print('Parsed match: $match, team: $team');
 
             String speakerShots = row[19].value;
+            String speakerMissed = row[20].value;
             String ampShots = row[21].value;
+            String ampMissed = row[22].value;
             String accuracy = row[24].value;
 
-            print(
-                'Shot data: Speaker=$speakerShots, Amp=$ampShots, Accuracy=$accuracy');
+            // print(
+            //     'Shot data: Speaker=$speakerShots, Amp=$ampShots, Accuracy=$accuracy');
 
             if (!teamShots.containsKey(match)) {
               teamShots[match] = [];
             }
             teamShots[match]!.add({
               'speaker shots': speakerShots,
+              'speaker missed': speakerMissed,
               'amp shots': ampShots,
+              'amp missed': ampMissed,
               'accuracy': accuracy,
               'teamNum': team,
             });
 
-            print('Added shot data for match $match team $team');
-            print('Current teamShots data: ${teamShots[match]}');
+            // print('Added shot data for match $match team $team');
+            // print('Current teamShots data: ${teamShots[match]}');
           } catch (e) {
             print('Error processing App results row: $e');
             print('Row data: ${row.map((cell) => cell.value).toList()}');
           }
         }
-        print('Final teamShots data: $teamShots');
+        // print('Final teamShots data: $teamShots');
         setState(() {});
       }
     } catch (e) {
@@ -219,14 +223,24 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
             : selectedIndex;
 
         Map<String, dynamic>? shotData = isIndexByTeam
-            ? teamShots[matchNum]?.firstWhere(
-                (shot) => shot['teamNum'] == selectedIndex,
-                orElse: () =>
-                    {'speaker shots': '0', 'amp shots': '0', 'accuracy': '0'})
-            : teamShots[selectedIndex]?.firstWhere(
-                (shot) => shot['teamNum'] == teamNum,
-                orElse: () =>
-                    {'speaker shots': '0', 'amp shots': '0', 'accuracy': '0'});
+            ? teamShots[matchNum]
+                ?.firstWhere((shot) => shot['teamNum'] == selectedIndex,
+                    orElse: () => {
+                          'speaker shots': '0',
+                          'speaker missed': '0',
+                          'amp shots': '0',
+                          'amp missed': '0',
+                          'accuracy': '0'
+                        })
+            : teamShots[selectedIndex]
+                ?.firstWhere((shot) => shot['teamNum'] == teamNum,
+                    orElse: () => {
+                          'speaker shots': '0',
+                          'speaker missed': '0',
+                          'amp shots': '0',
+                          'amp missed': '0',
+                          'accuracy': '0'
+                        });
 
         try {
           // Handle DIV/0 or empty values
@@ -234,6 +248,10 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
               int.tryParse(shotData?['speaker shots']?.toString() ?? '0') ?? 0;
           var ampShots =
               int.tryParse(shotData?['amp shots']?.toString() ?? '0') ?? 0;
+          var speakerMissed =
+              int.tryParse(shotData?['speaker missed']?.toString() ?? '0') ?? 0;
+          var ampMissed =
+              int.tryParse(shotData?['amp missed']?.toString() ?? '0') ?? 0;
           var accuracy = shotData?['accuracy']?.toString() ?? '0';
           if (accuracy.contains('DIV')) accuracy = '0';
 
@@ -250,7 +268,8 @@ class _RobotPathGraphState extends State<RobotPathGraph> {
               const SizedBox(width: 8),
               Text(match[isIndexByTeam ? 'matchNum' : 'teamNum']),
               const SizedBox(width: 8),
-              Text(" - Shots: ${speakerShots + ampShots}"),
+              Text(
+                  " - Shots: ${speakerShots + ampShots + speakerMissed + ampMissed}"),
               const SizedBox(width: 8),
               Text(" - Accuracy: $accuracy%"),
             ],
