@@ -40,7 +40,7 @@ class _TeamGraphingState extends State<TeamGraphing> {
       for (int i = 0; i < widget.allTeams.length; i++){
         allTeamColors[widget.allTeams[i]] = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
       }
-      print (allTeamColors);
+      print (allTeamColors.keys.contains("frc1148"));
       setState(() {});
       print(widget.allTeams.length);
     } catch (e) {
@@ -69,33 +69,32 @@ class _TeamGraphingState extends State<TeamGraphing> {
         List<Map<String, List<int>>> rutro = List.empty(growable: true);
         print ("got");
         for (int i = 1; i < rows.length; i++){ 
+          if (rows[i][0] != ""){
+            int spaceLoc = rows[i][0].indexOf(" ");
+            String teamNumber = rows[i][0].substring(spaceLoc+1);
+            String matchNumber = rows[i][0].substring(1, spaceLoc);
+            if (teamNumber == widget.allTeams[k]){
+              final allMetricsInAMatch = rows[i];
 
-          int spaceLoc = rows[i][0].indexOf(" ");
-          String teamNumber = rows[i][0].substring(spaceLoc+4);
-          String matchNumber = rows[i][0].substring(1, spaceLoc);
-          if (teamNumber == widget.allTeams[k]){
+              Map<String, List<int>> aMatch = {};
 
-            final allMetricsInAMatch = rows[i];
-
-            Map<String, List<int>> aMatch = {};
-
-            for (int j = 2; j < allMetricsInAMatch.length; j++){
-              if (isNumeric( allMetricsInAMatch[j])){
-                
-                String columnName = allMetricsName[j];
-                //if (allMetricsInAMatch)
-                List<int> coordinate = [int.parse(matchNumber), int.parse(allMetricsInAMatch[j])];
-                if (aMatch.containsKey(columnName)) {
-                  aMatch.update(columnName, (value) => coordinate);
-                } else {
-                  aMatch.putIfAbsent(columnName, () => coordinate);
+              for (int j = 2; j < allMetricsInAMatch.length; j++){
+                if (isNumeric( allMetricsInAMatch[j])){
+                  String columnName = allMetricsName[j];
+                  List<int> coordinate = [int.parse(matchNumber), int.parse(allMetricsInAMatch[j])];
+                  if (aMatch.containsKey(columnName)) {
+                    aMatch.update(columnName, (value) => coordinate);
+                  } else {
+                    aMatch.putIfAbsent(columnName, () => coordinate);
+                  }
                 }
+
               }
-              
+              rutro.add(aMatch);
             }
-            rutro.add( aMatch);
           }
         }
+        
         if (all.containsKey(widget.allTeams[k])) {
           print ("here");
           all.update(widget.allTeams[k], (value) => rutro);
@@ -128,7 +127,6 @@ class _TeamGraphingState extends State<TeamGraphing> {
     double width = MediaQuery.of(context).size.width;
     TextEditingController teamDrop = TextEditingController();
     TextEditingController metricDrop = TextEditingController();
-    
     if (widget.allTeams.isEmpty || all.isEmpty) {
       return const SafeArea(
         child: Scaffold(

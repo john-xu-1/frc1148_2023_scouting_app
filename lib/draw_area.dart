@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'dart:async';
 import 'sheets_helper.dart';
 import 'teleop_form.dart';
@@ -171,7 +172,7 @@ class _DrawAreaState extends State<DrawArea> {
   @override
   Widget build(BuildContext context) {
     final double appBarHeight = AppBar().preferredSize.height;
-
+    double height = MediaQuery.of(context).size.height;
     // Load appropriate field background based on alliance and orientation
     AssetImage bg;
     if (widget.id.toLowerCase() == "a" ||
@@ -220,131 +221,136 @@ class _DrawAreaState extends State<DrawArea> {
               )),
         ],
       ),
-      body: Column(
-        children: [
-          // Field drawing area
-          GestureDetector(
-            onTapDown: (details) {
-              setState(() {
-                RenderBox box = context.findRenderObject() as RenderBox;
-                Offset point = box.globalToLocal(details.globalPosition);
-                point = Offset(point.dx, point.dy - appBarHeight);
-                points.add(point);
-                if (points.isNotEmpty && points.last != null) {
-                  coordinates.add('${points.last!.dx},${points.last!.dy}');
-                }
-              });
-            },
-            child: Container(
-              width: 370, // Fixed width
-              height: 370, // Fixed height
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: bg,
-                  fit: BoxFit
-                      .fill, // Use fill to ensure image takes exact dimensions
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Field drawing area
+            GestureDetector(
+              onTapDown: (details) {
+                setState(() {
+                  RenderBox box = context.findRenderObject() as RenderBox;
+                  Offset point = box.globalToLocal(details.globalPosition);
+                  point = Offset(point.dx, point.dy - appBarHeight);
+                  points.add(point);
+                  if (points.isNotEmpty && points.last != null) {
+                    coordinates.add('${points.last!.dx},${points.last!.dy}');
+                  }
+                });
+              },
+              child: Container(
+                width: 370, // Fixed width
+                height: 370, // Fixed height
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: bg,
+                    fit: BoxFit
+                        .fill, // Use fill to ensure image takes exact dimensions
+                  ),
                 ),
-              ),
-              child: RepaintBoundary(
-                child: CustomPaint(
-                  painter: Painter(points: points),
-                  size: Size.square(370),
+                child: RepaintBoundary(
+                  child: CustomPaint(
+                    painter: Painter(points: points),
+                    size: Size.square(370),
+                  ),
                 ),
               ),
             ),
-          ),
-          // Scoring interface
-          // Counter interface section - contains both scoring methods (Speaker and Amp)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Speaker scoring (5 points per score) with separate miss tracking
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  ScoreDisplay(speakerPoints.value, "Speaker:"),
-                  CounterButton(
-                      update,
-                      speakerPoints,
-                      5,
-                      const Text(
-                        '+',
-                        textScaleFactor: 1.5,
-                      )),
-                  CounterButton(
-                      update,
-                      speakerPoints,
-                      -5,
-                      const Text(
-                        '-',
-                        textScaleFactor: 2,
-                      )),
-                  const SizedBox(height: 5),
-                  // Track missed shots separately from scoring
-                  ScoreDisplay(missedS.value, "Missed:"),
-                  CounterButton(
-                      update,
-                      missedS,
-                      1,
-                      const Text(
-                        '+',
-                        textScaleFactor: 1.5,
-                      )),
-                  CounterButton(
-                      update,
-                      missedS,
-                      -1,
-                      const Text(
-                        '-',
-                        textScaleFactor: 2,
-                      )),
-                ]),
-                const SizedBox(
-                  width: 50,
-                ), // Space between scoring sections
-                // Amp scoring (1 point per score) with separate miss tracking
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  ScoreDisplay(ampPoints.value, "Amp:"),
-                  CounterButton(
-                      update,
-                      ampPoints,
-                      1,
-                      const Text(
-                        '+',
-                        textScaleFactor: 1.5,
-                      )),
-                  CounterButton(
-                      update,
-                      ampPoints,
-                      -1,
-                      const Text(
-                        '-',
-                        textScaleFactor: 2,
-                      )),
-                  const SizedBox(height: 5),
-                  // Track missed shots separately from scoring
-                  ScoreDisplay(missedA.value, "Missed:"),
-                  CounterButton(
-                      update,
-                      missedA,
-                      1,
-                      const Text(
-                        '+',
-                        textScaleFactor: 1.5,
-                      )),
-                  CounterButton(
-                      update,
-                      missedA,
-                      -1,
-                      const Text(
-                        '-',
-                        textScaleFactor: 2,
-                      )),
-                ]),
-              ],
+            // Scoring interface
+            //Counter interface section - contains both scoring methods (Speaker and Amp)
+            SizedBox(
+              height: height,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Speaker scoring (5 points per score) with separate miss tracking
+                    Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      ScoreDisplay(speakerPoints.value, "Speaker:"),
+                      CounterButton(
+                          update,
+                          speakerPoints,
+                          5,
+                          const Text(
+                            '+',
+                            textScaleFactor: 1.5,
+                          )),
+                      CounterButton(
+                          update,
+                          speakerPoints,
+                          -5,
+                          const Text(
+                            '-',
+                            textScaleFactor: 2,
+                          )),
+                      const SizedBox(height: 5),
+                      // Track missed shots separately from scoring
+                      ScoreDisplay(missedS.value, "Missed:"),
+                      CounterButton(
+                          update,
+                          missedS,
+                          1,
+                          const Text(
+                            '+',
+                            textScaleFactor: 1.5,
+                          )),
+                      CounterButton(
+                          update,
+                          missedS,
+                          -1,
+                          const Text(
+                            '-',
+                            textScaleFactor: 2,
+                          )),
+                    ]),
+                    const SizedBox(
+                      width: 50,
+                    ), // Space between scoring sections
+                    // Amp scoring (1 point per score) with separate miss tracking
+                    Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      ScoreDisplay(ampPoints.value, "Amp:"),
+                      CounterButton(
+                          update,
+                          ampPoints,
+                          1,
+                          const Text(
+                            '+',
+                            textScaleFactor: 1.5,
+                          )),
+                      CounterButton(
+                          update,
+                          ampPoints,
+                          -1,
+                          const Text(
+                            '-',
+                            textScaleFactor: 2,
+                          )),
+                      const SizedBox(height: 5),
+                      // Track missed shots separately from scoring
+                      ScoreDisplay(missedA.value, "Missed:"),
+                      CounterButton(
+                          update,
+                          missedA,
+                          1,
+                          const Text(
+                            '+',
+                            textScaleFactor: 1.5,
+                          )),
+                      CounterButton(
+                          update,
+                          missedA,
+                          -1,
+                          const Text(
+                            '-',
+                            textScaleFactor: 2,
+                          )),
+                    ]),
+                  ],
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       // Submit button - saves data and moves to teleop form
       floatingActionButton: FloatingActionButton(
