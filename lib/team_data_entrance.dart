@@ -135,17 +135,37 @@ class _TeamDataEntranceState extends State<TeamDataEntrance> {
                   controller: teamDrop,
                   enableFilter: true,
                   label: const Text('Select Team'),
-                  onSelected: (String? value) {
+                  onSelected: (String? value) async {
                     // setState(() {
                     //   teamDrop.text = "";
                     // });
-                    if (!selectedTeams.contains(value)) {
+                    // if (!selectedTeams.contains(value)) {
           
-                      setState(() {
-                        selectedTeamsDisplay += "$value, ";
-                        selectedTeams.add (value!);
-                      });
+                    //   setState(() {
+                    //     selectedTeamsDisplay += "$value, ";
+                    //     selectedTeams.add (value!);
+                    //   });
+                    // }
+                    if (value != null){
+                      if (!teamsNumberDatas.containsKey(value) || !teamsNotesDatas.containsKey(value)) {
+                        await _updateTeamInfo(value!);
+                      }
+                      if (context.mounted){
+                        Navigator.push(
+                          context, 
+                          MaterialPageRoute
+                          (
+                            builder: (context) => TeamDisplayInstance(
+                              teamDataNames: teamDataNames, 
+                              teamsNumberDatas: teamsNumberDatas, 
+                              teamsNotesDatas: teamsNotesDatas, 
+                              team: value!
+                            )
+                          )
+                        );
+                      }
                     }
+                    
                     
                   },
                   dropdownMenuEntries:

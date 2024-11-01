@@ -173,6 +173,7 @@ class _DrawAreaState extends State<DrawArea> {
   Widget build(BuildContext context) {
     final double appBarHeight = AppBar().preferredSize.height;
     double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     // Load appropriate field background based on alliance and orientation
     AssetImage bg;
     if (widget.id.toLowerCase() == "a" ||
