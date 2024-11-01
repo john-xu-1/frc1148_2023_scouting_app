@@ -14,9 +14,6 @@ int curRelEffect1 = 0;
 int curRelEffect2 = 0;
 int curRelEffect3 = 0;
 
-int counter1 = 0;
-int counter2 = 0;
-int counter3 = 0;
 
 String relEffectiveness = "";
 
@@ -116,9 +113,8 @@ class _LeadScouting extends State<LeadScouting> {
         noteMatrix[3][0],
         noteMatrix[4][0],
         noteMatrix[5][0],
-        (effectiveness1.value + curEffect1) / (counter1 + 1),
-        (int.parse(relEffectivenessList[0]) + curRelEffect1) / (counter1 + 1),
-        (counter1 + 1)
+        effectiveness1.value + curEffect1,
+        (int.parse(relEffectivenessList[0]) + curRelEffect1),
       ];
       final secondRow = [
         noteMatrix[0][1],
@@ -127,9 +123,8 @@ class _LeadScouting extends State<LeadScouting> {
         noteMatrix[3][1],
         noteMatrix[4][1],
         noteMatrix[5][1],
-        (effectiveness2.value + curEffect2) / (counter2 + 1),
-        (int.parse(relEffectivenessList[1]) + curRelEffect2) / (counter2 + 1),
-        (counter2 + 1)
+        (effectiveness2.value + curEffect2),
+        (int.parse(relEffectivenessList[1])+ curRelEffect2),
       ];
       final thirdRow = [
         noteMatrix[0][2],
@@ -138,9 +133,8 @@ class _LeadScouting extends State<LeadScouting> {
         noteMatrix[3][2],
         noteMatrix[4][2],
         noteMatrix[5][2],
-        (effectiveness3.value + curEffect3) / (counter3 + 1),
-        (int.parse(relEffectivenessList[2]) + curRelEffect3) / (counter3 + 1),
-        (counter3 + 1)
+        (effectiveness3.value + curEffect3),
+        (int.parse(relEffectivenessList[2]) + curRelEffect3),
       ];
 
       List<String> teams = widget.teamName.split(' ');
@@ -191,6 +185,7 @@ class _LeadScouting extends State<LeadScouting> {
     List<String> teamNames = [robotOne, robotTwo, robotThree];
 
     //this print out the teamnames that the set up is looking for in the spreadsheet
+    print(widget.teamName);
     print("" + teamNames[0]);
     print(teamNames[1]);
     print(teamNames[2]);
@@ -201,22 +196,6 @@ class _LeadScouting extends State<LeadScouting> {
     List<String> team2 = await _fetchForm(teamNames[1]);
     List<String> team3 = await _fetchForm(teamNames[2]);
     String checkingStr = "";
-
-    if (team1[9] == checkingStr) {
-      counter1 = 0;
-    } else {
-      counter1 = int.parse(team1[9]);
-    }
-    if (team2[9] == checkingStr) {
-      counter2 = 0;
-    } else {
-      counter2 = int.parse(team2[9]);
-    }
-    if (team3[9] == checkingStr) {
-      counter3 = 0;
-    } else {
-      counter3 = int.parse(team3[9]);
-    }
 
     if (team1[7] == checkingStr) {
       curEffect1 = 0;
@@ -261,7 +240,7 @@ class _LeadScouting extends State<LeadScouting> {
         [team1[3], team2[3], team3[3]],
         [team1[4], team2[4], team3[4]],
         [team1[5], team2[5], team3[5]],
-        [team1[6], team2[6], team3[6]]
+        [team1[6], team2[6], team3[6]],
       ];
     });
     print("done");
@@ -273,7 +252,7 @@ class _LeadScouting extends State<LeadScouting> {
       final column = 1;
       var columnData = await sheet?.values.column(column);
 
-      var row = 100;
+      var row = 1;
       for (int i = 0; i < columnData!.length; i++) {
         if (columnData[i] == team) {
           row = i + 1;
