@@ -46,7 +46,6 @@ List<List<String>> noteMatrix = [
   ["", "", ""],
   ["", "", ""],
   ["", "", ""],
-  ["", "", ""],
   ["", "", ""]
 ];
 
@@ -60,11 +59,10 @@ List<int> activeNoteType = [0, 0, 0];
 
 var nameToInt = {
   "Auto Notes": 0,
-  "Accuracy": 1,
-  "Capabilities": 2,
-  "Trends": 3,
-  "Field Awareness": 4,
-  "Robot Failures": 5,
+  "Capabilities": 1,
+  "Trends": 2,
+  "Field Awareness": 3,
+  "Robot Failures": 4,
 };
 
 //String selectedItem = "1, 2, 3";
@@ -112,7 +110,6 @@ class _LeadScouting extends State<LeadScouting> {
         noteMatrix[2][0],
         noteMatrix[3][0],
         noteMatrix[4][0],
-        noteMatrix[5][0],
         effectiveness1.value + curEffect1,
         (int.parse(relEffectivenessList[0]) + curRelEffect1),
       ];
@@ -122,7 +119,6 @@ class _LeadScouting extends State<LeadScouting> {
         noteMatrix[2][1],
         noteMatrix[3][1],
         noteMatrix[4][1],
-        noteMatrix[5][1],
         (effectiveness2.value + curEffect2),
         (int.parse(relEffectivenessList[1])+ curRelEffect2),
       ];
@@ -132,7 +128,6 @@ class _LeadScouting extends State<LeadScouting> {
         noteMatrix[2][2],
         noteMatrix[3][2],
         noteMatrix[4][2],
-        noteMatrix[5][2],
         (effectiveness3.value + curEffect3),
         (int.parse(relEffectivenessList[2]) + curRelEffect3),
       ];
@@ -173,7 +168,6 @@ class _LeadScouting extends State<LeadScouting> {
       ["", "", ""],
       ["", "", ""],
       ["", "", ""],
-      ["", "", ""]
     ];
   }
 
@@ -197,37 +191,37 @@ class _LeadScouting extends State<LeadScouting> {
     List<String> team3 = await _fetchForm(teamNames[2]);
     String checkingStr = "";
 
-    if (team1[7] == checkingStr) {
+    if (team1[6] == checkingStr) {
       curEffect1 = 0;
     } else {
-      curEffect1 = int.parse(team1[7]);
+      curEffect1 = int.parse(team1[6]);
     }
-    if (team2[7] == checkingStr) {
+    if (team2[6] == checkingStr) {
       curEffect2 = 0;
     } else {
-      print(team2[7]);
-      curEffect2 = int.parse(team2[7]);
+      print(team2[6]);
+      curEffect2 = int.parse(team2[6]);
     }
-    if (team3[7] == checkingStr) {
+    if (team3[6] == checkingStr) {
       curEffect3 = 0;
     } else {
-      curEffect3 = int.parse(team3[7]);
+      curEffect3 = int.parse(team3[6]);
     }
 
-    if (team1[8] == checkingStr) {
+    if (team1[7] == checkingStr) {
       curRelEffect1 = 0;
     } else {
-      curRelEffect1 = int.parse(team1[8]);
+      curRelEffect1 = int.parse(team1[7]);
     }
-    if (team2[8] == checkingStr) {
+    if (team2[7] == checkingStr) {
       curRelEffect2 = 0;
     } else {
-      curRelEffect2 = int.parse(team2[8]);
+      curRelEffect2 = int.parse(team2[7]);
     }
-    if (team3[8] == checkingStr) {
+    if (team3[7] == checkingStr) {
       curRelEffect3 = 0;
     } else {
-      curRelEffect3 = int.parse(team3[8]);
+      curRelEffect3 = int.parse(team3[7]);
     }
 
     print(curEffect1);
@@ -240,7 +234,6 @@ class _LeadScouting extends State<LeadScouting> {
         [team1[3], team2[3], team3[3]],
         [team1[4], team2[4], team3[4]],
         [team1[5], team2[5], team3[5]],
-        [team1[6], team2[6], team3[6]],
       ];
     });
     print("done");
