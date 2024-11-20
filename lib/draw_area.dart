@@ -2,11 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'sheets_helper.dart';
-import 'teleop_form.dart';
+import 'better_teleop.dart';
+// import 'teleop_form.dart';
 
 // Global list to store coordinates as strings
 List<String> coordinates = List.empty(growable: true);
-
 
 class DrawArea extends StatefulWidget {
   const DrawArea({super.key, required this.teamName, required this.id});
@@ -33,17 +33,29 @@ class _DrawAreaState extends State<DrawArea> {
       // points = (points.map((point) => Offset(point!.dx, 370 - point!.dy))).toList();
       // coordinates = (points.map((point) => "${point!.dx},${point.dy}")).toList();
 
-      if (isBenchFlipped && (widget.id.toLowerCase() == "a" || widget.id.toLowerCase() == "b" || widget.id.toLowerCase() == "c")) {
-        points = (points.map((point) => point == null ? const Offset(0,0) :Offset(370 - point.dx, 370 - point.dy))).toList();
-        coordinates = (points.map((point) => "${point!.dx},${point.dy}")).toList();
-      }
-      else if (isBenchFlipped) {
-        points = (points.map((point) => point == null ? const Offset(0,0) :Offset(point.dx, 370 - point.dy))).toList();
-        coordinates = (points.map((point) => "${point!.dx},${point.dy}")).toList();
-      }
-      else if (!(widget.id.toLowerCase() == "a" || widget.id.toLowerCase() == "b" || widget.id.toLowerCase() == "c")){
-        points = (points.map((point) => point == null ? const Offset(0,0) :Offset(370-point.dx, point.dy))).toList();
-        coordinates = (points.map((point) => "${point!.dx},${point.dy}")).toList();
+      if (isBenchFlipped &&
+          (widget.id.toLowerCase() == "a" ||
+              widget.id.toLowerCase() == "b" ||
+              widget.id.toLowerCase() == "c")) {
+        points = (points.map((point) => point == null
+            ? const Offset(0, 0)
+            : Offset(370 - point.dx, 370 - point.dy))).toList();
+        coordinates =
+            (points.map((point) => "${point!.dx},${point.dy}")).toList();
+      } else if (isBenchFlipped) {
+        points = (points.map((point) => point == null
+            ? const Offset(0, 0)
+            : Offset(point.dx, 370 - point.dy))).toList();
+        coordinates =
+            (points.map((point) => "${point!.dx},${point.dy}")).toList();
+      } else if (!(widget.id.toLowerCase() == "a" ||
+          widget.id.toLowerCase() == "b" ||
+          widget.id.toLowerCase() == "c")) {
+        points = (points.map((point) => point == null
+            ? const Offset(0, 0)
+            : Offset(370 - point.dx, point.dy))).toList();
+        coordinates =
+            (points.map((point) => "${point!.dx},${point.dy}")).toList();
       }
 
       String out = "";
@@ -75,7 +87,7 @@ class _DrawAreaState extends State<DrawArea> {
   //       // Uncomment the following lines if you need to log the cursor coordinates
   //       // print('Current Cursor Coordinates: ${points.last}');
   //       coordinates.add('${points.last!.dx},${points.last!.dy}');
-  //       // print('Updated baller list: $baller');  
+  //       // print('Updated baller list: $baller');
   //     }
   //   });
   // }
@@ -93,11 +105,16 @@ class _DrawAreaState extends State<DrawArea> {
     final double appBarHeight = AppBar().preferredSize.height;
 
     AssetImage bg;
-    if (widget.id.toLowerCase() == "a" || widget.id.toLowerCase() == "b" || widget.id.toLowerCase() == "c"){
-      bg = isBenchFlipped ? const AssetImage('assets/blue_field_flip.jpeg') : const AssetImage('assets/blue_field.png');
-    }
-    else{
-      bg = isBenchFlipped ? const AssetImage('assets/red_field_flip.png') : const AssetImage('assets/red_field.png');
+    if (widget.id.toLowerCase() == "a" ||
+        widget.id.toLowerCase() == "b" ||
+        widget.id.toLowerCase() == "c") {
+      bg = isBenchFlipped
+          ? const AssetImage('assets/blue_field_flip.jpeg')
+          : const AssetImage('assets/blue_field.png');
+    } else {
+      bg = isBenchFlipped
+          ? const AssetImage('assets/red_field_flip.png')
+          : const AssetImage('assets/red_field.png');
     }
 
     return Scaffold(
@@ -121,23 +138,21 @@ class _DrawAreaState extends State<DrawArea> {
             icon: const Icon(Icons.delete_outlined),
           ),
           Transform.rotate(
-            angle: (3.1415 / 2),
-            child: IconButton(
-              onPressed: () {
-                setState(() {
-                  
-                  //if (points.length >= 2) points = points.sublist(0,points.length-2);
-                  
-                  isBenchFlipped = !isBenchFlipped;
-                });
-              },
-              icon: const Icon(Icons.delete_outlined),
-            )
-          ),
+              angle: (3.1415 / 2),
+              child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    //if (points.length >= 2) points = points.sublist(0,points.length-2);
+
+                    isBenchFlipped = !isBenchFlipped;
+                  });
+                },
+                icon: const Icon(Icons.delete_outlined),
+              )),
         ],
       ),
       body: GestureDetector(
-        onTapDown:(details) {
+        onTapDown: (details) {
           setState(() {
             RenderBox box = context.findRenderObject() as RenderBox;
             Offset point = box.globalToLocal(details.globalPosition);
@@ -159,7 +174,6 @@ class _DrawAreaState extends State<DrawArea> {
         // //     points.add(point);
         //   });
         // },
-
 
         // onPanEnd: (DragEndDetails details) {
         //   setState(() {
@@ -188,8 +202,7 @@ class _DrawAreaState extends State<DrawArea> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      TeleopForm(teamName: widget.teamName))
-          );
+                      BetterTeleop(teamName: widget.teamName)));
         },
         child: const Icon(Icons.send),
       ),

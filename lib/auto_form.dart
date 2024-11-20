@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'teleop_form.dart';
+// import 'teleop_form.dart';
+import 'better_teleop.dart';
 import 'sheets_helper.dart';
 import 'color_scheme.dart';
 
@@ -116,7 +117,7 @@ class _AutoForm extends State<AutoForm> {
                       context,
                       MaterialPageRoute
                       (
-                        builder: (context) => TeleopForm(teamName: widget.teamName)
+                        builder: (context) => BetterTeleop(teamName: widget.teamName)
                       )
                     );
                   });
