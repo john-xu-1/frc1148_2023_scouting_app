@@ -3,21 +3,20 @@ import 'package:frc1148_2023_scouting_app/subjective_form.dart';
 import 'sheets_helper.dart';
 import 'color_scheme.dart';
 
-PrimitiveWrapper playerPointsToAdd = PrimitiveWrapper(0);
-PrimitiveWrapper numberOfPasses = PrimitiveWrapper(0);
+// PrimitiveWrapper playerPointsToAdd = PrimitiveWrapper(0);
+// PrimitiveWrapper numberOfPasses = PrimitiveWrapper(0);
 
-PrimitiveWrapper speakerCounter = PrimitiveWrapper(0);
-
-PrimitiveWrapper ampPoints = PrimitiveWrapper(0);
-PrimitiveWrapper trapPoints = PrimitiveWrapper(0);
+PrimitiveWrapper speakerCount = PrimitiveWrapper(0);
+PrimitiveWrapper ampCount = PrimitiveWrapper(0);
+PrimitiveWrapper passCount = PrimitiveWrapper(0);
 
 PrimitiveWrapper missedS = PrimitiveWrapper(0);
 PrimitiveWrapper missedA = PrimitiveWrapper(0);
-PrimitiveWrapper missedT = PrimitiveWrapper(0);
+PrimitiveWrapper missedP = PrimitiveWrapper(0);
 
-bool tryParkTele = false;
-bool messUpParkTele = false;
-int cycleCounter = 0;
+// bool tryParkTele = false;
+// bool messUpParkTele = false;
+// int cycleCounter = 0;
 
 class BetterTeleop extends StatefulWidget {
   const BetterTeleop({super.key, required this.teamName});
@@ -33,15 +32,12 @@ class _BetterTeleop extends State<BetterTeleop> {
 
       // Writing data
       final firstRow = [
-        speakerCounter.value,
-        ampPoints.value,
-        trapPoints.value,
+        speakerCount.value,
+        ampCount.value,
+        passCount.value,
         missedS.value,
         missedA.value,
-        missedT.value,
-        tryParkTele,
-        messUpParkTele,
-        numberOfPasses.value
+        missedP.value,
       ];
       if (widget.teamName.contains("frc")) {
         await sheet!.values
@@ -56,7 +52,7 @@ class _BetterTeleop extends State<BetterTeleop> {
 
   void update(PrimitiveWrapper variable, int inc) {
     setState(() {
-      if (variable.value + inc >= 0) {
+      if ((variable.value + inc) >= 0) {
         variable.value += inc;
       }
       // if (variable == speakerPoints && inc == 5) {
@@ -97,7 +93,9 @@ class _BetterTeleop extends State<BetterTeleop> {
             child: ListView(children: <Widget>[
           Row(
             children: [
-              const Text("Team change in case error: "),
+              const Text(
+                "Team change in case error: ",
+              ),
               SizedBox(
                 width: width / 3,
                 child: TextField(
@@ -112,286 +110,19 @@ class _BetterTeleop extends State<BetterTeleop> {
             ],
           ),
           const Divider(color: colors.mySecondaryColor),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(children: [
-                Row(children: [
-                  const Text("Speaker"),
-                  const SizedBox(width: 100),
-                  Container(
-                      alignment: Alignment.center,
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      child: Text("${numberOfPasses.value}")),
-                ]),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                        alignment: Alignment.center,
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: const Text("+")),
-                    const SizedBox(width: 40),
-                    Container(
-                        alignment: Alignment.center,
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                        ),
-                        child: const Text("+")),
-                ]),
-                // ScoreDisplay(numberOfPasses.value, "Passes: "),
-                // CounterButton(
-                //     update,
-                //     numberOfPasses,
-                //     1,
-                //     const Text(
-                //       '+',
-                //       textScaleFactor: 2,
-                //     )),
-                // CounterButton(
-                //     update,
-                //     numberOfPasses,
-                //     -1,
-                //     const Text(
-                //       '-',
-                //       textScaleFactor: 2.5,
-                //     )),
-              ]),
-            ],
-          ),
-          // ScoreDisplay(numberOfPasses.value, "Passes: "),
-          // CounterButton(
-          //     update,
-          //     numberOfPasses,
-          //     1,
-          //     const Text(
-          //       '+',
-          //       textScaleFactor: 2,
-          //     )),
-          // CounterButton(
-          //     update,
-          //     numberOfPasses,
-          //     -1,
-          //     const Text(
-          //       '-',
-          //       textScaleFactor: 2.5,
-          //     )),
+
+          CategoryTracker(update, "Speaker", speakerCount, missedS, true),
+
           const Divider(color: colors.mySecondaryColor),
-          Row(children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ScoreDisplay(ampPoints.value, "Speaker Pts: "),
-                Row(
-                  children: [
-                    SizedBox(
-                        height: height / 3,
-                        width: width * 0.25,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Amplified", textScaleFactor: 1.5),
-                              CounterButton(
-                                  update,
-                                  ampPoints,
-                                  5,
-                                  const Text(
-                                    '+',
-                                    textScaleFactor: 2,
-                                  )),
-                              CounterButton(
-                                  update,
-                                  ampPoints,
-                                  -5,
-                                  const Text(
-                                    '-',
-                                    textScaleFactor: 2.5,
-                                  )),
-                            ])),
-                    SizedBox(
-                        height: height / 3,
-                        width: width * 0.25,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Regular", textScaleFactor: 1.5),
-                              CounterButton(
-                                  update,
-                                  ampPoints,
-                                  2,
-                                  const Text(
-                                    '+',
-                                    textScaleFactor: 2,
-                                  )),
-                              CounterButton(
-                                  update,
-                                  ampPoints,
-                                  -2,
-                                  const Text(
-                                    '-',
-                                    textScaleFactor: 2.5,
-                                  )),
-                            ])),
-                  ],
-                ),
-                Container(
-                  alignment: AlignmentDirectional.center,
-                  width: width * 0.45,
-                  child: const Divider(color: colors.mySecondaryColor),
-                ),
-                ScoreDisplay(missedS.value, "Missed Speaker: "),
-                CounterButton(
-                    update,
-                    missedS,
-                    1,
-                    const Text(
-                      '+',
-                      textScaleFactor: 2,
-                    )),
-                CounterButton(
-                    update,
-                    missedS,
-                    -1,
-                    const Text(
-                      '-',
-                      textScaleFactor: 2.5,
-                    )),
-              ],
-            ),
-            SizedBox(
-              height: height * 0.9,
-              child: const VerticalDivider(
-                color: colors.mySecondaryColor,
-              ),
-            ),
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ScoreDisplay(ampPoints.value, "Amp pts: "),
-                  CounterButton(
-                      update,
-                      ampPoints,
-                      1,
-                      const Text(
-                        '+',
-                        textScaleFactor: 2,
-                      )),
-                  CounterButton(
-                      update,
-                      ampPoints,
-                      -1,
-                      const Text(
-                        '-',
-                        textScaleFactor: 2.5,
-                      )),
-                  const SizedBox(
-                    height: 165,
-                  ),
-                  Container(
-                    alignment: AlignmentDirectional.center,
-                    width: width * 0.45,
-                    child: const Divider(color: colors.mySecondaryColor),
-                  ),
-                  ScoreDisplay(missedA.value, "Missed Amps: "),
-                  CounterButton(
-                      update,
-                      missedA,
-                      1,
-                      const Text(
-                        '+',
-                        textScaleFactor: 2,
-                      )),
-                  CounterButton(
-                      update,
-                      missedA,
-                      -1,
-                      const Text(
-                        '-',
-                        textScaleFactor: 2.5,
-                      )),
-                ]),
-          ]),
-          Container(
-            height: height / 10,
-            alignment: AlignmentDirectional.center,
-            width: width * 0.4,
-            //color: Colors.amber[100],
-            child: const Text(
-              "Trap",
-              textScaleFactor: 2.5,
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                ScoreDisplay(trapPoints.value, "Points:"),
-                CounterButton(
-                    update,
-                    trapPoints,
-                    5,
-                    const Text(
-                      '+',
-                      textScaleFactor: 2,
-                    )),
-                CounterButton(
-                    update,
-                    trapPoints,
-                    -5,
-                    const Text(
-                      '-',
-                      textScaleFactor: 2.5,
-                    )),
-              ]),
-              const SizedBox(
-                width: 50,
-              ),
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                ScoreDisplay(missedT.value, "missed:"),
-                CounterButton(
-                    update,
-                    missedT,
-                    1,
-                    const Text(
-                      '+',
-                      textScaleFactor: 2,
-                    )),
-                CounterButton(
-                    update,
-                    missedT,
-                    -1,
-                    const Text(
-                      '-',
-                      textScaleFactor: 2.5,
-                    )),
-              ]),
-            ],
-          ),
+
+          CategoryTracker(update, "Amp", ampCount, missedA, true),
+
           const Divider(color: colors.mySecondaryColor),
+
+          CategoryTracker(update, "Passes", passCount, missedP, false),
+
+          const Divider(color: colors.mySecondaryColor),
+
           ElevatedButton(
             onPressed: () {
               setState(() {
@@ -433,6 +164,75 @@ class ScoreDisplay extends StatelessWidget {
             child: Text("$points",
                 textScaleFactor: 3.5,
                 style: const TextStyle(color: colors.myOnPrimary))),
+      ],
+    );
+  }
+}
+
+class CategoryTracker extends StatelessWidget {
+  final Function update;
+  final String name;
+  final PrimitiveWrapper counter;
+  final PrimitiveWrapper misses;
+  final bool isAdding;
+  const CategoryTracker(this.update, this.name, this.counter, this.misses, this.isAdding, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Column(children: [
+          Row(children: [
+            Text(name, textScaleFactor: 4),
+            const SizedBox(width: 60),
+            Container(
+                alignment: Alignment.center,
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  border: Border.all(color: Colors.black, width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+                child: Text("${counter.value + misses.value}",
+                    textScaleFactor: 3)),
+          ]),
+          const SizedBox(height: 20),
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            Container(
+                alignment: Alignment.center,
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  border: Border.all(color: Colors.black, width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+                child: IconButton(
+                    onPressed: () {
+                      update(counter, isAdding ? 1 : -1);
+                    },
+                    icon: Icon(isAdding ? Icons.add : Icons.remove),
+                    iconSize: 60)),
+            const SizedBox(width: 40),
+            Container(
+                alignment: Alignment.center,
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  border: Border.all(color: Colors.black, width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+                child: IconButton(
+                    onPressed: () {
+                      update(misses, isAdding ? 1 : -1);
+                    },
+                    icon: Icon(isAdding ? Icons.add : Icons.remove),
+                    iconSize: 60)),
+          ]),
+        ]),
       ],
     );
   }
