@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "5+VEFNTuuxo=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Matti\\OneDrive\\Documents\\Robotics Scouting\\SqlServerSocket\\Server\\SqlServerSocket\\SqlServerSocket.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Matti\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

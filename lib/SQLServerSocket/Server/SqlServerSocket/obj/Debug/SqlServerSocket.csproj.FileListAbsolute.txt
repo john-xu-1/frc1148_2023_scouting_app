@@ -1,0 +1,2 @@
+C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\obj\Debug\SqlServerSocket.csproj.AssemblyReference.cache
+C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\obj\Debug\SqlServerSocket.csproj.CoreCompileInputs.cache

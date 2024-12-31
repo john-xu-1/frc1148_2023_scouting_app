@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>SockedSql</RootNamespace>
+    <AssemblyName>SockedSql</AssemblyName>
+    <!-- Turn off auto-generation of assembly info if you keep AssemblyInfo.cs: -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Newtonsoft.Json is a NuGet package -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <!-- Add the Microsoft.CSharp reference for dynamic binding support: -->
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <!-- The SDK automatically compiles all *.cs files in the project folder.
+       If you previously listed <Compile Include="..."/> lines, remove them or
+       set <EnableDefaultCompileItems>false</EnableDefaultCompileItems>. -->
+
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+</Project>

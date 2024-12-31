@@ -1,0 +1,11 @@
+C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\obj\Debug\net48\SqlServerSocket.csproj.AssemblyReference.cache
+C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\obj\Debug\net48\SqlServerSocket.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\obj\Debug\net48\SqlServerSocket.csproj.CoreCompileInputs.cache
+C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\obj\Debug\net48\SqlServerSocket.sourcelink.json
+C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\bin\Debug\net48\SockedSql.exe.config
+C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\bin\Debug\net48\SockedSql.exe
+C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\bin\Debug\net48\SockedSql.pdb
+C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\bin\Debug\net48\Newtonsoft.Json.dll
+C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\obj\Debug\net48\SqlServe.8D671C88.Up2Date
+C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\obj\Debug\net48\SockedSql.exe
+C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\obj\Debug\net48\SockedSql.pdb
