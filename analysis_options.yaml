@@ -10,6 +10,7 @@
 analyzer:
   errors:
     unused_import: ignore
+    # unused_local_variable: ignore # Uncomment to ignore the `unused_local_variable` - might be good
 include: package:flutter_lints/flutter.yaml
 
 linter:
