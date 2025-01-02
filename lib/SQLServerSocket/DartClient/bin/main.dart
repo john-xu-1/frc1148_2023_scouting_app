@@ -7,7 +7,7 @@ import '../lib/table.dart';
 main() async {
   //var connstr = @"Server=DEVIL\\SQLEXPRESS;Database=Phoenix64;User Id=sa;Password=;";
   SqlConnection conn = new SqlConnection(
-      "Server=localhost\\SQLEXPRESS;Database=1148-Scouting;Trusted_Connection=yes;");
+      "Server=MT-server\\SQLEXPRESS;Database=1148-Scouting;User Id=1148Robotics;Password=1148Robotics;Trusted_Connection=yes;");
 
   await conn.open();
 

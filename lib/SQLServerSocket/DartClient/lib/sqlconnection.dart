@@ -22,7 +22,7 @@ class SqlConnection {
   late String _connectionString;
 
   SqlConnection(String connStr,
-      {String address = "localhost", int port = 10980}) {
+      {String address = "MT-server", int port = 10980}) {
     _address = address;
     _port = port;
     _connected = false;

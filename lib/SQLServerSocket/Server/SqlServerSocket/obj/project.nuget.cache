@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qnl3Z8ot7II=",
+  "dgSpecHash": "Ut8t+BJTWH0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Matti\\OneDrive\\Documents\\Robotics Scouting\\frc1148_2023_scouting_app\\frc1148_2023_scouting_app\\lib\\SQLServerSocket\\Server\\SqlServerSocket\\SqlServerSocket.csproj",
+  "projectFilePath": "C:\\Users\\Matti\\OneDrive\\Documents\\Robotics Scouting\\frc1148_2023_scouting_app\\lib\\SQLServerSocket\\Server\\SqlServerSocket\\SqlServerSocket.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Matti\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],
