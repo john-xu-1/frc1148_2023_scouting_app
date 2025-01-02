@@ -76,11 +76,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Matti\\OneDrive\\Documents\\Robotics Scouting\\SqlServerSocket\\Server\\SqlServerSocket\\SqlServerSocket.csproj",
+      "projectUniqueName": "C:\\Users\\Matti\\OneDrive\\Documents\\Robotics Scouting\\frc1148_2023_scouting_app\\frc1148_2023_scouting_app\\lib\\SQLServerSocket\\Server\\SqlServerSocket\\SqlServerSocket.csproj",
       "projectName": "SockedSql",
-      "projectPath": "C:\\Users\\Matti\\OneDrive\\Documents\\Robotics Scouting\\SqlServerSocket\\Server\\SqlServerSocket\\SqlServerSocket.csproj",
+      "projectPath": "C:\\Users\\Matti\\OneDrive\\Documents\\Robotics Scouting\\frc1148_2023_scouting_app\\frc1148_2023_scouting_app\\lib\\SQLServerSocket\\Server\\SqlServerSocket\\SqlServerSocket.csproj",
       "packagesPath": "C:\\Users\\Matti\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Matti\\OneDrive\\Documents\\Robotics Scouting\\SqlServerSocket\\Server\\SqlServerSocket\\obj\\",
+      "outputPath": "C:\\Users\\Matti\\OneDrive\\Documents\\Robotics Scouting\\frc1148_2023_scouting_app\\frc1148_2023_scouting_app\\lib\\SQLServerSocket\\Server\\SqlServerSocket\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

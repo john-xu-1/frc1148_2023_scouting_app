@@ -22,16 +22,16 @@ public class Server
       this.port = port;
    }
 
+
    public void StartListening()
    {
       // Data buffer for incoming data.
       byte[] bytes = new Byte[1024];
 
-      IPHostEntry ipHostInfo = Dns.GetHostEntry("localhost");
-      IPAddress ipAddress = ipHostInfo.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork) ?? throw new Exception("No IPv4 address found for localhost.");
-      IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
+      // Bind to all network interfaces
+      IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, port);
 
-      Console.WriteLine(string.Format("SocketSQL is listening localhost:{0} ... press ^C to exit", port));
+      Console.WriteLine(string.Format("SocketSQL is listening on port {0} ... press ^C to exit", port));
 
       // Create a TCP/IP socket.
       Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

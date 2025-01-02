@@ -1,6 +1,6 @@
 is_global = true
 build_property.RootNamespace = SockedSql
-build_property.ProjectDir = C:\Users\Matti\OneDrive\Documents\Robotics Scouting\SqlServerSocket\Server\SqlServerSocket\
+build_property.ProjectDir = C:\Users\Matti\OneDrive\Documents\Robotics Scouting\frc1148_2023_scouting_app\frc1148_2023_scouting_app\lib\SQLServerSocket\Server\SqlServerSocket\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.CsWinRTUseWindowsUIXamlProjections = false
