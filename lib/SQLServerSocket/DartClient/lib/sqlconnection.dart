@@ -1,63 +1,73 @@
 library sql_server_socket;
 
-import "dart:io";
-import "dart:async";
-import "dart:convert";
-// import 'dart:typed_data';
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
-import "table.dart";
+// Make sure this import points to wherever your `table.dart` really is.
+// Example path:
+import 'table.dart';
 
+/// A raw‐socket SQL client that sends/receives length‐prefixed JSON
+/// commands like {"type":"open","text":"Server=..."} to a bridging server.
+///
+/// This matches your .NET server’s custom protocol on port 10981.
 class SqlConnection {
   late Socket _socket;
   late StringBuffer _receiveBuffer;
-  //original
   late Completer<String> _completer;
-  //modificado
-  // final Completer _completer =
-  //     Completer(); //Probablemente esto provoca que no se realce la query
   late bool _connected;
 
-  late String _address;
-  late int _port;
-  late String _connectionString;
+  late String _address;           // e.g. "MT-server" or "localhost"
+  late int _port;                 // e.g. 10981
+  late String _connectionString;  // e.g. "Server=MT-server\\SQLEXPRESS;Database=..."
 
-  SqlConnection(String connStr,
-      {String address = "MT-server", int port = 10980}) {
+  /// By default, use address="MT-server" and port=10981.
+  /// Adjust these defaults or override them in the constructor for your scenario.
+  SqlConnection(
+    String connStr, {
+    String address = "MT-server",
+    int port = 10981,
+  }) {
     _address = address;
     _port = port;
     _connected = false;
     _connectionString = connStr;
   }
 
-  /// tells if database is connected
   bool get connected => _connected;
 
-  /// connects to sql server database using the specified connection string
+  /// Opens a raw TCP Socket to [_address]:[_port],
+  /// then sends {"type":"open","text":_connectionString}.
+  ///
+  /// If the server responds with {"type":"ok"}, sets [_connected]=true.
+  /// If it responds with {"type":"error"}, throws an error.
   Future<bool> open() async {
     try {
+      print('[SqlConnection/Raw] connecting to $_address:$_port ...');
       _socket = await Socket.connect(_address, _port);
-      //print("Connected to: ${_socket.remoteAddress.address}:${_socket.remotePort}");
+      print('[SqlConnection/Raw] connected!');
     } catch (ex) {
-      // throw "can't connect to ${_address}:${_port} -- $ex";
       throw "can't connect to $_address:$_port -- $ex";
     }
 
-    //Establish the onData, and onDone callbacks
-    //Original code
-    // _socket
-    //     .transform(utf8.decoder as StreamTransformer<Uint8List, dynamic>)
-    //     .listen(_receiveData, onError: _onError, onDone: _onDone);
-    //Mod code
-    utf8.decoder
-        .bind(_socket)
-        .listen(_receiveData, onError: _onError, onDone: _onDone);
-    Completer<bool> connectCompleter = Completer();
+    // Listen for server data
+    utf8.decoder.bind(_socket).listen(
+      _receiveData,
+      onError: _onError,
+      onDone: _onDone,
+    );
 
-    // String json = JSON.encode({"type": "open", "text": _connectionString});
-    String json = jsonEncode({"type": "open", "text": _connectionString});
+    final connectCompleter = Completer<bool>();
 
-    _sendCommand(json).then((result) {
-      var res = _parseResult(result);
+    // Send the "open" command: {"type":"open","text":_connectionString}
+    final jsonCmd = jsonEncode({
+      "type": "open",
+      "text": _connectionString,
+    });
+
+    _sendCommand(jsonCmd).then((responseStr) {
+      final res = _parseResult(responseStr);
       if (res is _OkResult) {
         _connected = true;
         connectCompleter.complete(true);
@@ -65,10 +75,9 @@ class SqlConnection {
         _connected = false;
         connectCompleter.completeError(res.error);
       } else {
-        throw "unknown response";
+        throw "unknown response to open()";
       }
     }).catchError((err) {
-      print('error wit _sendCommand');
       _connected = false;
       connectCompleter.completeError(err);
     });
@@ -76,75 +85,95 @@ class SqlConnection {
     return connectCompleter.future;
   }
 
-  /// disconnects from sql server
+  /// Closes the connection by sending {"type":"close","text":""}.
+  /// If successful, sets [_connected]=false.
   Future<bool> close() {
-    if (!connected) throw "not connected";
+    if (!connected) {
+      throw "not connected";
+    }
+    final disconnectCompleter = Completer<bool>();
 
-    Completer<bool> disconnectCompleter = Completer();
+    final jsonCmd = jsonEncode({
+      "type": "close",
+      "text": "",
+    });
 
-    String json = jsonEncode({"type": "close", "text": ""});
-
-    _sendCommand(json).then((risp) {
-      var res = _parseResult(risp);
-
+    _sendCommand(jsonCmd).then((respStr) {
+      final res = _parseResult(respStr);
       if (res is _OkResult) {
         _connected = false;
         disconnectCompleter.complete(true);
       } else if (res is _ErrorResult) {
         disconnectCompleter.completeError(res.error);
       } else {
-        throw "unknown response";
+        throw "unknown response to close()";
       }
     }).catchError((err) {
       disconnectCompleter.completeError(err);
     });
 
-    return Future.value(disconnectCompleter.future);
+    return disconnectCompleter.future;
   }
 
-  /// launch a query on the database, returning a table
+  /// Launches a query returning a `Table` object, i.e. {"type":"table","text":"..."}.
+  /// If the server responds with {"type":"table", ...} we build and return a Table instance.
   Future<Table> queryTable(String sql) {
-    if (!connected) throw "not connected";
+    if (!connected) {
+      throw "not connected";
+    }
 
-    String json = jsonEncode({"type": "table", "text": sql});
+    final jsonCmd = jsonEncode({
+      "type": "table",
+      "text": sql,
+    });
 
-    Completer<Table> compl = Completer();
-    _sendCommand(json).then((result) {
-      var res = _parseResult(result);
+    final compl = Completer<Table>();
+    _sendCommand(jsonCmd).then((respStr) {
+      final res = _parseResult(respStr);
 
       if (res is _ErrorResult) {
         compl.completeError(res.error);
       } else if (res is _TableResult) {
-        var tres = res;
-        Table tab = Table(this, tres.tableName, tres.rows, tres.columns);
-        compl.complete(tab);
+        final table = Table(
+          this,
+          res.tableName,
+          res.rows,
+          res.columns,
+        );
+        compl.complete(table);
       } else {
-        throw "unknown response";
+        throw "unknown response to queryTable()";
       }
     }).catchError((err) {
       compl.completeError(err);
     });
+
     return compl.future;
   }
 
+  /// Launches a "postback" operation, i.e. {"type":"postback","text":"..."}.
+  /// Typically used to send updated rows to the server.
   Future<PostBackResponse> postBack(ChangeSet chg) {
-    if (!connected) throw "not connected";
+    if (!connected) {
+      throw "not connected";
+    }
 
-    String params = jsonEncode(chg.toEncodable());
+    final params = jsonEncode(chg.toEncodable());
+    final jsonCmd = jsonEncode({
+      "type": "postback",
+      "text": params,
+    });
 
-    String json = jsonEncode({"type": "postback", "text": params});
-
-    Completer<PostBackResponse> compl = Completer();
-    _sendCommand(json).then((result) {
-      var res = _parseResult(result);
+    final compl = Completer<PostBackResponse>();
+    _sendCommand(jsonCmd).then((respStr) {
+      final res = _parseResult(respStr);
 
       if (res is _ErrorResult) {
         compl.completeError(res.error);
       } else if (res is _PostBackResult) {
-        var tres = res;
-        PostBackResponse resp = PostBackResponse();
-        resp.idcolumn = tres.idcolumn;
-        resp.identities = tres.identities;
+        final resp = PostBackResponse();
+        resp.idcolumn = res.idcolumn;
+        resp.identities = res.identities;
         compl.complete(resp);
       } else {
         throw "invalid postback response";
@@ -152,151 +181,177 @@ class SqlConnection {
     }).catchError((err) {
       compl.completeError(err);
     });
+
     return compl.future;
   }
 
-  /// launch a query on the database, returning all rows
+  /// Launches a basic query returning all rows (List<dynamic>),
+  /// i.e. {"type":"query","text":"..."} => {"type":"query","rows":[...]}
   Future<List<dynamic>> query(String sql) {
-    if (!connected) throw "not connected";
+    if (!connected) {
+      throw "not connected";
+    }
 
-    String json = jsonEncode({"type": "query", "text": sql});
+    final jsonCmd = jsonEncode({
+      "type": "query",
+      "text": sql,
+    });
 
-    Completer<List<dynamic>> compl = Completer();
-    _sendCommand(json).then((result) {
-      var res = _parseResult(result);
+    final compl = Completer<List<dynamic>>();
+    _sendCommand(jsonCmd).then((respStr) {
+      final res = _parseResult(respStr);
       if (res is _ErrorResult) {
         compl.completeError(res.error);
       } else if (res is _QueryResult) {
         compl.complete(res.rows);
       } else {
-        throw "unknown response";
+        throw "unknown response to query()";
       }
     }).catchError((err) {
       compl.completeError(err);
     });
+
     return compl.future;
   }
 
-  /// launch a query on the database, returning the first rows only
-  Future<Map<String, dynamic>> querySingle(String sql) {
-    if (!connected) throw "not connected";
+  /// Query returning first row only (Map<String,dynamic>?)
+  Future<Map<String, dynamic>?> querySingle(String sql) {
+    if (!connected) {
+      throw "not connected";
+    }
 
-    String json = jsonEncode({"type": "querysingle", "text": sql});
+    final jsonCmd = jsonEncode({
+      "type": "querysingle",
+      "text": sql,
+    });
 
-    Completer<Map<String, dynamic>> compl = Completer();
-    _sendCommand(json).then((result) {
-      var res = _parseResult(result);
-
-      if (res is _ErrorResult)
+    final compl = Completer<Map<String,dynamic>?>();
+    _sendCommand(jsonCmd).then((respStr) {
+      final res = _parseResult(respStr);
+      if (res is _ErrorResult) {
         compl.completeError(res.error);
-      else if (res is _QueryResult) {
-        if (res.rows.length == 0)
-          // ignore: null_argument_to_non_null_type
+      } else if (res is _QueryResult) {
+        if (res.rows.isEmpty) {
           compl.complete(null);
-        else
+        } else {
           compl.complete(res.rows[0]);
-      } else
-        throw "unknown response";
+        }
+      } else {
+        throw "unknown response to querySingle()";
+      }
     }).catchError((err) {
       compl.completeError(err);
     });
+
     return compl.future;
   }
 
-  /// launch a query on the database, returning the value from the first column of the first row
+  /// Query returning the first column of the first row
   Future<dynamic> queryValue(String sql) {
-    if (!connected) throw "not connected";
+    if (!connected) {
+      throw "not connected";
+    }
 
-    String json = jsonEncode({"type": "queryvalue", "text": sql});
+    final jsonCmd = jsonEncode({
+      "type": "queryvalue",
+      "text": sql,
+    });
 
-    Completer compl = Completer();
-    _sendCommand(json).then((result) {
-      var res = _parseResult(result);
-
-      if (res is _ErrorResult)
+    final compl = Completer<dynamic>();
+    _sendCommand(jsonCmd).then((respStr) {
+      final res = _parseResult(respStr);
+      if (res is _ErrorResult) {
         compl.completeError(res.error);
-      else if (res is _QueryResult) {
-        if (res.rows.length == 0)
+      } else if (res is _QueryResult) {
+        if (res.rows.isEmpty) {
           compl.complete(null);
-        else
+        } else {
+          // The server typically returns rows[0]["value"]
           compl.complete(res.rows[0]["value"]);
-      } else
-        throw "unknown response";
+        }
+      } else {
+        throw "unknown response to queryValue()";
+      }
     }).catchError((err) {
       compl.completeError(err);
     });
+
     return compl.future;
   }
 
-  /// executes a sql command, returning the number of rows affected
+  /// Executes a SQL command (INSERT, UPDATE, DELETE) returning # of rows affected
   Future<int> execute(String sql) {
-    if (!connected) throw "not connected";
+    if (!connected) {
+      throw "not connected";
+    }
 
-    String json = jsonEncode({"type": "execute", "text": sql});
+    final jsonCmd = jsonEncode({
+      "type": "execute",
+      "text": sql,
+    });
 
-    Completer<int> compl = Completer();
-    _sendCommand(json).then((result) {
-      var res = _parseResult(result);
-
-      if (res is _ErrorResult)
+    final compl = Completer<int>();
+    _sendCommand(jsonCmd).then((respStr) {
+      final res = _parseResult(respStr);
+      if (res is _ErrorResult) {
         compl.completeError(res.error);
-      else if (res is _QueryResult) {
-        if (res.rows.length == 0)
+      } else if (res is _QueryResult) {
+        if (res.rows.isEmpty) {
           compl.complete(-1);
-        else
+        } else {
           compl.complete(res.rows[0]["rowsAffected"]);
-      } else
-        throw "unknown response";
+        }
+      } else {
+        throw "unknown response to execute()";
+      }
     }).catchError((err) {
       compl.completeError(err);
     });
+
     return compl.future;
   }
 
-  /// formats and write a command to the socket
+  /// Internal: sends the "length\r\njson" command to the raw socket,
+  /// and returns a Future that completes when we get a matching response.
   Future<String> _sendCommand(String command) {
-    // prepare buffer for response
     _receiveBuffer = StringBuffer();
+    _completer = Completer<String>();
 
-    _completer = Completer();
-    String cmd = command.length.toString() + "\r\n" + command;
+    final cmd = '${command.length}\r\n$command';
     _socket.write(cmd);
 
     return _completer.future;
   }
 
   void _onDone() {
-    //print("onDone()");
-    //socket.destroy();
+    // Called when the server closes the socket
+    print('[SqlConnection/Raw] onDone() - socket closed?');
   }
 
   void _onError(error) {
-    print("error occurred: $error");
+    print('[SqlConnection/Raw] onError: $error');
   }
 
-  /// receive data from socket and build a command string
-  ///
-  /// client sends text-based commands with the format:
-  /// size_of_command_string + "\r\n" + command_string
-  void _receiveData(data) {
+  /// Accumulate incoming data, look for "len\r\npayload".
+  /// Once we have a complete chunk, complete the _completer with the JSON string.
+  void _receiveData(dynamic data) {
     _receiveBuffer.write(data);
 
-    String content = _receiveBuffer.toString();
-
-    if (content.indexOf("\r\n") > 0) {
-      int x = content.indexOf("\r\n");
-      int len = int.parse(content.substring(0, x)); // size of command string
-
-      String cmd = content.substring(x + 2);
+    final content = _receiveBuffer.toString();
+    final idx = content.indexOf("\r\n");
+    if (idx > 0) {
+      final len = int.parse(content.substring(0, idx));
+      final cmd = content.substring(idx + 2);
       if (cmd.length == len) {
+        // We have a complete JSON payload
         _completer.complete(cmd);
       }
     }
   }
 
-  /// translates generic json result into a Result type
-  dynamic _parseResult(String json) {
-    Map result = jsonDecode(json);
+  /// Parse the JSON result from the bridging server into one of the internal result classes
+  dynamic _parseResult(String jsonStr) {
+    final Map result = jsonDecode(jsonStr);
 
     if (result["type"] == "ok") {
       return _OkResult("ok");
@@ -306,59 +361,63 @@ class SqlConnection {
       return _QueryResult(result["rows"], result["columns"]);
     } else if (result["type"] == "table") {
       return _TableResult(
-          result["tablename"], result["rows"], result["columns"]);
+        result["tablename"],
+        result["rows"],
+        result["columns"],
+      );
     } else if (result["type"] == "postback") {
       return _PostBackResult(result["idcolumn"], result["identities"]);
     } else {
-      throw "unknown response";
+      throw "unknown response: ${result["type"]}";
     }
   }
 }
 
+// ---------- internal result classes ---------- //
+
 class _ErrorResult {
   late String error;
-
-  _ErrorResult(String error) {
-    this.error = error;
-  }
+  _ErrorResult(this.error);
 }
 
 class _OkResult {
   late String ok;
-
-  _OkResult(String ok) {
-    this.ok = ok;
-  }
+  _OkResult(this.ok);
 }
 
+/// For { "type":"query","rows": [ ... ], "columns": { ... } }
 class _QueryResult {
   late List<dynamic> rows;
   late Map<String, dynamic> columns;
 
-  _QueryResult(List<dynamic> rows, Map<String, dynamic> columns) {
+  _QueryResult(List<dynamic> rows, Map<String, dynamic>? columns) {
     this.rows = rows;
-    this.columns = columns;
-
-    // fix types
-    for (var fieldName in columns.keys) {
-      TypeFixer.fixColumn(rows, fieldName, columns[fieldName]);
+    this.columns = columns ?? {};
+    // Optionally fix column types if you store them in 'columns'
+    for (var colName in this.columns.keys) {
+      TypeFixer.fixColumn(rows, colName, this.columns[colName]);
     }
   }
 }
 
+/// For { "type":"table","tablename":"...","rows":[...],"columns":[...] }
 class _TableResult {
   late String tableName;
   late List<Map<String, dynamic>> rows;
   late List<Map<String, String>> columns;
 
-  _TableResult(String tableName, List<Map<String, dynamic>> rows,
-      List<Map<String, String>> columns) {
+  _TableResult(
+    String tableName,
+    List<Map<String, dynamic>> rows,
+    List<Map<String, String>> columns,
+  ) {
     this.tableName = tableName;
     this.rows = rows;
     this.columns = columns;
   }
 }
 
+/// For { "type":"postback","idcolumn":"...","identities":[1,2,3] }
 class _PostBackResult {
   late String idcolumn;
   late List<int> identities;
@@ -369,15 +428,18 @@ class _PostBackResult {
   }
 }
 
-/// translates a JSON encoded SQL type into a Dart type
+/// Optionally used to fix "datetime" or other typed columns
 class TypeFixer {
-  /// fix string data type coming from JSON into proper Dart data type
   static void fixColumn(
-      List<dynamic> rows, String columnName, String columnType) {
+    List<dynamic> rows,
+    String columnName,
+    String columnType,
+  ) {
     if (columnType == "datetime") {
-      for (int t = 0; t < rows.length; t++) {
-        if (rows[t][columnName] != null)
-          rows[t][columnName] = DateTime.parse(rows[t][columnName]);
+      for (int i = 0; i < rows.length; i++) {
+        if (rows[i][columnName] != null) {
+          rows[i][columnName] = DateTime.parse(rows[i][columnName]);
+        }
       }
     }
   }

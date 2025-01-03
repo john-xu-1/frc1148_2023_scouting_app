@@ -16,7 +16,7 @@ class Program
    {
       Console.CancelKeyPress += Console_CancelKeyPress;  // ^C key closes server
       
-      var server = new Server(10980);      
+      var server = new Server(10981);      
       server.StartListening();            
    }
 
