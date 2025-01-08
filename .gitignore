@@ -49,3 +49,5 @@ macos/Podfile.lock
 macos/Runner/AppDelegate.swift
 macos/Runner.xcodeproj/project.pbxproj
 macos/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme3
+
+/lib/password.txt

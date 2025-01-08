@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/html.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:path_provider/path_provider.dart';
 
 // Keep your existing imports
 import 'package:frc1148_2023_scouting_app/color_scheme.dart';
@@ -26,10 +27,24 @@ class _MainAppState extends State<MyApp> {
     _connectWebSocket();
   }
 
+  Future<int> readCounter() async {
+    try {
+      final file = await "password.txt";
+
+      // Read the file
+      final contents = await file.readAsString();
+
+      return (contents);
+    } catch (e) {
+      // If encountering an error, return 0
+      return 0;
+    }
+  }
+
   /// 1) Connect to your bridging server on port 10980 (WebSocket).
   /// 2) Send only "open". Wait for "ok". Then we'll send "query".
   void _connectWebSocket() {
-    final url = 'ws://192.168.68.112:10980'; // Adjust IP if needed
+    final url = readCounter; // Adjust IP if needed
     print('Connecting to bridging server at $url');
 
     _channel = HtmlWebSocketChannel.connect(url);
